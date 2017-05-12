@@ -8,3 +8,14 @@ ios/.generated/
 packages
 pubspec.lock
 .flutter-plugins
+android.iml
+android/.gradle
+android/gen
+code_wars_android.iml
+out/
+android/app/src/main/java/
+android/app/src/main/res/
+ios/Flutter/
+ios/Runner.xcodeproj/
+ios/Runner.xcworkspace/
+ios/Runner/
