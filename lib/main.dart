@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
       title: mainTitle,
       theme: new ThemeData(
-        primarySwatch: Colors.grey,
+        primarySwatch: Colors.amber,
       ),
       home: new MyHomePage(title: mainTitle),
     );
@@ -33,12 +33,23 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String user = "ice1000";
-  var _controller = new TextEditingController(text: "ice1000");
+  TextEditingController _controller;
+
+  _MyHomePageState() {
+    _controller = new TextEditingController(text: "ice1000");
+  }
 
   void _onFabClick() {
-    setState(() {
-      get(CodeWarsAPI.getUser(user: _controller.text)).then((val) {
-        showDialog(context: context, child: new Text(val.toString()));
+    setState
+      (() {
+      read(CodeWarsAPI.getUser(user: _controller.text)).then((val) {
+        print(val.toString());
+        showDialog(
+          context: context,
+          child: new AlertDialog(
+            content: new Text(val.toString()),
+            title: new Text("user info: ${_controller.text}"),
+          ),);
       });
     });
   }
@@ -49,18 +60,21 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: new AppBar(
         title: new Text(widget.title),
       ),
-      body: new Center(
-        child: new EditableText(
+      body: new Column(
+        children: [
+          new Text("username:", softWrap: true),
+          new TextField(
+            maxLines: 1,
             controller: _controller,
-            focusNode: null,
-            style: null,
-            cursorColor: null),
+            autofocus: true,
+          ),
+        ],
       ),
       floatingActionButton: new FloatingActionButton(
         onPressed: _onFabClick,
-        tooltip: 'Increment',
+        tooltip: 'Search',
         child: new Icon(Icons.search),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
