@@ -34,7 +34,7 @@ class _Page {
 
   bool get fabHere => null != colors && null != icon;
 
-  Color get fabColor => colors.shade200;
+  Color get fabColor => colors.shade700;
 
   Icon get createIcon => new Icon(icon);
 
