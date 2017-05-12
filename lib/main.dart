@@ -110,14 +110,16 @@ class _TabsFabDemoState extends State<TabsFabDemo>
           decoration: new BoxDecoration(
               border: new Border(top: new BorderSide(color: Theme
                   .of(context)
-                  .dividerColor))
+                  .dividerColor
+              ))
           ),
           child: new Padding(
               padding: const EdgeInsets.all(32.0),
               child: new Text(_selectedPage.information, style: Theme
                   .of(context)
                   .textTheme
-                  .subhead)
+                  .subhead
+              )
           )
       );
     });

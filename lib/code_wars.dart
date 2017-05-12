@@ -9,5 +9,8 @@ class CodeWarsAPI {
       "https://www.codewars.com/api/v1/users/$user";
 
   static getCompletedKata({user: String}) =>
-      "http://www.codewars.com:3000/api/v1/users/$user/code_challenges/completed";
+      "http://www.codewars.com/api/v1/users/$user/code-challenges/completed";
+
+  static getKata({kata: String}) =>
+      "http://www.codewars.com/api/v1/code-challenges/$kata";
 }
