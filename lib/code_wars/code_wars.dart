@@ -8,17 +8,18 @@ import 'dart:convert';
 import 'package:http/http.dart';
 
 class CodeWarsAPI {
-  static CodeWarsUser getUser({user: String}) {
+  static CodeWarsUser getUser(String user) {
     get("https://www.codewars.com/api/v1/users/$user").then((val) {
-      return new JsonDecoder(null).convert(val.body);
+      return new JsonDecoder(null)
+          .convert(val.body);
     });
     return null;
   }
 
-  static getCompletedKata({user: String}) =>
+  static getCompletedKata(String user) =>
       "http://www.codewars.com/api/v1/users/$user/code-challenges/completed";
 
-  static getKata({kata: String}) =>
+  static getKata(String kata) =>
       "http://www.codewars.com/api/v1/code-challenges/$kata";
 }
 
@@ -85,3 +86,27 @@ class Rank {
   String color;
   int score;
 }
+
+/*{
+  "completedCodeChallenges": [
+    {
+      "id": "514b92a657cdc65150000006",
+      "name": "Multiples of 3 and 5",
+      "slug": "multiples-of-3-and-5",
+      "completedLanguages": [
+        "javascript",
+        "coffeescript",
+        "ruby",
+        "javascript",
+        "ruby",
+        "javascript",
+        "ruby",
+        "coffeescript",
+        "javascript",
+        "ruby",
+        "coffeescript"
+      ]
+    }
+  ]
+}
+ */

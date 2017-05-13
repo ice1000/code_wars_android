@@ -23,13 +23,14 @@ class MyApp extends StatelessWidget {
 }
 
 class _Page {
-  _Page({ this.label, this.icon, this.information, this.child });
+  _Page({ this.label, this.icon, this.information, this.child, this.onClick });
 
   final String label;
   final MaterialColor colors = CodeWarsColors.red;
   final IconData icon;
   final String information;
   final Widget child;
+  final onClick;
 
   Color get labelColor => colors.shade500;
 
@@ -53,35 +54,6 @@ class _Page {
       );
 }
 
-final List<_Page> _allPages = <_Page>[
-  new _Page(
-    label: 'Friends',
-    icon: Icons.add,
-    information: "You can view your friends' information or "
-        "add new friends in this page.",
-  ),
-  new _Page(
-    label: 'Kata',
-    icon: Icons.add_box,
-    information: "You can view or add katas here, and preview them.\n"
-        "submitting is not supported ATM",
-  ),
-  new _Page(
-      label: 'Me',
-      icon: Icons.edit,
-      information: "Information about yourself on Code Wars.\n"
-          "You can change your username.",
-      child: new Column(
-          children: [
-            new Text("Name: ice1000",
-                style: new TextStyle(
-                    color: CodeWarsColors.red.shade400, fontSize: 24.0)),
-            new Text("Rank: 5ku")
-          ]
-      )
-  ),
-];
-
 class TabsFabDemo extends StatefulWidget {
   final String _title;
 
@@ -95,29 +67,83 @@ class _TabsFabDemoState extends State<TabsFabDemo>
     with SingleTickerProviderStateMixin {
   final _scaffoldKey = new GlobalKey<ScaffoldState>();
   final String _title;
+  List<_Page> _allPages;
 
   _TabsFabDemoState(this._title);
 
-  TabController _controller;
+  TabController _tabController;
+  TextEditingController _usernameEditingController;
+  CodeWarsUser _user;
   _Page _selectedPage;
 
   @override
   void initState() {
     super.initState();
-    _controller = new TabController(vsync: this, length: _allPages.length);
-    _controller.addListener(_handleTabSelection);
+    _usernameEditingController = new TextEditingController();
+    _allPages = <_Page>[
+      new _Page(
+        label: 'Friends',
+        icon: Icons.add,
+        information: "You can view your friends' information or "
+            "add new friends in this page.",
+      ),
+      new _Page(
+        label: 'Kata',
+        icon: Icons.add_box,
+        information: "You can view or add katas here, and preview them.\n"
+            "submitting is not supported ATM",
+      ),
+      new _Page(
+          label: 'Me',
+          icon: Icons.edit,
+          information: "Information about yourself on Code Wars.\n"
+              "You can change your username.",
+          child: new Column(
+              children: [
+                new Text("Name: ice1000",
+                    style: new TextStyle(
+                        color: CodeWarsColors.red.shade400, fontSize: 24.0)),
+                new Text("Rank: 5ku")
+              ]
+          ),
+          onClick: () {
+            showDialog(context: context, child: new AlertDialog(
+              content: new Column(
+                  children: [
+                    new EditableText(
+                        controller: _usernameEditingController,
+                        style: null,
+                        cursorColor: null,
+                        focusNode: null
+                    )
+                  ]
+              ),
+              title: new Text("Reset your username"),
+              actions: [new FlatButton(onPressed: () {
+                setState(() {
+                  _user = CodeWarsAPI.getUser(_usernameEditingController.text);
+                });
+              }, child: new Text("OK"))
+              ],
+            ));
+          }
+      ),
+    ];
+
+    _tabController = new TabController(vsync: this, length: _allPages.length);
+    _tabController.addListener(_handleTabSelection);
     _selectedPage = _allPages.last;
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
   void _handleTabSelection() {
     setState(() {
-      _selectedPage = _allPages[_controller.index];
+      _selectedPage = _allPages[_tabController.index];
     });
   }
 
@@ -157,7 +183,7 @@ class _TabsFabDemoState extends State<TabsFabDemo>
       appBar: new AppBar(
           title: new Text(_title),
           bottom: new TabBar(
-            controller: _controller,
+            controller: _tabController,
             tabs: _allPages
                 .map((_Page page) => new Tab(text: page.label))
                 .toList(),
@@ -169,10 +195,10 @@ class _TabsFabDemoState extends State<TabsFabDemo>
           tooltip: 'Show explanation',
           backgroundColor: _selectedPage.fabColor,
           child: _selectedPage.createIcon,
-          onPressed: _showExplanatoryText
+          onPressed: _selectedPage.onClick ?? _showExplanatoryText
       ),
       body: new TabBarView(
-          controller: _controller,
+          controller: _tabController,
           children: _allPages
               .map(buildTabView)
               .toList()
