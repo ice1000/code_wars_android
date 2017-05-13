@@ -5,10 +5,15 @@
 ///
 
 import 'dart:convert';
+import 'package:http/http.dart';
 
 class CodeWarsAPI {
-  static getUser({user: String}) =>
-      "https://www.codewars.com/api/v1/users/$user";
+  static CodeWarsUser getUser({user: String}) {
+    get("https://www.codewars.com/api/v1/users/$user").then((val) {
+      return new JsonDecoder(null).convert(val.body);
+    });
+    return null;
+  }
 
   static getCompletedKata({user: String}) =>
       "http://www.codewars.com/api/v1/users/$user/code-challenges/completed";
@@ -25,13 +30,8 @@ class CodeWarsAPI {
   "clan": "some clan",
   "leaderboardPosition": 134,
   "skills": [
-    "ruby",
-    "c#",
-    ".net",
-    "javascript",
-    "coffeescript",
-    "nodejs",
-    "rails"
+    "haskell",
+    "kotlin"
   ],
   "ranks": {
     "overall": {

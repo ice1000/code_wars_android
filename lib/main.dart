@@ -40,26 +40,45 @@ class _Page {
   Icon get createIcon => new Icon(icon);
 
   Key get fabKey => new ValueKey<Color>(fabColor);
+
+  Widget get childWight =>
+      child ?? new Card(
+          color: CodeWarsColors.black.shade300,
+          child: new Center(
+              child: new Text(label,
+                  style: new TextStyle(color: labelColor, fontSize: 32.0),
+                  textAlign: TextAlign.center
+              )
+          )
+      );
 }
 
 final List<_Page> _allPages = <_Page>[
   new _Page(
-      label: 'Friends',
-      icon: Icons.add,
-      information: "You can view your friends' information or "
-          "add new friends in this page."
+    label: 'Friends',
+    icon: Icons.add,
+    information: "You can view your friends' information or "
+        "add new friends in this page.",
   ),
   new _Page(
-      label: 'Kata',
-      icon: Icons.add_box,
-      information: "You can view or add katas here, and preview them.\n"
-          "you're not abled to submit ATM"
+    label: 'Kata',
+    icon: Icons.add_box,
+    information: "You can view or add katas here, and preview them.\n"
+        "submitting is not supported ATM",
   ),
   new _Page(
       label: 'Me',
       icon: Icons.edit,
       information: "Information about yourself on Code Wars.\n"
-          "You can change your username."
+          "You can change your username.",
+      child: new Column(
+          children: [
+            new Text("Name: ice1000",
+                style: new TextStyle(
+                    color: CodeWarsColors.red.shade400, fontSize: 24.0)),
+            new Text("Rank: 5ku")
+          ]
+      )
   ),
 ];
 
@@ -112,40 +131,24 @@ class _TabsFabDemoState extends State<TabsFabDemo>
               ))
           ),
           child: new Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: new Text(_selectedPage.information, style: Theme
-                .of(context)
-                .textTheme
-                .subhead
-            ),
+              padding: const EdgeInsets.all(32.0),
+              child: new Text(_selectedPage.information, style: Theme
+                  .of(context)
+                  .textTheme
+                  .subhead
+              )
           )
       );
     });
   }
 
-  Widget buildTabView(_Page page) {
-    return new Builder(
-        builder: (BuildContext context) {
-          return new Container(
-              key: new ValueKey<String>(page.label),
-              color: CodeWarsColors.black.shade200,
-              padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 32.0),
-              child: new Card(
-                  color: CodeWarsColors.black.shade300,
-                  child: new Center(
-                      child: new Text(page.label,
-                          style: new TextStyle(
-                              color: page.labelColor,
-                              fontSize: 32.0
-                          ),
-                          textAlign: TextAlign.center
-                      )
-                  )
-              )
-          );
-        }
-    );
-  }
+  Widget buildTabView(_Page page) =>
+      new Container(
+          key: new ValueKey<String>(page.label),
+          color: CodeWarsColors.black.shade200,
+          padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 32.0),
+          child: page.childWight
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -155,12 +158,12 @@ class _TabsFabDemoState extends State<TabsFabDemo>
           title: new Text(_title),
           bottom: new TabBar(
             controller: _controller,
-            tabs: _allPages.map((_Page page) =>
-            new Tab(text: page.label)).toList(),
+            tabs: _allPages
+                .map((_Page page) => new Tab(text: page.label))
+                .toList(),
           )
       ),
-      floatingActionButton: !_selectedPage.fabHere
-          ? null
+      floatingActionButton: !_selectedPage.fabHere ? null
           : new FloatingActionButton(
           key: _selectedPage.fabKey,
           tooltip: 'Show explanation',
