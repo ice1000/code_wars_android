@@ -1,7 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'code_wars/code_wars.dart';
 import 'code_wars/colors.dart';
-import 'dart:convert';
+import 'code_wars/util.dart';
 import 'package:http/http.dart';
 
 void main() {
@@ -16,9 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: mainTitle,
-      theme: new ThemeData(
-        primarySwatch: CodeWarsColors.black,
-      ),
+      theme: new ThemeData(primarySwatch: CodeWarsColors.black),
       home: new TabsFabDemo(mainTitle),
     );
   }
@@ -111,10 +110,9 @@ class _TabsFabDemoState extends State<TabsFabDemo>
           new TextField(controller: _usernameEditingController),
           new FlatButton(onPressed: () {
             setState(() {
-              get(CodeWarsAPI.getUser(_usernameEditingController.text)).then((
-                  val) {
-                var json = new JsonDecoder(null)
-                    .convert(val.body);
+              get(CodeWarsAPI.getUser(_usernameEditingController.text))
+                  .then((val) {
+                var json = new JsonDecoder(null).convert(val.body);
                 _user.username = json['username'];
                 _user.name = json['name'];
                 _user.honor = json['honor'];
@@ -175,10 +173,9 @@ class _TabsFabDemoState extends State<TabsFabDemo>
   Widget build(BuildContext context) {
     _me.child = new Column(
         children: [
-          new Text("User Name: ${_user.username}",
-              style: new TextStyle(
-                  color: CodeWarsColors.red.shade400, fontSize: 24.0)),
-          new Text("Nick Name: ${_user.name}")
+          new BigText("User Name: ${_user.username}"),
+          new BigText("Nick Name: ${_user.name}"),
+          new BigText("Honor: ${_user.honor}")
         ]);
     return new Scaffold(
       key: _scaffoldKey,
