@@ -1,6 +1,7 @@
 .DS_Store
 .atom/
 .idea
+.vscode
 .packages
 .pub/
 build/
@@ -14,7 +15,6 @@ android/gen
 code_wars_android.iml
 out/
 android/app/src/main/java/
-ios/Flutter/
 ios/Runner.xcodeproj/
 ios/Runner.xcworkspace/
 ios/Runner/

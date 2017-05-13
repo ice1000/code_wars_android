@@ -89,7 +89,7 @@ class _TabsFabDemoState extends State<TabsFabDemo>
     super.initState();
     _controller = new TabController(vsync: this, length: _allPages.length);
     _controller.addListener(_handleTabSelection);
-    _selectedPage = _allPages[0];
+    _selectedPage = _allPages[_allPages.length];
   }
 
   @override
