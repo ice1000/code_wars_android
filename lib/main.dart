@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'code_wars/code_wars.dart';
 import 'code_wars/colors.dart';
+import 'dart:convert';
+import 'package:http/http.dart';
 
 void main() {
   runApp(new MyApp());
@@ -29,7 +31,7 @@ class _Page {
   final MaterialColor colors = CodeWarsColors.red;
   final IconData icon;
   final String information;
-  final Widget child;
+  Widget child;
   dynamic onClick;
 
   Color get labelColor => colors.shade500;
@@ -94,19 +96,12 @@ class _TabsFabDemoState extends State<TabsFabDemo>
             "submitting is not supported ATM",
       ),
       new _Page(
-          label: 'Me',
-          icon: Icons.edit,
-          information: "Information about yourself on Code Wars.\n"
-              "You can change your username.",
-          child: new Column(
-              children: [
-                new Text("User Name: ${_user.username}",
-                    style: new TextStyle(
-                        color: CodeWarsColors.red.shade400, fontSize: 24.0)),
-                new Text("Nick Name: ${_user.name}")
-              ]
-          )
-      )
+        label: 'Me',
+        icon: Icons.edit,
+        information: "Information about yourself on Code Wars.\n"
+            "You can change your username.",
+
+      ),
     ];
     _allPages.last.onClick = () {
       showDialog(context: context, child: new SimpleDialog(
@@ -115,7 +110,14 @@ class _TabsFabDemoState extends State<TabsFabDemo>
           new TextField(controller: _usernameEditingController),
           new FlatButton(onPressed: () {
             setState(() {
-              _user = CodeWarsAPI.getUser(_usernameEditingController.text);
+              get(CodeWarsAPI.getUser(_usernameEditingController.text)).then((
+                  val) {
+                var json = new JsonDecoder(null)
+                    .convert(val.body);
+                _user.username = json['username'];
+                _user.name = json['name'];
+                _user.honor = json['honor'];
+              });
             });
           }, child: new Text("OK")),
         ], title: new Text("Reset your username"),
@@ -170,6 +172,13 @@ class _TabsFabDemoState extends State<TabsFabDemo>
 
   @override
   Widget build(BuildContext context) {
+    _allPages.last.child = new Column(
+        children: [
+          new Text("User Name: ${_user.username}",
+              style: new TextStyle(
+                  color: CodeWarsColors.red.shade400, fontSize: 24.0)),
+          new Text("Nick Name: ${_user.name}")
+        ]);
     return new Scaffold(
       key: _scaffoldKey,
       appBar: new AppBar(

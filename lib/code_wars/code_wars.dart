@@ -4,29 +4,9 @@
 /// @author ice1000
 ///
 
-import 'dart:convert';
-import 'package:http/http.dart';
 
 class CodeWarsAPI {
-  static CodeWarsUser getUser(String user) {
-    get("https://www.codewars.com/api/v1/users/$user").then((val) {
-      var json = new JsonDecoder(null)
-          .convert(val.body);
-      print(val.body);
-      var ret = new CodeWarsUser.empty();
-      ret.name = json['name'];
-      print(ret.name);
-      ret.username = json['username'];
-//        ..rank = new Ranks(new Rank(
-//            json['ranks']['overall']['rank'],
-//            json['ranks']['overall']['name'],
-//            json['ranks']['overall']['color'],
-//            json['ranks']['overall']['score'],
-//            'overall'
-      return ret;
-    });
-    return null;
-  }
+  static getUser(String user) => "https://www.codewars.com/api/v1/users/$user";
 
   static getCompletedKata(String user) =>
       "http://www.codewars.com/api/v1/users/$user/code-challenges/completed";
@@ -83,14 +63,14 @@ class CodeWarsAPI {
 
 class CodeWarsUser {
   String username;
-
   String name;
-  String displayName;
+  int honor;
   Ranks rank;
 
   CodeWarsUser.empty() {
     username = "Unknown";
     name = "Unknown";
+    honor = 0;
   }
 
 }
