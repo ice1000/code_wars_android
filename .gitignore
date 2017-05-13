@@ -17,3 +17,4 @@ out/
 android/app/src/main/java/
 ios/Runner.xcodeproj/
 ios/Runner.xcworkspace/
+ios/Runner/
