@@ -70,6 +70,9 @@ class _TabsFabDemoState extends State<TabsFabDemo>
   final _scaffoldKey = new GlobalKey<ScaffoldState>();
   final String _title;
   List<_Page> _allPages;
+  _Page _friends;
+  _Page _kata;
+  _Page _me;
 
   _TabsFabDemoState(this._title);
 
@@ -82,28 +85,26 @@ class _TabsFabDemoState extends State<TabsFabDemo>
   void initState() {
     super.initState();
     _usernameEditingController = new TextEditingController();
-    _allPages = <_Page>[
-      new _Page(
-        label: 'Friends',
-        icon: Icons.add,
-        information: "You can view your friends' information or "
-            "add new friends in this page.",
-      ),
-      new _Page(
-        label: 'Kata',
-        icon: Icons.add_box,
-        information: "You can view or add katas here, and preview them.\n"
-            "submitting is not supported ATM",
-      ),
-      new _Page(
-        label: 'Me',
-        icon: Icons.edit,
-        information: "Information about yourself on Code Wars.\n"
-            "You can change your username.",
-
-      ),
-    ];
-    _allPages.last.onClick = () {
+    _friends = new _Page(
+      label: 'Friends',
+      icon: Icons.add,
+      information: "You can view your friends' information or "
+          "add new friends in this page.",
+    );
+    _kata = new _Page(
+      label: 'Kata',
+      icon: Icons.add_box,
+      information: "You can view or add katas here, and preview them.\n"
+          "submitting is not supported ATM",
+    );
+    _me = new _Page(
+      label: 'Me',
+      icon: Icons.edit,
+      information: "Information about yourself on Code Wars.\n"
+          "You can change your username.",
+    );
+    _allPages = <_Page>[_friends, _kata, _me];
+    _me.onClick = () {
       showDialog(context: context, child: new SimpleDialog(
         contentPadding: new EdgeInsets.all(20.0),
         children: [
@@ -126,7 +127,7 @@ class _TabsFabDemoState extends State<TabsFabDemo>
 
     _tabController = new TabController(vsync: this, length: _allPages.length);
     _tabController.addListener(_handleTabSelection);
-    _selectedPage = _allPages.last;
+    _selectedPage = _me;
   }
 
   @override
@@ -172,7 +173,7 @@ class _TabsFabDemoState extends State<TabsFabDemo>
 
   @override
   Widget build(BuildContext context) {
-    _allPages.last.child = new Column(
+    _me.child = new Column(
         children: [
           new Text("User Name: ${_user.username}",
               style: new TextStyle(
