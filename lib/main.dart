@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'code_wars/code_wars.dart';
+import 'code_wars/colors.dart';
 
 void main() {
   runApp(new MyApp());
@@ -13,7 +15,7 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
       title: mainTitle,
       theme: new ThemeData(
-        primarySwatch: Colors.teal,
+        primarySwatch: CodeWarsColors.black,
       ),
       home: new TabsFabDemo(mainTitle),
     );
@@ -21,18 +23,17 @@ class MyApp extends StatelessWidget {
 }
 
 class _Page {
-  _Page({ this.label, this.colors, this.icon, this.information, this.child });
+  _Page({ this.label, this.icon, this.information, this.child });
 
   final String label;
-  final MaterialColor colors;
+  final MaterialColor colors = CodeWarsColors.red;
   final IconData icon;
   final String information;
   final Widget child;
 
-  Color get labelColor =>
-      null != colors ? colors.shade300 : Colors.grey.shade300;
+  Color get labelColor => colors.shade500;
 
-  bool get fabHere => null != colors && null != icon;
+  bool get fabHere => null != icon;
 
   Color get fabColor => colors.shade700;
 
@@ -44,23 +45,20 @@ class _Page {
 final List<_Page> _allPages = <_Page>[
   new _Page(
       label: 'Friends',
-      colors: Colors.blue,
       icon: Icons.add,
       information: "You can view your friends' information or "
           "add new friends in this page."
   ),
   new _Page(
       label: 'Kata',
-      colors: Colors.red,
       icon: Icons.add_box,
       information: "You can view or add katas here, and preview them.\n"
           "you're not abled to submit ATM"
   ),
   new _Page(
       label: 'Me',
-      colors: Colors.yellow,
       icon: Icons.edit,
-      information: "Information about yourself.\n"
+      information: "Information about yourself on Code Wars.\n"
           "You can change your username."
   ),
 ];
@@ -89,7 +87,7 @@ class _TabsFabDemoState extends State<TabsFabDemo>
     super.initState();
     _controller = new TabController(vsync: this, length: _allPages.length);
     _controller.addListener(_handleTabSelection);
-    _selectedPage = _allPages[_allPages.length];
+    _selectedPage = _allPages.last;
   }
 
   @override
@@ -114,12 +112,12 @@ class _TabsFabDemoState extends State<TabsFabDemo>
               ))
           ),
           child: new Padding(
-              padding: const EdgeInsets.all(32.0),
-              child: new Text(_selectedPage.information, style: Theme
-                  .of(context)
-                  .textTheme
-                  .subhead
-              )
+            padding: const EdgeInsets.all(32.0),
+            child: new Text(_selectedPage.information, style: Theme
+                .of(context)
+                .textTheme
+                .subhead
+            ),
           )
       );
     });
@@ -130,8 +128,10 @@ class _TabsFabDemoState extends State<TabsFabDemo>
         builder: (BuildContext context) {
           return new Container(
               key: new ValueKey<String>(page.label),
-              padding: const EdgeInsets.fromLTRB(48.0, 48.0, 48.0, 96.0),
+              color: CodeWarsColors.black.shade200,
+              padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 32.0),
               child: new Card(
+                  color: CodeWarsColors.black.shade300,
                   child: new Center(
                       child: new Text(page.label,
                           style: new TextStyle(
