@@ -104,25 +104,28 @@ class _TabsFabDemoState extends State<TabsFabDemo>
     );
     _allPages = <_Page>[_friends, _kata, _me];
     _me.onClick = () {
-      showDialog(context: context, child: new SimpleDialog(
+      var dialog = new SimpleDialog(
         contentPadding: new EdgeInsets.all(20.0),
         children: [
           new TextField(controller: _usernameEditingController),
           new FlatButton(onPressed: () {
-            setState(() {
-              get(CodeWarsAPI.getUser(_usernameEditingController.text))
-                  .then((val) {
+            Navigator.pop(context);
+            showDialog(context: context, child: new RefreshProgressIndicator());
+            get(CodeWarsAPI.getUser(_usernameEditingController.text))
+                .then((val) {
+              setState(() {
                 var json = new JsonDecoder(null).convert(val.body);
                 _user.username = json['username'];
                 _user.name = json['name'];
                 _user.honor = json['honor'];
               });
+              Navigator.pop(context);
             });
           }, child: new Text("OK")),
         ], title: new Text("Reset your username"),
-      ));
+      );
+      showDialog(context: context, child: dialog);
     };
-
     _tabController = new TabController(vsync: this, length: _allPages.length);
     _tabController.addListener(_handleTabSelection);
     _selectedPage = _me;
@@ -173,9 +176,12 @@ class _TabsFabDemoState extends State<TabsFabDemo>
   Widget build(BuildContext context) {
     _me.child = new Column(
         children: [
-          new BigText("User Name: ${_user.username}"),
-          new BigText("Nick Name: ${_user.name}"),
-          new BigText("Honor: ${_user.honor}")
+          new Text("User Name: ${_user.username}", style: new TextStyle(
+              color: CodeWarsColors.red.shade400, fontSize: 24.0)),
+          new Text("Nick Name: ${_user.name}", style: new TextStyle(
+              color: CodeWarsColors.red.shade400, fontSize: 24.0)),
+          new Text("Honor: ${_user.honor}", style: new TextStyle(
+              color: CodeWarsColors.red.shade400, fontSize: 24.0)),
         ]);
     return new Scaffold(
       key: _scaffoldKey,
