@@ -70,9 +70,18 @@ class CodeWarsAPI {
 */
 
 class CodeWarsUser {
+  String username;
+
   String name;
-  String displayName;
+
   List<String> skills;
+
+  CodeWarsUser.empty() {
+    username = "Unknown";
+    name = "Unknown";
+    skills = const [];
+  }
+
 }
 
 class Ranks {

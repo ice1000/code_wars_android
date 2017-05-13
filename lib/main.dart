@@ -74,7 +74,7 @@ class _TabsFabDemoState extends State<TabsFabDemo>
 
   TabController _tabController;
   TextEditingController _usernameEditingController;
-  CodeWarsUser _user;
+  CodeWarsUser _user = new CodeWarsUser.empty();
   _Page _selectedPage;
 
   @override
@@ -101,9 +101,9 @@ class _TabsFabDemoState extends State<TabsFabDemo>
               "You can change your username.",
           child: new Column(
               children: [
-                new BigText("NickName: ${_user.displayName}",
-                    color: CodeWarsColors.red.shade400),
-                new BigText("UseraName: ${_user.name}")
+                new BigText("NickName: ${_user.name}",
+                    textColor: CodeWarsColors.red.shade400),
+                new BigText("UseraName: ${_user.username}")
               ]
           ),
           onClick: () {

@@ -7,9 +7,9 @@
 import 'package:flutter/material.dart';
 
 class BigText extends Text {
-  BigText(String data, {color: Color}) : super(data, style: new TextStyle(
+  BigText(String data, {textColor: Color}) : super(data, style: new TextStyle(
     fontSize: 24.0,
-    color: color
+    color: textColor
   ));
 }
 
