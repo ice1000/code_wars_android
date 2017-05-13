@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'code_wars/code_wars.dart';
 import 'code_wars/colors.dart';
-import 'code_wars/util.dart';
+import 'package:code_wars_android/util/util.dart';
 import 'package:http/http.dart';
 
 void main() {
@@ -67,6 +67,7 @@ class TabsFabDemo extends StatefulWidget {
 class _TabsFabDemoState extends State<TabsFabDemo>
     with SingleTickerProviderStateMixin {
   final _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final Color _background = CodeWarsColors.black.shade200;
   final String _title;
   List<_Page> _allPages;
   _Page _friends;
@@ -110,7 +111,8 @@ class _TabsFabDemoState extends State<TabsFabDemo>
           new TextField(controller: _usernameEditingController),
           new FlatButton(onPressed: () {
             Navigator.pop(context);
-            showDialog(context: context, child: new RefreshProgressIndicator());
+            showDialog(context: context, child: new RefreshProgressDialog(
+                _background, width: 100, height: 100));
             get(CodeWarsAPI.getUser(_usernameEditingController.text))
                 .then((val) {
               setState(() {
@@ -118,6 +120,7 @@ class _TabsFabDemoState extends State<TabsFabDemo>
                 _user.username = json['username'];
                 _user.name = json['name'];
                 _user.honor = json['honor'];
+                _user.leaderboardPosition = json['leaderboardPosition'];
               });
               Navigator.pop(context);
             });
@@ -167,7 +170,7 @@ class _TabsFabDemoState extends State<TabsFabDemo>
   Widget buildTabView(_Page page) =>
       new Container(
           key: new ValueKey<String>(page.label),
-          color: CodeWarsColors.black.shade200,
+          color: _background,
           padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 32.0),
           child: page.childWight
       );
@@ -182,6 +185,8 @@ class _TabsFabDemoState extends State<TabsFabDemo>
               color: CodeWarsColors.red.shade400, fontSize: 24.0)),
           new Text("Honor: ${_user.honor}", style: new TextStyle(
               color: CodeWarsColors.red.shade400, fontSize: 24.0)),
+          new Text("User Rank: ${_user.leaderboardPosition}", style:
+          new TextStyle(color: CodeWarsColors.red.shade400, fontSize: 24.0)),
         ]);
     return new Scaffold(
       key: _scaffoldKey,

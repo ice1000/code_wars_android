@@ -65,12 +65,14 @@ class CodeWarsUser {
   String username;
   String name;
   int honor;
+  int leaderboardPosition;
   Ranks rank;
 
   CodeWarsUser.empty() {
     username = "Unknown";
     name = "Unknown";
     honor = 0;
+    leaderboardPosition = 0xffffff;
   }
 
 }
