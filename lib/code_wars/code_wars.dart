@@ -13,6 +13,9 @@ class CodeWarsAPI {
 
   static getKata(String kata) =>
       "http://www.codewars.com/api/v1/code-challenges/$kata";
+
+  static getAuthoredChallenge(String user) =>
+      "http://www.codewars.com:3000/api/v1/users/$user/code-challenges/authored";
 }
 
 /*
@@ -75,6 +78,7 @@ class CodeWarsUser {
     honor = 0;
     leaderboardPosition = 0xffffff;
     skills = const[];
+    rank = null;
   }
 
 }

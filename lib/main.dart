@@ -112,7 +112,7 @@ class _TabsFabDemoState extends State<TabsFabDemo>
           new FlatButton(onPressed: () {
             Navigator.pop(context);
             showDialog(context: context, child: new RefreshProgressDialog(
-                _background, width: 100, height: 100));
+                CodeWarsColors.black.shade100, width: 100, height: 100));
             get(CodeWarsAPI.getUser(_usernameEditingController.text))
                 .then((val) {
               setState(() {
