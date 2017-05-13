@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'code_wars/code_wars.dart';
 import 'code_wars/colors.dart';
+import 'code_wars/util.dart';
 
 void main() {
   runApp(new MyApp());
@@ -100,10 +101,9 @@ class _TabsFabDemoState extends State<TabsFabDemo>
               "You can change your username.",
           child: new Column(
               children: [
-                new Text("Name: ice1000",
-                    style: new TextStyle(
-                        color: CodeWarsColors.red.shade400, fontSize: 24.0)),
-                new Text("Rank: 5ku")
+                new BigText("NickName: ${_user.displayName}",
+                    color: CodeWarsColors.red.shade400),
+                new BigText("UseraName: ${_user.name}")
               ]
           ),
           onClick: () {
