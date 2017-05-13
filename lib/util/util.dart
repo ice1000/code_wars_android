@@ -21,29 +21,19 @@ class RefreshProgressDialog extends StatelessWidget {
   final int height;
   Widget child;
 
-  Color _getColor(BuildContext context) {
-    return Theme
-        .of(context)
-        .dialogBackgroundColor;
-  }
-
   @override
   Widget build(BuildContext context) {
     return new Center(
         child: new Container(
+            color: new Color.fromARGB(0, 0, 0, 0),
             margin: const EdgeInsets.symmetric(
                 horizontal: 40.0, vertical: 24.0),
             child: new ConstrainedBox(
                 constraints: new BoxConstraints(
-                    minWidth: width.toDouble(),
-                    minHeight: height.toDouble(),
+                  minWidth: width.toDouble(),
+                  minHeight: height.toDouble(),
                 ),
-                child: new Material(
-                    elevation: 24.0,
-                    color: _getColor(context),
-                    type: MaterialType.card,
-                    child: child
-                )
+                child: child
             )
         )
     );

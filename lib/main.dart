@@ -121,6 +121,7 @@ class _TabsFabDemoState extends State<TabsFabDemo>
                 _user.name = json['name'];
                 _user.honor = json['honor'];
                 _user.leaderboardPosition = json['leaderboardPosition'];
+                _user.skills = json['skills'];
               });
               Navigator.pop(context);
             });
@@ -187,6 +188,8 @@ class _TabsFabDemoState extends State<TabsFabDemo>
               color: CodeWarsColors.red.shade400, fontSize: 24.0)),
           new Text("User Rank: ${_user.leaderboardPosition}", style:
           new TextStyle(color: CodeWarsColors.red.shade400, fontSize: 24.0)),
+          new Text("Skills: ${_user.skills.toString()}", style: new TextStyle(
+              color: CodeWarsColors.red.shade400, fontSize: 24.0)),
         ]);
     return new Scaffold(
       key: _scaffoldKey,
