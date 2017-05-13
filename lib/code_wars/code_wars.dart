@@ -10,8 +10,20 @@ import 'package:http/http.dart';
 class CodeWarsAPI {
   static CodeWarsUser getUser(String user) {
     get("https://www.codewars.com/api/v1/users/$user").then((val) {
-      return new JsonDecoder(null)
+      var json = new JsonDecoder(null)
           .convert(val.body);
+      print(val.body);
+      var ret = new CodeWarsUser.empty();
+      ret.name = json['name'];
+      print(ret.name);
+      ret.username = json['username'];
+//        ..rank = new Ranks(new Rank(
+//            json['ranks']['overall']['rank'],
+//            json['ranks']['overall']['name'],
+//            json['ranks']['overall']['color'],
+//            json['ranks']['overall']['score'],
+//            'overall'
+      return ret;
     });
     return null;
   }
@@ -73,27 +85,31 @@ class CodeWarsUser {
   String username;
 
   String name;
-
-  List<String> skills;
+  String displayName;
+  Ranks rank;
 
   CodeWarsUser.empty() {
     username = "Unknown";
     name = "Unknown";
-    skills = const [];
   }
 
 }
 
 class Ranks {
   Rank overall;
-  Rank languages;
+  List<Rank> languages;
+
+  Ranks(this.overall, this.languages);
 }
 
 class Rank {
   int rank;
   String name;
   String color;
+  String lang;
   int score;
+
+  Rank(this.rank, this.name, this.color, this.score, this.lang);
 }
 
 /*{

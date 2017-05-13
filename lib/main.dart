@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'code_wars/code_wars.dart';
 import 'code_wars/colors.dart';
-import 'code_wars/util.dart';
 
 void main() {
   runApp(new MyApp());
@@ -24,14 +23,14 @@ class MyApp extends StatelessWidget {
 }
 
 class _Page {
-  _Page({ this.label, this.icon, this.information, this.child, this.onClick });
+  _Page({ this.label, this.icon, this.information, this.child });
 
   final String label;
   final MaterialColor colors = CodeWarsColors.red;
   final IconData icon;
   final String information;
   final Widget child;
-  final onClick;
+  dynamic onClick;
 
   Color get labelColor => colors.shade500;
 
@@ -101,34 +100,27 @@ class _TabsFabDemoState extends State<TabsFabDemo>
               "You can change your username.",
           child: new Column(
               children: [
-                new BigText("NickName: ${_user.name}",
-                    textColor: CodeWarsColors.red.shade400),
-                new BigText("UseraName: ${_user.username}")
+                new Text("User Name: ${_user.username}",
+                    style: new TextStyle(
+                        color: CodeWarsColors.red.shade400, fontSize: 24.0)),
+                new Text("Nick Name: ${_user.name}")
               ]
-          ),
-          onClick: () {
-            showDialog(context: context, child: new AlertDialog(
-              content: new Column(
-                  children: [
-                    new EditableText(
-                        controller: _usernameEditingController,
-                        style: null,
-                        cursorColor: null,
-                        focusNode: null
-                    )
-                  ]
-              ),
-              title: new Text("Reset your username"),
-              actions: [new FlatButton(onPressed: () {
-                setState(() {
-                  _user = CodeWarsAPI.getUser(_usernameEditingController.text);
-                });
-              }, child: new Text("OK"))
-              ],
-            ));
-          }
-      ),
+          )
+      )
     ];
+    _allPages.last.onClick = () {
+      showDialog(context: context, child: new SimpleDialog(
+        contentPadding: new EdgeInsets.all(20.0),
+        children: [
+          new TextField(controller: _usernameEditingController),
+          new FlatButton(onPressed: () {
+            setState(() {
+              _user = CodeWarsAPI.getUser(_usernameEditingController.text);
+            });
+          }, child: new Text("OK")),
+        ], title: new Text("Reset your username"),
+      ));
+    };
 
     _tabController = new TabController(vsync: this, length: _allPages.length);
     _tabController.addListener(_handleTabSelection);
