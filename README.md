@@ -1,3 +1,7 @@
 # code_wars_android
 
-A Android client for Code Wars.
+A Mobile client for Code Wars.
+
+It's entirely under development.
+
+You can view information about yourself and someone else by giving the username.

@@ -78,12 +78,13 @@ class _TabsFabDemoState extends State<TabsFabDemo>
 
   TabController _tabController;
   TextEditingController _usernameEditingController;
-  CodeWarsUser _user = new CodeWarsUser.empty();
+  CodeWarsUser _user;
   _Page _selectedPage;
 
   @override
   void initState() {
     super.initState();
+    _user = new CodeWarsUser.empty();
     _usernameEditingController = new TextEditingController();
     _friends = new _Page(
       label: 'Friends',
