@@ -165,14 +165,19 @@ class _TabsFabDemoState extends State<TabsFabDemo>
               setState(() {
                 var json = new JsonDecoder(null).convert(val.body);
                 _user = new CodeWarsUser();
-                _user.username = json['username'];
-                _user.name = json['name'];
-                _user.clan = json['clan'];
-                _user.honor = json['honor'];
-                _user.leaderboardPosition = json['leaderboardPosition'];
-                _user.skills = json['skills'];
-                if (null == _user.skills || _user.skills.isEmpty) {
-                  _user.skills = const[" no skills found "];
+                if (false == json['success']) {
+                  _me.displayWhenEmpty = json['reason'];
+                  _user = null;
+                } else {
+                  _user.username = json['username'];
+                  _user.name = json['name'] ?? 'Unknown';
+                  _user.clan = json['clan'] ?? '';
+                  _user.honor = json['honor'];
+                  _user.leaderboardPosition = json['leaderboardPosition'];
+                  _user.skills = json['skills'];
+                  if (null == _user.skills || _user.skills.isEmpty) {
+                    _user.skills = const[" no skills found "];
+                  }
                 }
               });
               Navigator.pop(context);
@@ -181,6 +186,7 @@ class _TabsFabDemoState extends State<TabsFabDemo>
             ..catchError(() {
               setState(() {
                 _me.displayWhenEmpty = "Connect time out";
+                _user = null;
                 Navigator.pop(context);
               });
             })

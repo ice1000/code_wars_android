@@ -20,6 +20,13 @@ class CodeWarsAPI {
 
 /*
 {
+  "success": false,
+  "reason": "not found"
+}
+ */
+
+/*
+{
   "username": "some_user",
   "name": "Some Person",
   "honor": 544,
