@@ -65,11 +65,12 @@ class CodeWarsAPI {
 */
 
 class CodeWarsUser {
-  String username;
-  String name;
-  int honor;
-  int leaderboardPosition;
-  List<String> skills;
+  String username = "";
+  String name = "";
+  String clan = "";
+  int honor = 0;
+  int leaderboardPosition = -1;
+  List<String> skills = const[];
   Ranks rank;
 }
 

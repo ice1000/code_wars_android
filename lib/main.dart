@@ -81,7 +81,7 @@ class _TabsFabDemoState extends State<TabsFabDemo>
 
   TabController _tabController;
   TextEditingController _usernameEditingController;
-  CodeWarsUser _user = new CodeWarsUser();
+  CodeWarsUser _user;
   _Page _selectedPage;
 
   @override
@@ -164,8 +164,10 @@ class _TabsFabDemoState extends State<TabsFabDemo>
             ..then((val) {
               setState(() {
                 var json = new JsonDecoder(null).convert(val.body);
+                _user = new CodeWarsUser();
                 _user.username = json['username'];
                 _user.name = json['name'];
+                _user.clan = json['clan'];
                 _user.honor = json['honor'];
                 _user.leaderboardPosition = json['leaderboardPosition'];
                 _user.skills = json['skills'];
@@ -199,6 +201,9 @@ class _TabsFabDemoState extends State<TabsFabDemo>
             new ListTile(title: new Text(_user.name, style: new TextStyle(
                 color: CodeWarsColors.white.shade200, fontSize: 32.0)),
                 trailing: new Text("\n${_user.username}", style: new TextStyle(
+                    color: CodeWarsColors.white.shade200, fontSize: 16.0))),
+            new ListTile(
+                title: new Text("\n${_user.clan}", style: new TextStyle(
                     color: CodeWarsColors.white.shade200, fontSize: 16.0))),
             new ListTile(),
             new ListTile(trailing: new Text("${_user.honor}",
