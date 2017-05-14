@@ -31,7 +31,7 @@ class _Page {
   final IconData icon;
   final String information;
   Widget child;
-  dynamic onClick;
+  VoidCallback onClick;
 
   Color get labelColor => colors.shade500;
 
@@ -90,47 +90,17 @@ class _TabsFabDemoState extends State<TabsFabDemo>
       label: 'Friends',
       icon: Icons.add,
       information: "You can view your friends' information or "
-          "add new friends in this page.",
-    );
+          "add new friends in this page.",);
     _kata = new _Page(
       label: 'Kata',
       icon: Icons.add_box,
       information: "You can view or add katas here, and preview them.\n"
-          "submitting is not supported ATM",
-    );
+          "submitting is not supported ATM",);
     _me = new _Page(
       label: 'Me',
-      icon: Icons.edit,
       information: "Information about yourself on Code Wars.\n"
-          "You can change your username.",
-    );
+          "You can change your username.",);
     _allPages = <_Page>[_friends, _kata, _me];
-    _me.onClick = () {
-      var dialog = new SimpleDialog(
-        contentPadding: new EdgeInsets.all(20.0),
-        children: [
-          new TextField(controller: _usernameEditingController),
-          new FlatButton(onPressed: () {
-            Navigator.pop(context);
-            showDialog(context: context, child: new RefreshProgressDialog(
-                CodeWarsColors.black.shade100, width: 100, height: 100));
-            get(CodeWarsAPI.getUser(_usernameEditingController.text))
-                .then((val) {
-              setState(() {
-                var json = new JsonDecoder(null).convert(val.body);
-                _user.username = json['username'];
-                _user.name = json['name'];
-                _user.honor = json['honor'];
-                _user.leaderboardPosition = json['leaderboardPosition'];
-                _user.skills = json['skills'];
-              });
-              Navigator.pop(context);
-            });
-          }, child: new Text("OK")),
-        ], title: new Text("Reset your username"),
-      );
-      showDialog(context: context, child: dialog);
-    };
     _tabController = new TabController(vsync: this, length: _allPages.length);
     _tabController.addListener(_handleTabSelection);
     _selectedPage = _me;
@@ -155,17 +125,13 @@ class _TabsFabDemoState extends State<TabsFabDemo>
               border: new Border(top: new BorderSide(color: Theme
                   .of(context)
                   .dividerColor
-              ))
-          ),
+              ))),
           child: new Padding(
               padding: const EdgeInsets.all(32.0),
               child: new Text(_selectedPage.information, style: Theme
                   .of(context)
                   .textTheme
-                  .subhead
-              )
-          )
-      );
+                  .subhead)));
     });
   }
 
@@ -177,32 +143,64 @@ class _TabsFabDemoState extends State<TabsFabDemo>
           child: page.childWight
       );
 
+  _changeUserName() {
+    var dialog = new SimpleDialog(
+      contentPadding: new EdgeInsets.all(20.0),
+      children: [
+        new TextFormField(
+            decoration: const InputDecoration(
+                hintText: "Click OK to submit",
+                labelText: "New user name"),
+            maxLines: 1,
+            controller: _usernameEditingController),
+        new FlatButton(onPressed: () {
+          Navigator.pop(context);
+          showDialog(context: context, child: new RefreshProgressDialog(
+              CodeWarsColors.black.shade100, width: 100, height: 100));
+          get(CodeWarsAPI.getUser(_usernameEditingController.text))
+              .then((val) {
+            setState(() {
+              var json = new JsonDecoder(null).convert(val.body);
+              _user.username = json['username'];
+              _user.name = json['name'];
+              _user.honor = json['honor'];
+              _user.leaderboardPosition = json['leaderboardPosition'];
+              _user.skills = json['skills'];
+            });
+            Navigator.pop(context);
+          });
+        }, child: new Text("OK")),
+      ], title: new Text("Reset your username"),);
+    showDialog(context: context, child: dialog);
+  }
+
   @override
   Widget build(BuildContext context) {
-    _me.child = new Column(
+    _me.child = new Scrollbar(child: new Column(
         children: [
+          new Text(_user.name, style: new TextStyle(
+              color: CodeWarsColors.red.shade400, fontSize: 32.0)),
           new Text("User Name: ${_user.username}", style: new TextStyle(
-              color: CodeWarsColors.red.shade400, fontSize: 24.0)),
-          new Text("Nick Name: ${_user.name}", style: new TextStyle(
-              color: CodeWarsColors.red.shade400, fontSize: 24.0)),
+              color: CodeWarsColors.red.shade400, fontSize: 16.0)),
           new Text("Honor: ${_user.honor}", style: new TextStyle(
               color: CodeWarsColors.red.shade400, fontSize: 24.0)),
           new Text("User Rank: ${_user.leaderboardPosition}", style:
           new TextStyle(color: CodeWarsColors.red.shade400, fontSize: 24.0)),
           new Text("Skills: ${_user.skills.toString()}", style: new TextStyle(
               color: CodeWarsColors.red.shade400, fontSize: 24.0)),
-        ]);
+        ]));
     return new Scaffold(
       key: _scaffoldKey,
       appBar: new AppBar(
           title: new Text(_title),
+          actions: [
+            new IconButton(
+                icon: new Icon(Icons.edit), onPressed: _changeUserName)
+          ],
           bottom: new TabBar(
             controller: _tabController,
-            tabs: _allPages
-                .map((_Page page) => new Tab(text: page.label))
-                .toList(),
-          )
-      ),
+            tabs: _allPages.map((_Page page) => new Tab(text: page.label))
+                .toList(),)),
       floatingActionButton: !_selectedPage.fabHere ? null
           : new FloatingActionButton(
           key: _selectedPage.fabKey,
