@@ -32,7 +32,7 @@ class _Page {
     this.tabLabel
   });
 
-  final String displayWhenEmpty;
+  String displayWhenEmpty;
   final String tabLabel;
   final MaterialColor colors = CodeWarsColors.red;
   final IconData icon;
@@ -53,13 +53,9 @@ class _Page {
   Widget get childWight =>
       child ?? new Card(
           color: CodeWarsColors.black.shade300,
-          child: new Center(
-              child: new Text(displayWhenEmpty,
-                  style: new TextStyle(color: labelColor, fontSize: 32.0),
-                  textAlign: TextAlign.center
-              )
-          )
-      );
+          child: new Center(child: new Text(displayWhenEmpty,
+              style: new TextStyle(color: labelColor, fontSize: 32.0),
+              textAlign: TextAlign.center)));
 }
 
 class TabsFabDemo extends StatefulWidget {
@@ -85,7 +81,7 @@ class _TabsFabDemoState extends State<TabsFabDemo>
 
   TabController _tabController;
   TextEditingController _usernameEditingController;
-  CodeWarsUser _user;
+  CodeWarsUser _user = new CodeWarsUser();
   _Page _selectedPage;
 
   @override
@@ -133,8 +129,7 @@ class _TabsFabDemoState extends State<TabsFabDemo>
           decoration: new BoxDecoration(
               border: new Border(top: new BorderSide(color: Theme
                   .of(context)
-                  .dividerColor
-              ))),
+                  .dividerColor))),
           child: new Padding(
               padding: const EdgeInsets.all(32.0),
               child: new Text(_selectedPage.information, style: Theme
@@ -146,11 +141,10 @@ class _TabsFabDemoState extends State<TabsFabDemo>
 
   Widget buildTabView(_Page page) =>
       new Container(
-          key: new ValueKey<String>(page.displayWhenEmpty),
+          key: new ValueKey<String>(page.tabLabel),
           color: _background,
           padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 32.0),
-          child: page.childWight
-      );
+          child: page.childWight);
 
   _changeUserName() {
     var dialog = new SimpleDialog(
@@ -167,20 +161,28 @@ class _TabsFabDemoState extends State<TabsFabDemo>
           showDialog(context: context, child: new RefreshProgressDialog(
               CodeWarsColors.black.shade100, width: 100, height: 100));
           get(CodeWarsAPI.getUser(_usernameEditingController.text))
-              .then((val) {
-            setState(() {
-              var json = new JsonDecoder(null).convert(val.body);
-              _user.username = json['username'];
-              _user.name = json['name'];
-              _user.honor = json['honor'];
-              _user.leaderboardPosition = json['leaderboardPosition'];
-              _user.skills = json['skills'];
-              if (null == _user.skills || _user.skills.isEmpty) {
-                _user.skills = const[" no skills found "];
-              }
-            });
-            Navigator.pop(context);
-          });
+            ..then((val) {
+              setState(() {
+                var json = new JsonDecoder(null).convert(val.body);
+                _user.username = json['username'];
+                _user.name = json['name'];
+                _user.honor = json['honor'];
+                _user.leaderboardPosition = json['leaderboardPosition'];
+                _user.skills = json['skills'];
+                if (null == _user.skills || _user.skills.isEmpty) {
+                  _user.skills = const[" no skills found "];
+                }
+              });
+              Navigator.pop(context);
+            })
+            ..timeout(new Duration(seconds: 10))
+            ..catchError(() {
+              setState(() {
+                _me.displayWhenEmpty = "Connect time out";
+                Navigator.pop(context);
+              });
+            })
+          ;
         }, child: new Text("OK")),
       ], title: new Text("Reset your username"),);
     showDialog(context: context, child: dialog);
