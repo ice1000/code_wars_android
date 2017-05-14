@@ -25,4 +25,5 @@ class CodeWarsColors {
   static const _codeWarsBlackPrimaryValue = 0xFF303133;
 
   static const MaterialColor red = Colors.red;
+  static const MaterialColor white = Colors.grey;
 }

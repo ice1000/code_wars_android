@@ -71,16 +71,6 @@ class CodeWarsUser {
   int leaderboardPosition;
   List<String> skills;
   Ranks rank;
-
-  CodeWarsUser.empty() {
-    username = "Unknown";
-    name = "Unknown";
-    honor = 0;
-    leaderboardPosition = 0xffffff;
-    skills = const[];
-    rank = null;
-  }
-
 }
 
 class Ranks {

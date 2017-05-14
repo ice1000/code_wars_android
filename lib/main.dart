@@ -24,9 +24,16 @@ class MyApp extends StatelessWidget {
 }
 
 class _Page {
-  _Page({ this.label, this.icon, this.information, this.child });
+  _Page({
+    this.displayWhenEmpty,
+    this.icon,
+    this.information,
+    this.child,
+    this.tabLabel
+  });
 
-  final String label;
+  final String displayWhenEmpty;
+  final String tabLabel;
   final MaterialColor colors = CodeWarsColors.red;
   final IconData icon;
   final String information;
@@ -47,7 +54,7 @@ class _Page {
       child ?? new Card(
           color: CodeWarsColors.black.shade300,
           child: new Center(
-              child: new Text(label,
+              child: new Text(displayWhenEmpty,
                   style: new TextStyle(color: labelColor, fontSize: 32.0),
                   textAlign: TextAlign.center
               )
@@ -84,20 +91,22 @@ class _TabsFabDemoState extends State<TabsFabDemo>
   @override
   void initState() {
     super.initState();
-    _user = new CodeWarsUser.empty();
     _usernameEditingController = new TextEditingController();
     _friends = new _Page(
-      label: 'Friends',
+      displayWhenEmpty: 'Friends',
+      tabLabel: 'Friends',
       icon: Icons.add,
       information: "You can view your friends' information or "
           "add new friends in this page.",);
     _kata = new _Page(
-      label: 'Kata',
+      displayWhenEmpty: 'Kata',
+      tabLabel: 'Kata',
       icon: Icons.add_box,
       information: "You can view or add katas here, and preview them.\n"
           "submitting is not supported ATM",);
     _me = new _Page(
-      label: 'Me',
+      displayWhenEmpty: 'User not set yet.',
+      tabLabel: 'Me',
       information: "Information about yourself on Code Wars.\n"
           "You can change your username.",);
     _allPages = <_Page>[_friends, _kata, _me];
@@ -137,7 +146,7 @@ class _TabsFabDemoState extends State<TabsFabDemo>
 
   Widget buildTabView(_Page page) =>
       new Container(
-          key: new ValueKey<String>(page.label),
+          key: new ValueKey<String>(page.displayWhenEmpty),
           color: _background,
           padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 32.0),
           child: page.childWight
@@ -166,6 +175,9 @@ class _TabsFabDemoState extends State<TabsFabDemo>
               _user.honor = json['honor'];
               _user.leaderboardPosition = json['leaderboardPosition'];
               _user.skills = json['skills'];
+              if (null == _user.skills || _user.skills.isEmpty) {
+                _user.skills = const[" no skills found "];
+              }
             });
             Navigator.pop(context);
           });
@@ -176,30 +188,51 @@ class _TabsFabDemoState extends State<TabsFabDemo>
 
   @override
   Widget build(BuildContext context) {
-    _me.child = new Scrollbar(child: new Column(
-        children: [
-          new Text(_user.name, style: new TextStyle(
-              color: CodeWarsColors.red.shade400, fontSize: 32.0)),
-          new Text("User Name: ${_user.username}", style: new TextStyle(
-              color: CodeWarsColors.red.shade400, fontSize: 16.0)),
-          new Text("Honor: ${_user.honor}", style: new TextStyle(
-              color: CodeWarsColors.red.shade400, fontSize: 24.0)),
-          new Text("User Rank: ${_user.leaderboardPosition}", style:
-          new TextStyle(color: CodeWarsColors.red.shade400, fontSize: 24.0)),
-          new Text("Skills: ${_user.skills.toString()}", style: new TextStyle(
-              color: CodeWarsColors.red.shade400, fontSize: 24.0)),
-        ]));
+    if (null != _user)
+      _me.child = new Scrollbar(child: new ListView(
+          padding: new EdgeInsets.symmetric(vertical: 0.0),
+          primary: false,
+          itemExtent: 30.0,
+          children: [
+            new ListTile(title: new Text(_user.name, style: new TextStyle(
+                color: CodeWarsColors.white.shade200, fontSize: 32.0)),
+                trailing: new Text("\n${_user.username}", style: new TextStyle(
+                    color: CodeWarsColors.white.shade200, fontSize: 16.0))),
+            new ListTile(),
+            new ListTile(trailing: new Text("${_user.honor}",
+                style: new TextStyle(
+                    color: CodeWarsColors.red.shade400, fontSize: 22.0)),
+                title: new Text("Honor", style: new TextStyle(
+                    color: CodeWarsColors.red.shade400, fontSize: 20.0))),
+            new ListTile(trailing: new Text("${_user.leaderboardPosition}",
+                style: new TextStyle(
+                    color: CodeWarsColors.red.shade400, fontSize: 22.0)),
+                title: new Text("LeaderBoard Rank", style: new TextStyle(
+                    color: CodeWarsColors.red.shade400, fontSize: 20.0))),
+            new ListTile(),
+            new ListTile(title: new Text("Skills:", style: new TextStyle(
+                color: CodeWarsColors.white.shade200, fontSize: 24.0))),
+            new ListTile(title: new Scrollbar(
+                child: new ListView(scrollDirection: Axis.horizontal,
+                    children: _user.skills.map((f) =>
+                    new Card(elevation: 1.5,
+                        color: CodeWarsColors.white.shade400,
+                        child: new Text(" $f ", style: new TextStyle(
+                            color: CodeWarsColors.red.shade500,
+                            fontSize: 16.0)))).toList()))),
+          ]));
     return new Scaffold(
       key: _scaffoldKey,
       appBar: new AppBar(
           title: new Text(_title),
           actions: [
             new IconButton(
-                icon: new Icon(Icons.edit), onPressed: _changeUserName)
+                icon: new Icon(Icons.edit), onPressed: _changeUserName),
+            // settings
           ],
           bottom: new TabBar(
             controller: _tabController,
-            tabs: _allPages.map((_Page page) => new Tab(text: page.label))
+            tabs: _allPages.map((_Page page) => new Tab(text: page.tabLabel))
                 .toList(),)),
       floatingActionButton: !_selectedPage.fabHere ? null
           : new FloatingActionButton(
