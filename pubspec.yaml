@@ -2,6 +2,7 @@ name: code_wars_android
 description: A new flutter project.
 
 dependencies:
+  path_provider: "^0.2.1+1"
   flutter:
     sdk: flutter
 
