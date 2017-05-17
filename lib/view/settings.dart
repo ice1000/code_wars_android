@@ -30,9 +30,13 @@ class SettingsState extends State<SettingsView> {
   SettingsState(this._title);
 
   _performChangeUser(String _json) {
-    Map json = new JsonDecoder(null).convert(_json);
-    var reason = json['reason'];
-    _user = null != reason ? null : new CodeWarsUser.fromJSON(json);
+    try {
+      Map json = new JsonDecoder(null).convert(_json);
+      var reason = json['reason'];
+      _user = null != reason ? null : new CodeWarsUser.fromJSON(json);
+    } catch (e) {
+      _json = CodeWarsAPI.getErrorWithReason("invalid");
+    }
     SharedPreferences.getInstance().then((sp) {
       sp.setString(DatabaseKeys.USER, _json);
     });
@@ -99,9 +103,8 @@ class SettingsState extends State<SettingsView> {
               trailing: new IconButton(
                   icon: new Icon(Icons.edit), onPressed: _changeUserName)),
           new ExpansionTile(title: new Text("App info"), children: [
-            new ListTile(title: new Text("Source"), enabled: true, onTap: () {
-
-            }),
+            new ListTile(
+                title: new Text("Source"), enabled: true, onTap: () {}),
             new ListTile(title: new Text("ass we can"),),
             new ListTile(title: new Text("ass we can"),),
           ])

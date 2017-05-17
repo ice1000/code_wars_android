@@ -82,14 +82,18 @@ class _MainActivityState extends State<MainActivity>
   CodeWarsUser _user;
   _Page _selectedPage;
 
-  @override
-  void initState() {
-    super.initState();
+  _changeAh() {
     SharedPreferences.getInstance().then((sp) {
       setState(() =>
           _performChangeUser(sp.getString(DatabaseKeys.USER) ??
               CodeWarsAPI.getErrorWithReason("not set")));
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _changeAh();
     _friends = new _Page(
       displayWhenEmpty: 'Friends', // 还有这种friend?
       tabLabel: 'Friends',
@@ -205,7 +209,9 @@ class _MainActivityState extends State<MainActivity>
           title: new Text(_title),
           actions: [
             new IconButton(icon: new Icon(Icons.settings), onPressed: () {
-              Navigator.of(context).push(new SettingsActivity());
+              Navigator.of(context).push(new SettingsActivity()).then((_) {
+                setState(_changeAh);
+              });
             })
           ],
           bottom: new TabBar(
