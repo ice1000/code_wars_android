@@ -1,5 +1,8 @@
 # code_wars_android
 
+[![Build Status](https://travis-ci.org/ice1000/code_wars_android.svg?branch=master)](https://travis-ci.org/ice1000/code_wars_android)
+
+
 A Mobile client for Code Wars.
 
 It's entirely under development.

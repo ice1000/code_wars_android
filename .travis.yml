@@ -7,7 +7,6 @@ os:
 jdk:
 - oraclejdk8
 script:
-- flutter packages get
 - flutter build apk
 before_install:
 - git clone -b alpha https://github.com/flutter/flutter.git
@@ -28,3 +27,10 @@ android:
     - extra-android-m2repository
     - extra-google-m2repository
     - addon-google_apis-google-21
+deploy:
+  provider: releases
+  skip_cleanup: true
+  file: "build/app/outputs/apk/app-release.apk"
+  on:
+    tags: true
+#
