@@ -3,10 +3,11 @@ import 'dart:convert';
 import 'package:code_wars_android/code_wars/code_wars.dart';
 import 'package:code_wars_android/code_wars/colors.dart';
 import 'package:code_wars_android/util/storage.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:code_wars_android/util/ui_util.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsActivity extends MaterialPageRoute<Null> {
   SettingsActivity()
@@ -103,11 +104,17 @@ class SettingsState extends State<SettingsView> {
               trailing: new IconButton(
                   icon: new Icon(Icons.edit), onPressed: _changeUserName)),
           new ExpansionTile(title: new Text("App info"), children: [
-            new ListTile(
-                title: new Text("Source"), enabled: true, onTap: () {}),
+            new ListTile(dense: true,
+                title: new Text("Source"),
+                onTap: _viewSource),
             new ListTile(title: new Text("ass we can"),),
             new ListTile(title: new Text("ass we can"),),
           ])
         ]));
+  }
+
+  _viewSource() async {
+    const url = 'https://github.com/ice1000/code_wars_android';
+    if (await canLaunch(url)) await launch(url);
   }
 }
