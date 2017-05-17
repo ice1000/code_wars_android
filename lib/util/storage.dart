@@ -9,18 +9,18 @@ class KeysAndValues {
 }
 
 class Storage {
+  static Future<File> openOrCreate(File file) async {
+    return !(await file.exists()) ? file.create() : file;
+  }
+
   static Future<File> getLocalFile(String fileName) async {
     String dir = (await getApplicationDocumentsDirectory()).path;
-    print("$dir\n");
-    print("$dir\n");
-    print("$dir\n");
-    print("$dir\n");
     return new File('$dir/$fileName');
   }
 
   static Future<String> readFile(String fileName) async =>
-      (await getLocalFile(fileName)).readAsString();
+      (await openOrCreate(await getLocalFile(fileName))).readAsString();
 
   static writeFile(String fileName, String contents) async =>
-      (await getLocalFile(fileName)).writeAsString(contents);
+      (await openOrCreate(await getLocalFile(fileName))).writeAsString(contents);
 }
