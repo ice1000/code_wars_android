@@ -87,9 +87,10 @@ class _MainActivityState extends State<MainActivity>
   @override
   void initState() {
     super.initState();
-    _storage = PageStorage.of(context);
-    var json = _storage.readState(context, identifier: KeysAndValues.USER);
-    if (null != json) _user = new CodeWarsUser.fromJSON(json);
+    Storage.readFile(KeysAndValues.USER)
+      ..then((val) {
+        setState(() => _performChangeUser(val));
+      });
     _usernameEditingController = new TextEditingController();
     _friends = new _Page(
       displayWhenEmpty: 'Friends', // 还有这种friend?
@@ -149,13 +150,14 @@ class _MainActivityState extends State<MainActivity>
           padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 32.0),
           child: page.childWight);
 
-  _performChangeUser(Map json) {
+  _performChangeUser(String _json) {
+    Map json = new JsonDecoder(null).convert(_json);
     if (false == json['success']) {
       _me.displayWhenEmpty = json['reason'];
       _user = null;
     } else
       _user = new CodeWarsUser.fromJSON(json);
-    _storage.writeState(context, json, identifier: KeysAndValues.USER);
+    Storage.writeFile(KeysAndValues.USER, _json);
   }
 
   _changeUserName() {
@@ -175,10 +177,7 @@ class _MainActivityState extends State<MainActivity>
               barrierDismissible: false);
           get(CodeWarsAPI.getUser(_usernameEditingController.text))
             ..then((val) {
-              setState(() {
-                var json = new JsonDecoder(null).convert(val.body);
-                _performChangeUser(json);
-              });
+              setState(() => _performChangeUser(val.body));
               Navigator.pop(context);
             })
             ..timeout(new Duration(seconds: 10))
