@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'package:code_wars_android/code_wars/code_wars.dart';
 import 'package:code_wars_android/code_wars/colors.dart';
 import 'package:code_wars_android/util/storage.dart';
+import 'package:code_wars_android/util/ui_util.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 class SettingsActivity extends MaterialPageRoute<Null> {
   SettingsActivity()
@@ -21,28 +23,76 @@ class SettingsState extends State<SettingsView> {
   CodeWarsUser _user;
   String _title = "Settings";
   Color textColor = CodeWarsColors.black.shade700;
+  TextEditingController _usernameEditingController;
 
   SettingsState(this._title);
 
+  _performChangeUser(String _json) {
+    Map json = new JsonDecoder(null).convert(_json);
+    var reason = json['reason'];
+    _user = null != reason ? null : new CodeWarsUser.fromJSON(json);
+    Storage.writeFile(KeysAndValues.USER, _json);
+  }
+
+  _changeUserName() {
+    var dialog = new SimpleDialog(
+      contentPadding: new EdgeInsets.all(20.0),
+      children: [
+        new TextFormField(
+            decoration: const InputDecoration(
+                hintText: "Click OK to submit",
+                labelText: "New user name"),
+            maxLines: 1,
+            controller: _usernameEditingController),
+        new FlatButton(onPressed: () {
+          Navigator.pop(context);
+          showDialog(context: context, child: new RefreshProgressDialog(
+              CodeWarsColors.black.shade100, width: 100, height: 100),
+              barrierDismissible: false);
+          get(CodeWarsAPI.getUser(_usernameEditingController.text))
+            ..then((val) {
+              setState(() => _performChangeUser(val.body));
+              Navigator.pop(context);
+            })
+            ..timeout(new Duration(seconds: 10))
+            ..catchError(() {
+              Storage.writeFile(KeysAndValues.USER,
+                  "{\"success\":false,\"reason\":\"time out\"}");
+              setState(() {
+                _user = null;
+                Navigator.pop(context);
+              });
+            });
+        }, child: new Text("OK")),
+      ], title: new Text("Reset your username"),);
+    showDialog(context: context, child: dialog);
+  }
+
+
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
+    _usernameEditingController = new TextEditingController();
     Storage.readFile(KeysAndValues.USER)
       ..then((val) {
         setState(() {
           _user = new CodeWarsUser.fromJSON(new JsonDecoder(null).convert(val));
         });
       });
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(title: new Text(_title)),
         backgroundColor: CodeWarsColors.black.shade200,
         body: new ListView(primary: false, children: [
           new ListTile(title: new Text("Change user name",
               style: new TextStyle(color: textColor)),
-              subtitle: new Text(_user?.name ?? "Unknown",
+              subtitle: new Text(_user?.username ?? "Unknown",
                   style: new TextStyle(color: textColor)),
               trailing: new IconButton(
-                  icon: new Icon(Icons.edit), onPressed: () {}))
+                  icon: new Icon(Icons.edit), onPressed: _changeUserName))
         ]));
   }
 }

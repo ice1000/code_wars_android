@@ -152,8 +152,9 @@ class _MainActivityState extends State<MainActivity>
 
   _performChangeUser(String _json) {
     Map json = new JsonDecoder(null).convert(_json);
-    if (false == json['success']) {
-      _me.displayWhenEmpty = json['reason'];
+    var reason = json['reason'];
+    if (null != reason) {
+      _me.displayWhenEmpty = reason;
       _user = null;
     } else
       _user = new CodeWarsUser.fromJSON(json);
