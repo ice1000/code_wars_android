@@ -4,7 +4,7 @@ import 'package:code_wars_android/code_wars/code_wars.dart';
 import 'package:code_wars_android/code_wars/colors.dart';
 import 'package:code_wars_android/util/storage.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:code_wars_android/util/ui_util.dart';
+import 'package:code_wars_android/util/util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -104,10 +104,14 @@ class SettingsState extends State<SettingsView> {
               trailing: new IconButton(
                   icon: new Icon(Icons.edit), onPressed: _changeUserName)),
           new ExpansionTile(title: new Text("App info"), children: [
-            new ListTile(dense: true,
-                title: new Text("Source"),
+            new ListTile(dense: true, title: new Text("View Source on GitHub"),
                 onTap: _viewSource),
-            new ListTile(title: new Text("ass we can"),),
+            new ListTile(dense: true, title: new Text("License"),
+                onTap: () {
+                  showDialog(context: context, child: new SimpleDialog(
+                      title: new Text("License"),
+                      children: [ new Text(GPLv3)]));
+                }),
             new ListTile(title: new Text("ass we can"),),
           ])
         ]));
