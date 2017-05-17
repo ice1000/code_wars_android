@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:code_wars_android/util/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:code_wars_android/code_wars/code_wars.dart';
 import 'package:code_wars_android/code_wars/colors.dart';
@@ -7,7 +8,7 @@ import 'package:http/http.dart';
 
 
 // ignore: must_be_immutable
-class MyApp extends StatelessWidget {
+class MainActivity extends StatelessWidget {
   var mainTitle = 'Code Wars';
 
   @override
@@ -69,6 +70,7 @@ class _TabsFabDemoState extends State<TabsFabDemo>
   final _scaffoldKey = new GlobalKey<ScaffoldState>();
   final Color _background = CodeWarsColors.black.shade200;
   final String _title;
+  PageStorageBucket _storage;
   List<_Page> _allPages;
   _Page _friends;
   _Page _kata;
@@ -84,6 +86,7 @@ class _TabsFabDemoState extends State<TabsFabDemo>
   @override
   void initState() {
     super.initState();
+    _storage = PageStorage.of(context);
     _usernameEditingController = new TextEditingController();
     _friends = new _Page(
       displayWhenEmpty: 'Friends',
@@ -143,6 +146,25 @@ class _TabsFabDemoState extends State<TabsFabDemo>
           padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 32.0),
           child: page.childWight);
 
+  _performChangeUser(Map json) {
+    _user = new CodeWarsUser();
+    if (false == json['success']) {
+      _me.displayWhenEmpty = json['reason'];
+      _user = null;
+    } else {
+      _user.username = json['username'];
+      _user.name = json['name'] ?? 'Unknown';
+      _user.clan = json['clan'] ?? '';
+      _user.honor = json['honor'];
+      _user.leaderboardPosition = json['leaderboardPosition'];
+      _user.skills = json['skills'];
+      if (null == _user.skills || _user.skills.isEmpty) {
+        _user.skills = const[" no skills found "];
+      }
+    }
+    _storage.writeState(context, json, identifier: KeysAndValues.USER);
+  }
+
   _changeUserName() {
     var dialog = new SimpleDialog(
       contentPadding: new EdgeInsets.all(20.0),
@@ -162,21 +184,7 @@ class _TabsFabDemoState extends State<TabsFabDemo>
             ..then((val) {
               setState(() {
                 var json = new JsonDecoder(null).convert(val.body);
-                _user = new CodeWarsUser();
-                if (false == json['success']) {
-                  _me.displayWhenEmpty = json['reason'];
-                  _user = null;
-                } else {
-                  _user.username = json['username'];
-                  _user.name = json['name'] ?? 'Unknown';
-                  _user.clan = json['clan'] ?? '';
-                  _user.honor = json['honor'];
-                  _user.leaderboardPosition = json['leaderboardPosition'];
-                  _user.skills = json['skills'];
-                  if (null == _user.skills || _user.skills.isEmpty) {
-                    _user.skills = const[" no skills found "];
-                  }
-                }
+                _performChangeUser(json);
               });
               Navigator.pop(context);
             })
@@ -209,7 +217,7 @@ class _TabsFabDemoState extends State<TabsFabDemo>
             new ListTile(
                 title: new Text("\n${_user.clan}", style: new TextStyle(
                     color: CodeWarsColors.white.shade200, fontSize: 16.0))),
-            new ListTile(),
+            const ListTile(),
             new ListTile(trailing: new Text("${_user.honor}",
                 style: new TextStyle(
                     color: CodeWarsColors.red.shade400, fontSize: 22.0)),
@@ -220,7 +228,7 @@ class _TabsFabDemoState extends State<TabsFabDemo>
                     color: CodeWarsColors.red.shade400, fontSize: 22.0)),
                 title: new Text("LeaderBoard Rank", style: new TextStyle(
                     color: CodeWarsColors.red.shade400, fontSize: 20.0))),
-            new ListTile(),
+            const ListTile(),
             new ListTile(title: new Text("Skills:", style: new TextStyle(
                 color: CodeWarsColors.white.shade200, fontSize: 24.0))),
             new ListTile(title: new Scrollbar(
