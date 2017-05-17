@@ -3,7 +3,7 @@ import 'package:code_wars_android/util/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:code_wars_android/code_wars/code_wars.dart';
 import 'package:code_wars_android/code_wars/colors.dart';
-import 'package:code_wars_android/util/util.dart';
+import 'package:code_wars_android/util/ui_util.dart';
 import 'package:http/http.dart';
 
 
