@@ -1,11 +1,11 @@
 import 'dart:convert';
+
+import 'package:code_wars_android/code_wars/code_wars.dart';
+import 'package:code_wars_android/code_wars/colors.dart';
 import 'package:code_wars_android/util/storage.dart';
 import 'package:code_wars_android/view/settings.dart';
 import 'package:flutter/material.dart';
-import 'package:code_wars_android/code_wars/code_wars.dart';
-import 'package:code_wars_android/code_wars/colors.dart';
-import 'package:code_wars_android/util/ui_util.dart';
-import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 // ignore: must_be_immutable
@@ -71,7 +71,6 @@ class _MainActivityState extends State<MainActivity>
   final _scaffoldKey = new GlobalKey<ScaffoldState>();
   final Color _background = CodeWarsColors.black.shade200;
   final String _title;
-  PageStorageBucket _storage;
   List<_Page> _allPages;
   _Page _friends;
   _Page _kata;
@@ -80,18 +79,17 @@ class _MainActivityState extends State<MainActivity>
   _MainActivityState(this._title);
 
   TabController _tabController;
-  TextEditingController _usernameEditingController;
   CodeWarsUser _user;
   _Page _selectedPage;
 
   @override
   void initState() {
     super.initState();
-    Storage.readFile(KeysAndValues.USER)
-      ..then((val) {
-        setState(() => _performChangeUser(val));
-      });
-    _usernameEditingController = new TextEditingController();
+    SharedPreferences.getInstance().then((sp) {
+      setState(() =>
+          _performChangeUser(sp.getString(DatabaseKeys.USER) ??
+              CodeWarsAPI.getErrorWithReason("not set")));
+    });
     _friends = new _Page(
       displayWhenEmpty: 'Friends', // 还有这种friend?
       tabLabel: 'Friends',
@@ -158,40 +156,9 @@ class _MainActivityState extends State<MainActivity>
       _user = null;
     } else
       _user = new CodeWarsUser.fromJSON(json);
-    Storage.writeFile(KeysAndValues.USER, _json);
-  }
-
-  _changeUserName() {
-    var dialog = new SimpleDialog(
-      contentPadding: new EdgeInsets.all(20.0),
-      children: [
-        new TextFormField(
-            decoration: const InputDecoration(
-                hintText: "Click OK to submit",
-                labelText: "New user name"),
-            maxLines: 1,
-            controller: _usernameEditingController),
-        new FlatButton(onPressed: () {
-          Navigator.pop(context);
-          showDialog(context: context, child: new RefreshProgressDialog(
-              CodeWarsColors.black.shade100, width: 100, height: 100),
-              barrierDismissible: false);
-          get(CodeWarsAPI.getUser(_usernameEditingController.text))
-            ..then((val) {
-              setState(() => _performChangeUser(val.body));
-              Navigator.pop(context);
-            })
-            ..timeout(new Duration(seconds: 10))
-            ..catchError(() {
-              setState(() {
-                _me.displayWhenEmpty = "Connect time out";
-                _user = null;
-                Navigator.pop(context);
-              });
-            });
-        }, child: new Text("OK")),
-      ], title: new Text("Reset your username"),);
-    showDialog(context: context, child: dialog);
+    SharedPreferences.getInstance().then((sp) {
+      sp.setString(DatabaseKeys.USER, _json);
+    });
   }
 
   @override
@@ -237,8 +204,6 @@ class _MainActivityState extends State<MainActivity>
       appBar: new AppBar(
           title: new Text(_title),
           actions: [
-            new IconButton(
-                icon: new Icon(Icons.edit), onPressed: _changeUserName),
             new IconButton(icon: new Icon(Icons.settings), onPressed: () {
               Navigator.of(context).push(new SettingsActivity());
             })

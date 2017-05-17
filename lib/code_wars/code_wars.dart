@@ -16,6 +16,9 @@ class CodeWarsAPI {
 
   static getAuthoredChallenge(String user) =>
       "http://www.codewars.com:3000/api/v1/users/$user/code-challenges/authored";
+
+  static getErrorWithReason(String reason) =>
+      "{\"success\":false,\"reason\":\"$reason\"}";
 }
 
 /*

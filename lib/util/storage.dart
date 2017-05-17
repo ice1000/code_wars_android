@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
 
-class KeysAndValues {
-  static const USER = "user_data.json";
+class DatabaseKeys {
+  static const USER = "user_data";
   static const KATAS = "katas_data";
 }
 

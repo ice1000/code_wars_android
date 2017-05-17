@@ -1,10 +1,12 @@
 import 'dart:convert';
+
 import 'package:code_wars_android/code_wars/code_wars.dart';
 import 'package:code_wars_android/code_wars/colors.dart';
 import 'package:code_wars_android/util/storage.dart';
 import 'package:code_wars_android/util/ui_util.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsActivity extends MaterialPageRoute<Null> {
   SettingsActivity()
@@ -31,7 +33,9 @@ class SettingsState extends State<SettingsView> {
     Map json = new JsonDecoder(null).convert(_json);
     var reason = json['reason'];
     _user = null != reason ? null : new CodeWarsUser.fromJSON(json);
-    Storage.writeFile(KeysAndValues.USER, _json);
+    SharedPreferences.getInstance().then((sp) {
+      sp.setString(DatabaseKeys.USER, _json);
+    });
   }
 
   _changeUserName() {
@@ -56,8 +60,10 @@ class SettingsState extends State<SettingsView> {
             })
             ..timeout(new Duration(seconds: 10))
             ..catchError(() {
-              Storage.writeFile(KeysAndValues.USER,
-                  "{\"success\":false,\"reason\":\"time out\"}");
+              SharedPreferences.getInstance().then((sp) {
+                sp.setString(DatabaseKeys.USER,
+                    CodeWarsAPI.getErrorWithReason("time out"));
+              });
               setState(() {
                 _user = null;
                 Navigator.pop(context);
@@ -73,12 +79,11 @@ class SettingsState extends State<SettingsView> {
   void initState() {
     super.initState();
     _usernameEditingController = new TextEditingController();
-    Storage.readFile(KeysAndValues.USER)
-      ..then((val) {
-        setState(() {
-          _user = new CodeWarsUser.fromJSON(new JsonDecoder(null).convert(val));
-        });
-      });
+    SharedPreferences.getInstance().then((sp) {
+      _user = new CodeWarsUser.fromJSON(new JsonDecoder(null).convert(
+          sp.getString(DatabaseKeys.USER) ??
+              CodeWarsAPI.getErrorWithReason("not found")));
+    });
   }
 
   @override
@@ -92,7 +97,14 @@ class SettingsState extends State<SettingsView> {
               subtitle: new Text(_user?.username ?? "Unknown",
                   style: new TextStyle(color: textColor)),
               trailing: new IconButton(
-                  icon: new Icon(Icons.edit), onPressed: _changeUserName))
+                  icon: new Icon(Icons.edit), onPressed: _changeUserName)),
+          new ExpansionTile(title: new Text("App info"), children: [
+            new ListTile(title: new Text("Source"), enabled: true, onTap: () {
+
+            }),
+            new ListTile(title: new Text("ass we can"),),
+            new ListTile(title: new Text("ass we can"),),
+          ])
         ]));
   }
 }

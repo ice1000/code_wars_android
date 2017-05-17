@@ -3,6 +3,8 @@ description: A new flutter project.
 
 dependencies:
   path_provider: "^0.2.1+1"
+  shared_preferences: "^0.2.0+1"
+
   flutter:
     sdk: flutter
 
