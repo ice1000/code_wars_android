@@ -79,6 +79,18 @@ class CodeWarsUser {
   int leaderboardPosition = -1;
   List<String> skills = const[];
   Ranks rank;
+
+  CodeWarsUser();
+
+  CodeWarsUser.fromJSON(Map json) {
+    username = json['username'];
+    name = json['name'] ?? 'Unknown';
+    clan = json['clan'] ?? '';
+    honor = json['honor'];
+    leaderboardPosition = json['leaderboardPosition'];
+    skills = json['skills'];
+    if (null == skills || skills.isEmpty) skills = const[" no skills found "];
+  }
 }
 
 class Ranks {

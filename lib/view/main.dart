@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:code_wars_android/util/storage.dart';
+import 'package:code_wars_android/view/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:code_wars_android/code_wars/code_wars.dart';
 import 'package:code_wars_android/code_wars/colors.dart';
@@ -8,7 +9,7 @@ import 'package:http/http.dart';
 
 
 // ignore: must_be_immutable
-class MainActivity extends StatelessWidget {
+class MyApplication extends StatelessWidget {
   var mainTitle = 'Code Wars';
 
   @override
@@ -16,7 +17,7 @@ class MainActivity extends StatelessWidget {
     return new MaterialApp(
       title: mainTitle,
       theme: new ThemeData(primarySwatch: CodeWarsColors.black),
-      home: new TabsFabDemo(mainTitle),
+      home: new MainActivity(mainTitle),
     );
   }
 }
@@ -56,16 +57,16 @@ class _Page {
               textAlign: TextAlign.center)));
 }
 
-class TabsFabDemo extends StatefulWidget {
+class MainActivity extends StatefulWidget {
   final String _title;
 
-  TabsFabDemo(this._title);
+  MainActivity(this._title);
 
   @override
-  _TabsFabDemoState createState() => new _TabsFabDemoState(_title);
+  _MainActivityState createState() => new _MainActivityState(_title);
 }
 
-class _TabsFabDemoState extends State<TabsFabDemo>
+class _MainActivityState extends State<MainActivity>
     with SingleTickerProviderStateMixin {
   final _scaffoldKey = new GlobalKey<ScaffoldState>();
   final Color _background = CodeWarsColors.black.shade200;
@@ -76,7 +77,7 @@ class _TabsFabDemoState extends State<TabsFabDemo>
   _Page _kata;
   _Page _me;
 
-  _TabsFabDemoState(this._title);
+  _MainActivityState(this._title);
 
   TabController _tabController;
   TextEditingController _usernameEditingController;
@@ -87,9 +88,11 @@ class _TabsFabDemoState extends State<TabsFabDemo>
   void initState() {
     super.initState();
     _storage = PageStorage.of(context);
+    var json = _storage.readState(context, identifier: KeysAndValues.USER);
+    if (null != json) _user = new CodeWarsUser.fromJSON(json);
     _usernameEditingController = new TextEditingController();
     _friends = new _Page(
-      displayWhenEmpty: 'Friends',
+      displayWhenEmpty: 'Friends', // 还有这种friend?
       tabLabel: 'Friends',
       icon: Icons.add,
       information: "You can view your friends' information or "
@@ -147,21 +150,11 @@ class _TabsFabDemoState extends State<TabsFabDemo>
           child: page.childWight);
 
   _performChangeUser(Map json) {
-    _user = new CodeWarsUser();
     if (false == json['success']) {
       _me.displayWhenEmpty = json['reason'];
       _user = null;
-    } else {
-      _user.username = json['username'];
-      _user.name = json['name'] ?? 'Unknown';
-      _user.clan = json['clan'] ?? '';
-      _user.honor = json['honor'];
-      _user.leaderboardPosition = json['leaderboardPosition'];
-      _user.skills = json['skills'];
-      if (null == _user.skills || _user.skills.isEmpty) {
-        _user.skills = const[" no skills found "];
-      }
-    }
+    } else
+      _user = new CodeWarsUser.fromJSON(json);
     _storage.writeState(context, json, identifier: KeysAndValues.USER);
   }
 
@@ -195,8 +188,7 @@ class _TabsFabDemoState extends State<TabsFabDemo>
                 _user = null;
                 Navigator.pop(context);
               });
-            })
-          ;
+            });
         }, child: new Text("OK")),
       ], title: new Text("Reset your username"),);
     showDialog(context: context, child: dialog);
@@ -247,7 +239,9 @@ class _TabsFabDemoState extends State<TabsFabDemo>
           actions: [
             new IconButton(
                 icon: new Icon(Icons.edit), onPressed: _changeUserName),
-            // settings
+            new IconButton(icon: new Icon(Icons.settings), onPressed: () {
+              Navigator.of(context).push(new SettingsActivity());
+            })
           ],
           bottom: new TabBar(
             controller: _tabController,
