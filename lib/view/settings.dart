@@ -104,21 +104,23 @@ class SettingsState extends State<SettingsView> {
               trailing: new IconButton(
                   icon: new Icon(Icons.edit), onPressed: _changeUserName)),
           new ExpansionTile(title: new Text("App info"), children: [
-            new ListTile(dense: true, title: new Text("View Source on GitHub"),
-                onTap: _viewSource),
+            new ListTile(dense: true, title: new Text("Source on GitHub"),
+                onTap: () =>
+                    _viewWeb('https://github.com/ice1000/code_wars_android')),
             new ListTile(dense: true, title: new Text("License"),
                 onTap: () {
                   showDialog(context: context, child: new SimpleDialog(
                       title: new Text("License"),
+                      contentPadding: new EdgeInsets.all(8.0),
                       children: [ new Text(GPLv3)]));
                 }),
-            new ListTile(title: new Text("ass we can"),),
+            new ListTile(dense: true, title: new Text("Open CodeWars"),
+                onTap: () => _viewWeb('https://www.codewars.com/'))
           ])
         ]));
   }
 
-  _viewSource() async {
-    const url = 'https://github.com/ice1000/code_wars_android';
+  _viewWeb(String url) async {
     if (await canLaunch(url)) await launch(url);
   }
 }
