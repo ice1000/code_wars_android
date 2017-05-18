@@ -66,8 +66,8 @@ class SettingsState extends State<SettingsView> {
             ..timeout(new Duration(seconds: 10))
             ..catchError(() {
               SharedPreferences.getInstance().then((sp) {
-                sp.setString(DatabaseKeys.USER,
-                    CodeWarsAPI.getErrorWithReason("time out"));
+                sp.setString(DatabaseKeys.USER, CodeWarsAPI
+                    .getErrorWithReason("time out"));
               });
               setState(() {
                 _user = null;

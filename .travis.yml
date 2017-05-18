@@ -5,16 +5,26 @@ os:
   - linux
 jdk:
   -  oraclejdk8
+#
+
 script:
   - flutter build apk
+  - flutter build aot
+  - flutter build flx
+#
+
 before_install:
   - git clone -b alpha https://github.com/flutter/flutter.git
   - wget http://services.gradle.org/distributions/gradle-3.5-bin.zip
   - unzip gradle-3.5-bin.zip
+#
+
 install:
   - export GRADLE_HOME=$PWD/gradle-3.5
   - export PATH=$GRADLE_HOME/bin:$PATH
   - export PATH=./flutter/bin:$PATH
+#
+
 android:
   components:
     - tools
@@ -26,12 +36,17 @@ android:
     - extra-android-m2repository
     - extra-google-m2repository
     - addon-google_apis-google-21
+#
+
 deploy:
   provider: releases
   skip_cleanup: true
   api_key:
     secure: KCBJBtuhB174ZtkLA2NGwG/CjGhj1OD1oznkZOpOlka4HYgxpMeUMrxM66W83ItOD9OfiID50CvZe42XZbH1ODmBcXkpJIlNgaoKd7uEuJykUnDW8OvPsbwjLTvrhXX+SdpnPnxnEddRiYsKwhL0CJUGC4BzT7mbIMDSsQMmJqBrb/f7DM5C0OYT3e/itQ8mvvzOjnU6pdLPI9a6NOKypeOReJXsITJQ5RncUv4Ov3qkzgzQqparPXDsKe25+H5c5s5uFjcEituDspQ1qmXghgn9aSnvpx2q6eyHoTAGbf/AzzGRQAz5WWg/OdeGpQrZvtM9x+BVNF9aFV8PeNHN1Eb4vE3Nftd0gqSEZm9gSnjCA8sbzG91Tj2q82lA8VOFomuVwB5f0VwjtIoybVfeRqysRc5XXJHcqed3gXDbqaX368SnBSDClnctc1BB3iorHTAkLwymxMdMOhEHZe3cgg1eshRixRPR5pxShSnnIoECmd1uzQjCJbitrqQIGTU9HPXrD6Su0aEgNcQtxV29W5yG/pL944YhwcS0dQSk5kt1tc4n9eC2pwoS/mE+0OmPkDA1FO77Esziv1haNxa8neBprT96HhPBrGDVGlG+Fxg34ONhNZ16Cnr4R45fryF0YqAjK//LVmww4duSgQkgFY0PEPNcQcX5XG7vJuzP7Lc=
-  file: build/app/outputs/apk/app-release.apk
+  file:
+    - build/app/outputs/apk/app-release.apk
+    - build/app.flx
   on:
     tags: true
     repo: ice1000/code_wars_android
+#

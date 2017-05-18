@@ -1,13 +1,14 @@
 name: code_wars_android
-description: A new flutter project.
+description: A mobile client for CodeWars.
 
 dependencies:
   path_provider: "^0.2.1+1"
   shared_preferences: "^0.2.0+1"
   url_launcher: "^0.4.2+1"
-
   flutter:
     sdk: flutter
+#
 
 flutter:
   uses-material-design: true
+#
