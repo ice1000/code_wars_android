@@ -8,8 +8,8 @@ jdk:
 #
 
 script:
-  - flutter build apk
   - flutter build aot
+  - flutter build apk
   - flutter build flx
 #
 

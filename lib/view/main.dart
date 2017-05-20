@@ -5,6 +5,7 @@ import 'package:code_wars_android/code_wars/colors.dart';
 import 'package:code_wars_android/util/storage.dart';
 import 'package:code_wars_android/view/settings.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
@@ -27,7 +28,8 @@ class _Page {
     this.icon,
     this.information,
     this.child,
-    this.tabLabel
+    this.tabLabel,
+    this.onClick
   });
 
   String displayWhenEmpty;
@@ -108,6 +110,25 @@ class _MainActivityState extends State<MainActivity>
     _me = new _Page(
       displayWhenEmpty: 'User not set yet.',
       tabLabel: 'Me',
+      icon: Icons.refresh,
+      onClick: () {
+        get(CodeWarsAPI.getUser(_user.username))
+          ..then((val) {
+            setState(() => _performChangeUser(val.body));
+            Navigator.pop(context);
+          })
+          ..timeout(new Duration(seconds: 10))
+          ..catchError(() {
+            SharedPreferences.getInstance().then((sp) {
+              sp.setString(DatabaseKeys.USER, CodeWarsAPI
+                  .getErrorWithReason("time out"));
+            });
+            setState(() {
+              _user = null;
+              Navigator.pop(context);
+            });
+          });
+      },
       information: "Information about yourself on Code Wars.\n"
           "You can change your username.",);
     _allPages = <_Page>[_friends, _kata, _me];
@@ -201,18 +222,19 @@ class _MainActivityState extends State<MainActivity>
                         child: new Text(" $f ", style: new TextStyle(
                             color: CodeWarsColors.red.shade500,
                             fontSize: 16.0)))).toList()))),
+            const ListTile(),
             new ListTile(title: new Text("Challenges", style: new TextStyle(
                 color: CodeWarsColors.white.shade200, fontSize: 24.0))),
             new ListTile(trailing: new Text("${_user.totalAuthored}",
                 style: new TextStyle(
-                    color: CodeWarsColors.red.shade400, fontSize: 22.0)),
+                    color: CodeWarsColors.red.shade400, fontSize: 20.0)),
                 title: new Text("Authored", style: new TextStyle(
-                    color: CodeWarsColors.red.shade400, fontSize: 20.0))),
+                    color: CodeWarsColors.red.shade400, fontSize: 18.0))),
             new ListTile(trailing: new Text("${_user.totalCompleted}",
                 style: new TextStyle(
-                    color: CodeWarsColors.red.shade400, fontSize: 22.0)),
+                    color: CodeWarsColors.red.shade400, fontSize: 20.0)),
                 title: new Text("Completed", style: new TextStyle(
-                    color: CodeWarsColors.red.shade400, fontSize: 20.0))),
+                    color: CodeWarsColors.red.shade400, fontSize: 18.0))),
           ]));
 //    _kata.child = new Scrollbar(child: new ListView());
     return new Scaffold(
