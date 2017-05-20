@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:code_wars_android/code_wars/code_wars.dart';
 import 'package:code_wars_android/code_wars/colors.dart';
 import 'package:code_wars_android/util/storage.dart';
+import 'package:code_wars_android/util/util.dart';
 import 'package:code_wars_android/view/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -112,22 +113,27 @@ class _MainActivityState extends State<MainActivity>
       tabLabel: 'Me',
       icon: Icons.refresh,
       onClick: () {
-        get(CodeWarsAPI.getUser(_user.username))
-          ..then((val) {
-            setState(() => _performChangeUser(val.body));
-            Navigator.pop(context);
-          })
-          ..timeout(new Duration(seconds: 10))
-          ..catchError(() {
-            SharedPreferences.getInstance().then((sp) {
-              sp.setString(DatabaseKeys.USER, CodeWarsAPI
-                  .getErrorWithReason("time out"));
-            });
-            setState(() {
-              _user = null;
+        if (null != _user) {
+          showDialog(context: context, child: new RefreshProgressDialog(
+              CodeWarsColors.black.shade100, width: 100, height: 100),
+              barrierDismissible: false);
+          get(CodeWarsAPI.getUser(_user.username))
+            ..then((val) {
+              setState(() => _performChangeUser(val.body));
               Navigator.pop(context);
+            })
+            ..timeout(new Duration(seconds: 10))
+            ..catchError(() {
+              SharedPreferences.getInstance().then((sp) {
+                sp.setString(DatabaseKeys.USER, CodeWarsAPI
+                    .getErrorWithReason("time out"));
+              });
+              setState(() {
+                _user = null;
+                Navigator.pop(context);
+              });
             });
-          });
+        }
       },
       information: "Information about yourself on Code Wars.\n"
           "You can change your username.",);
