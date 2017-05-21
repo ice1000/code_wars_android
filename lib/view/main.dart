@@ -195,10 +195,8 @@ class _MainActivityState extends State<MainActivity>
 
   @override
   Widget build(BuildContext context) {
-    if (null != _user)
-      _me.child = new Scrollbar(child: new ListView(
-          padding: new EdgeInsets.symmetric(vertical: 0.0),
-          primary: false, itemExtent: 30.0, children: [
+    if (null != _user) {
+      var list = <Widget>[
         new ListTile(title: new Text(_user.name, style: new TextStyle(
             color: _textColor, fontSize: 32.0)),
             trailing: new Text("\n${_user.username}", style: new TextStyle(
@@ -216,14 +214,21 @@ class _MainActivityState extends State<MainActivity>
             title: new Text("LeaderBoard Rank", style: new TextStyle(
                 color: _importantColor, fontSize: 20.0))),
         const ListTile(),
+        new ListTile(title: new Text("Overall", style: new TextStyle(
+            color: _textColor, fontSize: 24.0))),
+        new ListTile(title: new Text("Score: ${_user.overall.score}",
+            style: new TextStyle(color: _importantColor, fontSize: 20.0)),
+            trailing: new Text("<${_user.overall.name}>", style:
+            new TextStyle(color: _importantColor, fontSize: 20.0)),
+            dense: true),
+        const ListTile(),
         new ListTile(title: new Text("Skills:", style: new TextStyle(
             color: _textColor, fontSize: 24.0))),
-        new ListTile(title: new Scrollbar(
-            child: new ListView(scrollDirection: Axis.horizontal, children:
-            _user.skills.map((f) =>
-            new Card(elevation: 1.5, color: _textColor, child: new Text(" $f ",
-                style: new TextStyle(color: _background, fontSize: 16.0))))
-                .toList()))),
+        new ListTile(title: new ListView(scrollDirection: Axis.horizontal,
+            children: _user.skills.map((f) =>
+            new Card(elevation: 1.5, color:
+            _textColor, child: new Text(" $f ", style: new TextStyle(color:
+            _background, fontSize: 16.0)))).toList())),
         const ListTile(),
         new ListTile(title: new Text("Challenges", style: new TextStyle(
             color: _textColor, fontSize: 24.0))),
@@ -238,11 +243,19 @@ class _MainActivityState extends State<MainActivity>
         const ListTile(),
         new ListTile(title: new Text("Languages", style: new TextStyle(
             color: _textColor, fontSize: 24.0))),
-        new ListView.builder(itemBuilder: (context, id) =>
-        new Card(elevation: 3.0, color: _textColor, child: new ListTile(
-            title: new Text(_user.ranks[id].name)
-        )), itemCount: _user.ranks.length)
-      ]));
+      ];
+      _user.langsRank.forEach((rank) {
+        list.add(new ListTile(dense: true, title: new Text("${rank.lang}",
+            style: new TextStyle(color: _background, fontSize: 18.0))));
+        list.add(new ListTile(dense: true, title: new Text("<${rank.name}>",
+            style: new TextStyle(color: _importantColor, fontSize: 18.0)),
+            trailing: new Text("${rank.score}", style: new TextStyle(
+                color: _importantColor, fontSize: 18.0))),);
+      });
+      _me.child = new ListView(
+          padding: new EdgeInsets.symmetric(vertical: 0.0),
+          primary: false, itemExtent: 30.0, children: list);
+    }
 //    _kata.child = new Scrollbar(child: new ListView());
     return new Scaffold(
       key: _scaffoldKey,
@@ -255,50 +268,17 @@ class _MainActivityState extends State<MainActivity>
               });
             }),
             new IconButton(icon: new Icon(Icons.bug_report), onPressed: () {
-              _performChangeUser("""{
-  "username": "ice1000",
-  "name": "千里冰封",
-  "honor": 935,
-  "clan": "Gensokyo",
-  "leaderboardPosition": 4552,
-  "skills": [
-    "haskell",
-    "cross dress",
-    "sell moe"
-  ],
-  "ranks": {
-    "overall": {
-      "rank": -4,
-      "name": "4 kyu",
-      "color": "blue",
-      "score": 1296
-    },
-    "languages": {
-      "java": {
-        "rank": -8,
-        "name": "8 kyu",
-        "color": "white",
-        "score": 2
-      },
-      "dart": {
-        "rank": -8,
-        "name": "8 kyu",
-        "color": "white",
-        "score": 3
-      },
-      "haskell": {
-        "rank": -4,
-        "name": "4 kyu",
-        "color": "blue",
-        "score": 1291
-      }
-    }
-  },
-  "codeChallenges": {
-    "totalAuthored": 0,
-    "totalCompleted": 89
-  }
-}""");
+              setState(() {
+                _performChangeUser("""
+{"username": "ice1000","name": "千里冰封","honor": 935,"clan": "Gensokyo",
+"leaderboardPosition": 4552,"skills": ["haskell","cross dress","sell moe"],
+"ranks": {"overall": {"rank": -4,"name": "4 kyu","color": "blue","score":
+1296},"languages": {
+"java": {"rank": -8,"name": "8 kyu","color": "white","score": 2 },
+"dart": {"rank": -8,"name": "8 kyu","color": "white","score": 3},
+"haskell": {"rank": -4,"name": "4 kyu","color": "blue","score": 1291}}},
+  "codeChallenges": {"totalAuthored": 0,"totalCompleted": 89}}""");
+              });
             }),
           ],
           bottom: new TabBar(

@@ -87,7 +87,8 @@ class CodeWarsUser {
   int totalAuthored;
   int totalCompleted;
   List<String> skills = const[];
-  List<Rank> ranks;
+  Rank overall;
+  List<Rank> langsRank;
 
   CodeWarsUser();
 
@@ -101,8 +102,11 @@ class CodeWarsUser {
     if (null == skills || skills.isEmpty) skills = const[" no skills found "];
     totalAuthored = json['codeChallenges']['totalAuthored'];
     totalCompleted = json['codeChallenges']['totalCompleted'];
-    Map _ranks = json['ranks'];
-    ranks = _ranks.keys.map((key) =>
+    var _overall = json['ranks']['overall'];
+    overall = new Rank(_overall['rank'], _overall['name'], _overall['color'],
+        _overall['score'], _overall['lang']);
+    Map _ranks = json['ranks']['languages'];
+    langsRank = _ranks.keys.map((key) =>
     new Rank(_ranks[key]['rank'], _ranks[key]['name'], _ranks[key]['color'],
         _ranks[key]['score'], key)).toList();
   }
