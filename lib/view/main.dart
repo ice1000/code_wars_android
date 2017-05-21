@@ -218,11 +218,12 @@ class _MainActivityState extends State<MainActivity>
         const ListTile(),
         new ListTile(title: new Text("Skills:", style: new TextStyle(
             color: _textColor, fontSize: 24.0))),
-        new ListTile(title: new ListView(scrollDirection: Axis.horizontal,
-            children: _user.skills.map((f) =>
-            new Card(elevation: 1.5, color: _textColor,
-                child: new Text(" $f ", style: new TextStyle(
-                    color: _background, fontSize: 16.0)))).toList())),
+        new ListTile(title: new Scrollbar(
+            child: new ListView(scrollDirection: Axis.horizontal, children:
+            _user.skills.map((f) =>
+            new Card(elevation: 1.5, color: _textColor, child: new Text(" $f ",
+                style: new TextStyle(color: _background, fontSize: 16.0))))
+                .toList()))),
         const ListTile(),
         new ListTile(title: new Text("Challenges", style: new TextStyle(
             color: _textColor, fontSize: 24.0))),
@@ -237,9 +238,10 @@ class _MainActivityState extends State<MainActivity>
         const ListTile(),
         new ListTile(title: new Text("Languages", style: new TextStyle(
             color: _textColor, fontSize: 24.0))),
-        new ListView.builder(itemBuilder: (context, id) {
-          return new Card()
-        }, itemCount: _user.ranks.length)
+        new ListView.builder(itemBuilder: (context, id) =>
+        new Card(elevation: 3.0, color: _textColor, child: new ListTile(
+            title: new Text(_user.ranks[id].name)
+        )), itemCount: _user.ranks.length)
       ]));
 //    _kata.child = new Scrollbar(child: new ListView());
     return new Scaffold(
