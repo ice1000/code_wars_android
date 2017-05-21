@@ -12,9 +12,12 @@ You can view information about yourself and someone else by giving the username.
 
 Please go to the [release page](https://github.com/ice1000/code_wars_android/releases).
 
+The apk and flx are uploaded by Travis CI automatically.
+
 ## Progress
 
-- [X] Display user basic data
+- [X] Display user basic information
+- [X] Display user details
 - [ ] Display user completed katas
 - [ ] Display collections of other users
 - [X] View source

@@ -269,19 +269,7 @@ class _MainActivityState extends State<MainActivity>
                 setState(_changeAh);
               });
             }),
-            new IconButton(icon: new Icon(Icons.bug_report), onPressed: () {
-              setState(() {
-                _performChangeUser("""
-{"username": "ice1000","name": "千里冰封","honor": 935,"clan": "Gensokyo",
-"leaderboardPosition": 4552,"skills": ["haskell","cross dress","sell moe"],
-"ranks": {"overall": {"rank": -4,"name": "4 kyu","color": "blue","score":
-1296},"languages": {
-"java": {"rank": -8,"name": "8 kyu","color": "white","score": 2 },
-"dart": {"rank": -8,"name": "8 kyu","color": "white","score": 3},
-"haskell": {"rank": -4,"name": "4 kyu","color": "blue","score": 1291}}},
-  "codeChallenges": {"totalAuthored": 0,"totalCompleted": 89}}""");
-              });
-            }),
+            _debugDataSourceButton(),
           ],
           bottom: new TabBar(
             controller: _tabController,
@@ -300,4 +288,19 @@ class _MainActivityState extends State<MainActivity>
               .map(buildTabView)
               .toList()),);
   }
+
+  _debugDataSourceButton() =>
+      new IconButton(icon: new Icon(Icons.bug_report), onPressed: () {
+        setState(() {
+          _performChangeUser("""
+{"username": "ice1000","name": "千里冰封","honor": 935,"clan": "Gensokyo",
+"leaderboardPosition": 4552,"skills": ["haskell","cross dress","sell moe"],
+"ranks": {"overall": {"rank": -4,"name": "4 kyu","color": "blue","score":
+1296},"languages": {
+"java": {"rank": -8,"name": "8 kyu","color": "white","score": 2 },
+"dart": {"rank": -8,"name": "8 kyu","color": "white","score": 3},
+"haskell": {"rank": -4,"name": "4 kyu","color": "blue","score": 1291}}},
+  "codeChallenges": {"totalAuthored": 0,"totalCompleted": 89}}""");
+        });
+      });
 }
