@@ -105,7 +105,7 @@ class SettingsState extends State<SettingsView> {
               style: new TextStyle(color: _textColor)),
               subtitle: new Text(_user?.username ?? "Unknown",
                   style: new TextStyle(color: _textColor)),
-              trailing: new IconButton(
+              dense: true, trailing: new IconButton(
                   icon: new Icon(Icons.edit), onPressed: _changeUserName)),
           new ExpansionTile(title: new Text("App info",
               style: new TextStyle(color: _textColor)), children: [
@@ -126,7 +126,7 @@ class SettingsState extends State<SettingsView> {
                 }),
             new ListTile(dense: true, title: new Text("Open CodeWars",
                 style: new TextStyle(color: _textColor)),
-                onTap: () => _viewWeb('https://www.codewars.com/'))
+                onTap: () => _viewWeb('https://www.codewars.com/')),
           ])
         ]));
   }

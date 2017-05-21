@@ -104,7 +104,7 @@ class CodeWarsUser {
     Map _ranks = json['ranks'];
     ranks = _ranks.keys.map((key) =>
     new Rank(_ranks[key]['rank'], _ranks[key]['name'], _ranks[key]['color'],
-        _ranks[key]['score'], key));
+        _ranks[key]['score'], key)).toList();
   }
 }
 

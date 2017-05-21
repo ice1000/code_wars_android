@@ -72,6 +72,8 @@ class _MainActivityState extends State<MainActivity>
     with SingleTickerProviderStateMixin {
   final _scaffoldKey = new GlobalKey<ScaffoldState>();
   final Color _background = CodeWarsColors.main.shade50;
+  final Color _textColor = CodeWarsColors.notSoImportant.shade600;
+  final Color _importantColor = CodeWarsColors.notSoImportant.shade800;
   final String _title;
   List<_Page> _allPages;
   _Page _friends;
@@ -200,47 +202,57 @@ class _MainActivityState extends State<MainActivity>
           itemExtent: 30.0,
           children: [
             new ListTile(title: new Text(_user.name, style: new TextStyle(
-                color: CodeWarsColors.notSoImportant.shade600, fontSize: 32.0)),
+                color: _textColor, fontSize: 32.0)),
                 trailing: new Text("\n${_user.username}", style: new TextStyle(
-                    color: CodeWarsColors.notSoImportant.shade600, fontSize: 16.0))),
+                    color: _textColor,
+                    fontSize: 16.0))),
             new ListTile(
                 title: new Text("\n${_user.clan}", style: new TextStyle(
-                    color: CodeWarsColors.notSoImportant.shade600, fontSize: 16.0))),
+                    color: _textColor,
+                    fontSize: 16.0))),
             const ListTile(),
             new ListTile(trailing: new Text("${_user.honor}",
                 style: new TextStyle(
-                    color: CodeWarsColors.important.shade800, fontSize: 22.0)),
+                    color: _importantColor, fontSize: 22.0)),
                 title: new Text("Honor", style: new TextStyle(
-                    color: CodeWarsColors.important.shade800, fontSize: 20.0))),
+                    color: _importantColor, fontSize: 20.0))),
             new ListTile(trailing: new Text("${_user.leaderboardPosition}",
                 style: new TextStyle(
-                    color: CodeWarsColors.important.shade800, fontSize: 22.0)),
+                    color: _importantColor, fontSize: 22.0)),
                 title: new Text("LeaderBoard Rank", style: new TextStyle(
-                    color: CodeWarsColors.important.shade800, fontSize: 20.0))),
+                    color: _importantColor, fontSize: 20.0))),
             const ListTile(),
             new ListTile(title: new Text("Skills:", style: new TextStyle(
-                color: CodeWarsColors.notSoImportant.shade600, fontSize: 24.0))),
+                color: _textColor,
+                fontSize: 24.0))),
             new ListTile(title: new Scrollbar(
                 child: new ListView(scrollDirection: Axis.horizontal,
                     children: _user.skills.map((f) =>
                     new Card(elevation: 1.5,
-                        color: CodeWarsColors.notSoImportant.shade800,
+                        color: _textColor,
                         child: new Text(" $f ", style: new TextStyle(
-                            color: CodeWarsColors.important.shade500,
+                            color: _background,
                             fontSize: 16.0)))).toList()))),
             const ListTile(),
             new ListTile(title: new Text("Challenges", style: new TextStyle(
-                color: CodeWarsColors.notSoImportant.shade600, fontSize: 24.0))),
+                color: _textColor, fontSize: 24.0))),
             new ListTile(trailing: new Text("${_user.totalAuthored}",
                 style: new TextStyle(
-                    color: CodeWarsColors.important.shade800, fontSize: 20.0)),
+                    color: _importantColor, fontSize: 20.0)),
                 title: new Text("Authored", style: new TextStyle(
-                    color: CodeWarsColors.important.shade800, fontSize: 18.0))),
+                    color: _importantColor, fontSize: 18.0))),
             new ListTile(trailing: new Text("${_user.totalCompleted}",
                 style: new TextStyle(
-                    color: CodeWarsColors.important.shade800, fontSize: 20.0)),
+                    color: _importantColor, fontSize: 20.0)),
                 title: new Text("Completed", style: new TextStyle(
-                    color: CodeWarsColors.important.shade800, fontSize: 18.0))),
+                    color: _importantColor, fontSize: 18.0))),
+            const ListTile(),
+            new ListTile(title: new Text("Languages", style: new TextStyle(
+                color: _textColor, fontSize: 24.0))),
+            new ListView.builder(itemBuilder: (context, id) {
+//            TODO
+//            return new ListTile(_user.ranks[id])
+            }, itemCount: _user.ranks.length)
           ]));
 //    _kata.child = new Scrollbar(child: new ListView());
     return new Scaffold(
@@ -252,7 +264,53 @@ class _MainActivityState extends State<MainActivity>
               Navigator.of(context).push(new SettingsActivity()).then((_) {
                 setState(_changeAh);
               });
-            })
+            }),
+            new IconButton(icon: new Icon(Icons.bug_report), onPressed: () {
+              _performChangeUser("""{
+  "username": "ice1000",
+  "name": "千里冰封",
+  "honor": 935,
+  "clan": "Gensokyo",
+  "leaderboardPosition": 4552,
+  "skills": [
+    "haskell",
+    "cross dress",
+    "sell moe"
+  ],
+  "ranks": {
+    "overall": {
+      "rank": -4,
+      "name": "4 kyu",
+      "color": "blue",
+      "score": 1296
+    },
+    "languages": {
+      "java": {
+        "rank": -8,
+        "name": "8 kyu",
+        "color": "white",
+        "score": 2
+      },
+      "dart": {
+        "rank": -8,
+        "name": "8 kyu",
+        "color": "white",
+        "score": 3
+      },
+      "haskell": {
+        "rank": -4,
+        "name": "4 kyu",
+        "color": "blue",
+        "score": 1291
+      }
+    }
+  },
+  "codeChallenges": {
+    "totalAuthored": 0,
+    "totalCompleted": 89
+  }
+}""");
+            }),
           ],
           bottom: new TabBar(
             controller: _tabController,
