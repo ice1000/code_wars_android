@@ -24,6 +24,7 @@ class CodeWarsColors {
   );
   static const _codeWarsBlackPrimaryValue = 0xFF303133;
 
-  static const MaterialColor red = Colors.red;
-  static const MaterialColor white = Colors.grey;
+  static const MaterialColor main = Colors.indigo;
+  static const MaterialColor important = Colors.grey;
+  static const MaterialColor notSoImportant = Colors.blueGrey;
 }

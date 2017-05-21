@@ -25,7 +25,7 @@ class SettingsView extends StatefulWidget {
 class SettingsState extends State<SettingsView> {
   CodeWarsUser _user;
   String _title = "Settings";
-  Color textColor = CodeWarsColors.black.shade700;
+  Color _textColor = CodeWarsColors.notSoImportant;
   TextEditingController _usernameEditingController;
 
   SettingsState(this._title);
@@ -56,7 +56,7 @@ class SettingsState extends State<SettingsView> {
         new FlatButton(onPressed: () {
           Navigator.pop(context);
           showDialog(context: context, child: new RefreshProgressDialog(
-              CodeWarsColors.black.shade100, width: 100, height: 100),
+              CodeWarsColors.main.shade100, width: 100, height: 100),
               barrierDismissible: false);
           get(CodeWarsAPI.getUser(_usernameEditingController.text))
             ..then((val) {
@@ -95,12 +95,12 @@ class SettingsState extends State<SettingsView> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(title: new Text(_title)),
-        backgroundColor: CodeWarsColors.black.shade200,
+        backgroundColor: CodeWarsColors.main.shade200,
         body: new ListView(primary: false, children: [
           new ListTile(title: new Text("Change user name",
-              style: new TextStyle(color: textColor)),
+              style: new TextStyle(color: _textColor)),
               subtitle: new Text(_user?.username ?? "Unknown",
-                  style: new TextStyle(color: textColor)),
+                  style: new TextStyle(color: _textColor)),
               trailing: new IconButton(
                   icon: new Icon(Icons.edit), onPressed: _changeUserName)),
           new ExpansionTile(title: new Text("App info"), children: [
