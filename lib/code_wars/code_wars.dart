@@ -74,6 +74,10 @@ class CodeWarsAPI {
 }
 */
 
+///
+/// represents a user of code wars
+/// containing data read from api
+///
 class CodeWarsUser {
   String username = "";
   String name = "";
@@ -104,6 +108,9 @@ class CodeWarsUser {
   }
 }
 
+///
+/// represents rank of a single language
+///
 class Rank {
   int rank;
   String name;
@@ -137,3 +144,19 @@ class Rank {
   ]
 }
  */
+
+class Completed {
+  String id;
+  String name;
+  String slug;
+  List<String> completedLanguages;
+
+  Completed(this.id, this.name, this.slug, this.completedLanguages);
+
+  static List<Completed> fromJson(Map json) {
+    List<Map> ls = json['completedCodeChallenges'];
+    return ls.map((map) =>
+    new Completed(
+        map['id'], map['name'], map['slug'], map['completedLanguages']));
+  }
+}

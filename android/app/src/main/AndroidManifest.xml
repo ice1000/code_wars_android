@@ -15,7 +15,7 @@
 			android:label="Code Wars"
 			android:icon="@mipmap/ic_launcher"
 			android:fullBackupContent="true"
-			android:allowBackup="false"
+			android:allowBackup="true"
 			tools:ignore="GoogleAppIndexingWarning">
 		<activity
 				android:name="org.ice1000.code_wars_android.MainActivity"
