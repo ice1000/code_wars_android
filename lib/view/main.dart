@@ -245,13 +245,15 @@ class _MainActivityState extends State<MainActivity>
             color: _textColor, fontSize: 24.0))),
       ];
       _user.langsRank.forEach((rank) {
-        list.add(new ListTile(dense: true, title: new Text("${rank.lang}",
-            style: new TextStyle(color: _background, fontSize: 18.0))));
-        list.add(new ListTile(dense: true, title: new Text("<${rank.name}>",
-            style: new TextStyle(color: _importantColor, fontSize: 18.0)),
-            trailing: new Text("${rank.score}", style: new TextStyle(
-                color: _importantColor, fontSize: 18.0))),);
+        debugPrint(rank.lang);
+        list.add(new ListTile(dense: true,
+            title: new Text("${rank.lang}\n", style: new TextStyle(color:
+            _importantColor, fontSize: 18.0)), trailing:
+            new Text("${rank.score} <${rank.name}>", style: new TextStyle(
+                color: _importantColor, fontSize: 14.0))));
       });
+      list.add(const ListTile());
+      list.add(const ListTile());
       _me.child = new ListView(
           padding: new EdgeInsets.symmetric(vertical: 0.0),
           primary: false, itemExtent: 30.0, children: list);
