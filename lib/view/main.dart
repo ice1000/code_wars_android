@@ -198,62 +198,49 @@ class _MainActivityState extends State<MainActivity>
     if (null != _user)
       _me.child = new Scrollbar(child: new ListView(
           padding: new EdgeInsets.symmetric(vertical: 0.0),
-          primary: false,
-          itemExtent: 30.0,
-          children: [
-            new ListTile(title: new Text(_user.name, style: new TextStyle(
-                color: _textColor, fontSize: 32.0)),
-                trailing: new Text("\n${_user.username}", style: new TextStyle(
-                    color: _textColor,
-                    fontSize: 16.0))),
-            new ListTile(
-                title: new Text("\n${_user.clan}", style: new TextStyle(
-                    color: _textColor,
-                    fontSize: 16.0))),
-            const ListTile(),
-            new ListTile(trailing: new Text("${_user.honor}",
-                style: new TextStyle(
-                    color: _importantColor, fontSize: 22.0)),
-                title: new Text("Honor", style: new TextStyle(
-                    color: _importantColor, fontSize: 20.0))),
-            new ListTile(trailing: new Text("${_user.leaderboardPosition}",
-                style: new TextStyle(
-                    color: _importantColor, fontSize: 22.0)),
-                title: new Text("LeaderBoard Rank", style: new TextStyle(
-                    color: _importantColor, fontSize: 20.0))),
-            const ListTile(),
-            new ListTile(title: new Text("Skills:", style: new TextStyle(
-                color: _textColor,
-                fontSize: 24.0))),
-            new ListTile(title: new Scrollbar(
-                child: new ListView(scrollDirection: Axis.horizontal,
-                    children: _user.skills.map((f) =>
-                    new Card(elevation: 1.5,
-                        color: _textColor,
-                        child: new Text(" $f ", style: new TextStyle(
-                            color: _background,
-                            fontSize: 16.0)))).toList()))),
-            const ListTile(),
-            new ListTile(title: new Text("Challenges", style: new TextStyle(
-                color: _textColor, fontSize: 24.0))),
-            new ListTile(trailing: new Text("${_user.totalAuthored}",
-                style: new TextStyle(
-                    color: _importantColor, fontSize: 20.0)),
-                title: new Text("Authored", style: new TextStyle(
-                    color: _importantColor, fontSize: 18.0))),
-            new ListTile(trailing: new Text("${_user.totalCompleted}",
-                style: new TextStyle(
-                    color: _importantColor, fontSize: 20.0)),
-                title: new Text("Completed", style: new TextStyle(
-                    color: _importantColor, fontSize: 18.0))),
-            const ListTile(),
-            new ListTile(title: new Text("Languages", style: new TextStyle(
-                color: _textColor, fontSize: 24.0))),
-            new ListView.builder(itemBuilder: (context, id) {
-//            TODO
-//            return new ListTile(_user.ranks[id])
-            }, itemCount: _user.ranks.length)
-          ]));
+          primary: false, itemExtent: 30.0, children: [
+        new ListTile(title: new Text(_user.name, style: new TextStyle(
+            color: _textColor, fontSize: 32.0)),
+            trailing: new Text("\n${_user.username}", style: new TextStyle(
+                color: _textColor, fontSize: 16.0))),
+        new ListTile(
+            title: new Text("\n${_user.clan}", style: new TextStyle(
+                color: _textColor, fontSize: 16.0))),
+        const ListTile(),
+        new ListTile(trailing: new Text("${_user.honor}",
+            style: new TextStyle(color: _importantColor, fontSize: 22.0)),
+            title: new Text("Honor", style: new TextStyle(
+                color: _importantColor, fontSize: 20.0))),
+        new ListTile(trailing: new Text("${_user.leaderboardPosition}",
+            style: new TextStyle(color: _importantColor, fontSize: 22.0)),
+            title: new Text("LeaderBoard Rank", style: new TextStyle(
+                color: _importantColor, fontSize: 20.0))),
+        const ListTile(),
+        new ListTile(title: new Text("Skills:", style: new TextStyle(
+            color: _textColor, fontSize: 24.0))),
+        new ListTile(title: new ListView(scrollDirection: Axis.horizontal,
+            children: _user.skills.map((f) =>
+            new Card(elevation: 1.5, color: _textColor,
+                child: new Text(" $f ", style: new TextStyle(
+                    color: _background, fontSize: 16.0)))).toList())),
+        const ListTile(),
+        new ListTile(title: new Text("Challenges", style: new TextStyle(
+            color: _textColor, fontSize: 24.0))),
+        new ListTile(trailing: new Text("${_user.totalAuthored}",
+            style: new TextStyle(color: _importantColor, fontSize: 20.0)),
+            title: new Text("Authored", style: new TextStyle(
+                color: _importantColor, fontSize: 18.0))),
+        new ListTile(trailing: new Text("${_user.totalCompleted}",
+            style: new TextStyle(color: _importantColor, fontSize: 20.0)),
+            title: new Text("Completed", style: new TextStyle(
+                color: _importantColor, fontSize: 18.0))),
+        const ListTile(),
+        new ListTile(title: new Text("Languages", style: new TextStyle(
+            color: _textColor, fontSize: 24.0))),
+        new ListView.builder(itemBuilder: (context, id) {
+          return new Card()
+        }, itemCount: _user.ranks.length)
+      ]));
 //    _kata.child = new Scrollbar(child: new ListView());
     return new Scaffold(
       key: _scaffoldKey,
