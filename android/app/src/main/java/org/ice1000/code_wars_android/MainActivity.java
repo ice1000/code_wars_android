@@ -15,6 +15,8 @@ public class MainActivity extends FlutterActivity {
 
 	/**
 	 * To do some log jobs
+	 * <p>
+	 * Here it's used to do some log
 	 *
 	 * @param savedInstanceState saved state
 	 */
@@ -27,10 +29,20 @@ public class MainActivity extends FlutterActivity {
 
 	/**
 	 * To do some log jobs
+	 * <p>
+	 * Here it's used to do some log
 	 */
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		Log.i(toString(), "app exited (logged by ice1000)");
+	}
+
+	/**
+	 * This method is interesting.
+	 */
+	@Override
+	protected void onFlutterReady() {
+		super.onFlutterReady();
 	}
 }
