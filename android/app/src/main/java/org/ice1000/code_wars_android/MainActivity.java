@@ -6,11 +6,31 @@ import android.util.Log;
 import io.flutter.app.FlutterActivity;
 import io.flutter.plugins.GeneratedPluginRegistrant;
 
+/**
+ * Android Main Activity
+ *
+ * @author ice1000
+ */
 public class MainActivity extends FlutterActivity {
+
+	/**
+	 * To do some log jobs
+	 *
+	 * @param savedInstanceState saved state
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		GeneratedPluginRegistrant.registerWith(this);
 		Log.i(toString(), "app started (logged by ice1000)");
+	}
+
+	/**
+	 * To do some log jobs
+	 */
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Log.i(toString(), "app exited (logged by ice1000)");
 	}
 }
