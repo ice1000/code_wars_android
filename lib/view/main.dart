@@ -71,7 +71,7 @@ class MainActivity extends StatefulWidget {
 class _MainActivityState extends State<MainActivity>
     with SingleTickerProviderStateMixin {
   final _scaffoldKey = new GlobalKey<ScaffoldState>();
-  final Color _background = CodeWarsColors.main.shade100;
+  final Color _background = CodeWarsColors.main.shade50;
   final String _title;
   List<_Page> _allPages;
   _Page _friends;
@@ -200,47 +200,47 @@ class _MainActivityState extends State<MainActivity>
           itemExtent: 30.0,
           children: [
             new ListTile(title: new Text(_user.name, style: new TextStyle(
-                color: CodeWarsColors.notSoImportant.shade200, fontSize: 32.0)),
+                color: CodeWarsColors.notSoImportant.shade600, fontSize: 32.0)),
                 trailing: new Text("\n${_user.username}", style: new TextStyle(
-                    color: CodeWarsColors.notSoImportant.shade200, fontSize: 16.0))),
+                    color: CodeWarsColors.notSoImportant.shade600, fontSize: 16.0))),
             new ListTile(
                 title: new Text("\n${_user.clan}", style: new TextStyle(
-                    color: CodeWarsColors.notSoImportant.shade200, fontSize: 16.0))),
+                    color: CodeWarsColors.notSoImportant.shade600, fontSize: 16.0))),
             const ListTile(),
             new ListTile(trailing: new Text("${_user.honor}",
                 style: new TextStyle(
-                    color: CodeWarsColors.important.shade400, fontSize: 22.0)),
+                    color: CodeWarsColors.important.shade800, fontSize: 22.0)),
                 title: new Text("Honor", style: new TextStyle(
-                    color: CodeWarsColors.important.shade400, fontSize: 20.0))),
+                    color: CodeWarsColors.important.shade800, fontSize: 20.0))),
             new ListTile(trailing: new Text("${_user.leaderboardPosition}",
                 style: new TextStyle(
-                    color: CodeWarsColors.important.shade400, fontSize: 22.0)),
+                    color: CodeWarsColors.important.shade800, fontSize: 22.0)),
                 title: new Text("LeaderBoard Rank", style: new TextStyle(
-                    color: CodeWarsColors.important.shade400, fontSize: 20.0))),
+                    color: CodeWarsColors.important.shade800, fontSize: 20.0))),
             const ListTile(),
             new ListTile(title: new Text("Skills:", style: new TextStyle(
-                color: CodeWarsColors.notSoImportant.shade200, fontSize: 24.0))),
+                color: CodeWarsColors.notSoImportant.shade600, fontSize: 24.0))),
             new ListTile(title: new Scrollbar(
                 child: new ListView(scrollDirection: Axis.horizontal,
                     children: _user.skills.map((f) =>
                     new Card(elevation: 1.5,
-                        color: CodeWarsColors.notSoImportant.shade400,
+                        color: CodeWarsColors.notSoImportant.shade800,
                         child: new Text(" $f ", style: new TextStyle(
                             color: CodeWarsColors.important.shade500,
                             fontSize: 16.0)))).toList()))),
             const ListTile(),
             new ListTile(title: new Text("Challenges", style: new TextStyle(
-                color: CodeWarsColors.notSoImportant.shade200, fontSize: 24.0))),
+                color: CodeWarsColors.notSoImportant.shade600, fontSize: 24.0))),
             new ListTile(trailing: new Text("${_user.totalAuthored}",
                 style: new TextStyle(
-                    color: CodeWarsColors.important.shade400, fontSize: 20.0)),
+                    color: CodeWarsColors.important.shade800, fontSize: 20.0)),
                 title: new Text("Authored", style: new TextStyle(
-                    color: CodeWarsColors.important.shade400, fontSize: 18.0))),
+                    color: CodeWarsColors.important.shade800, fontSize: 18.0))),
             new ListTile(trailing: new Text("${_user.totalCompleted}",
                 style: new TextStyle(
-                    color: CodeWarsColors.important.shade400, fontSize: 20.0)),
+                    color: CodeWarsColors.important.shade800, fontSize: 20.0)),
                 title: new Text("Completed", style: new TextStyle(
-                    color: CodeWarsColors.important.shade400, fontSize: 18.0))),
+                    color: CodeWarsColors.important.shade800, fontSize: 18.0))),
           ]));
 //    _kata.child = new Scrollbar(child: new ListView());
     return new Scaffold(
