@@ -7,7 +7,6 @@ import 'package:code_wars_android/view/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 // ignore: must_be_immutable
 class MyApplication extends StatelessWidget {
   var mainTitle = 'Code Wars';
@@ -215,6 +214,7 @@ class _MainActivityState extends State<MainActivity>
                 title: new Text("Completed", style: new TextStyle(
                     color: CodeWarsColors.red.shade400, fontSize: 20.0))),
           ]));
+//    _kata.child = new Scrollbar(child: new ListView());
     return new Scaffold(
       key: _scaffoldKey,
       appBar: new AppBar(
@@ -236,14 +236,11 @@ class _MainActivityState extends State<MainActivity>
           tooltip: 'Show explanation',
           backgroundColor: _selectedPage.fabColor,
           child: _selectedPage.createIcon,
-          onPressed: _selectedPage.onClick ?? _showExplanatoryText
-      ),
+          onPressed: _selectedPage.onClick ?? _showExplanatoryText),
       body: new TabBarView(
           controller: _tabController,
           children: _allPages
               .map(buildTabView)
-              .toList()
-      ),
-    );
+              .toList()),);
   }
 }
