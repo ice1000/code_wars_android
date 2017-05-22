@@ -2,9 +2,9 @@
 
 [![Build Status](https://travis-ci.org/ice1000/code_wars_android.svg?branch=master)](https://travis-ci.org/ice1000/code_wars_android)
 
-A Mobile client for Code Wars.
+A Mobile client for [Code Wars](https://www.codewars.com).
 
-It's entirely under development.
+This app is entirely under development.
 
 You can view information about yourself and someone else by giving the username.
 
@@ -20,3 +20,9 @@ Please go to the [release page](https://github.com/ice1000/code_wars_android/rel
 - [X] View source
 - [X] Settings
 - [X] Change Username
+
+## About
+
+I practise my Haskell skills on Code Wars:
+
+[![](https://www.codewars.com/users/ice1000/badges/large)](https://www.codewars.com/users/ice1000)
