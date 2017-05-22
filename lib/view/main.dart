@@ -202,6 +202,18 @@ class _MainActivityState extends State<MainActivity>
                         child: new Text(" $f ", style: new TextStyle(
                             color: CodeWarsColors.red.shade500,
                             fontSize: 16.0)))).toList()))),
+            new ListTile(title: new Text("Challenges", style: new TextStyle(
+                color: CodeWarsColors.white.shade200, fontSize: 24.0))),
+            new ListTile(trailing: new Text("${_user.totalAuthored}",
+                style: new TextStyle(
+                    color: CodeWarsColors.red.shade400, fontSize: 22.0)),
+                title: new Text("Authored", style: new TextStyle(
+                    color: CodeWarsColors.red.shade400, fontSize: 20.0))),
+            new ListTile(trailing: new Text("${_user.totalCompleted}",
+                style: new TextStyle(
+                    color: CodeWarsColors.red.shade400, fontSize: 22.0)),
+                title: new Text("Completed", style: new TextStyle(
+                    color: CodeWarsColors.red.shade400, fontSize: 20.0))),
           ]));
     return new Scaffold(
       key: _scaffoldKey,
