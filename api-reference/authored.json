@@ -1,0 +1,90 @@
+{
+	"data": [
+		{
+			"id": "56a2d27f8af7384815000037",
+			"name": "Concatenate two list",
+			"description": "Write a function append, that, given two list l and r, concatenate them into one list.\n\nFor example, append [1,2,3] [2,4,7] = [1,2,3,2,4,7]\n\nThe problem is really easy, basically the functional world equivalent of hello world.\n\nThere're at least four approach, including: \n\n1:calling one of the basic function\n\n2:pattern match explicitly and recurse\n\n3:use fix point combinator\n\n4:use foldl/foldr(yes, either of them can do the job)\n\n",
+			"rank": -7,
+			"rankName": "7 kyu",
+			"tags": [
+				"Fundamentals",
+				"Lists",
+				"Data Structures"
+			],
+			"languages": [
+				"haskell"
+			]
+		},
+		{
+			"id": "5922530af9c157651d0000aa",
+			"name": "Peano and Church",
+			"description": "Is Peano inside a church? Or is Church playing a piano?\n\nWe will go through 4 forumlations of Natural Numbers, including Peano Arithmetic and Church Numeral.\n",
+			"rank": null,
+			"rankName": null,
+			"tags": [
+				"Fundamentals"
+			],
+			"languages": [
+				"haskell"
+			]
+		},
+		{
+			"id": "5917a469c63c187e13000082",
+			"name": "Typing Dynamic Typing",
+			"description": "Haskell has static type, which is very great!\n\nHowever, sometimes we still want dynamic typing, if we do not know the type of a value beforehand. For example, we want dynamic typing if we serialize a Haskell value, or take a Haskell program and evaluate it.\n\nUsing Haskell, there are way to do dynamic typing without using features such as unsafeCoerce.\n\nFollowing the paper [Typing Dynamic Typing](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.193.1552), we will help you to add dynamic type in Haskell, without using unsafe features.\n\nYou do not need to, and should not read the paper to complete the exercise.\nThis might take you a lot of time. Have fun!",
+			"rank": null,
+			"rankName": null,
+			"tags": [
+				"Fundamentals"
+			],
+			"languages": [
+				"haskell"
+			]
+		},
+		{
+			"id": "5917f22dd2563a36a200009c",
+			"name": "Algebraic Isomorphism",
+			"description": "This is the continuation of [Isomorphism](https://www.codewars.com/kata/isomorphism). You need to finish it to do this kata.\n\nThis kata will explain why [Algebraic Data Type](https://en.wikipedia.org/wiki/Algebraic_data_type) get its name.",
+			"rank": null,
+			"rankName": null,
+			"tags": [
+				"Fundamentals",
+				"Functional Programming",
+				"Declarative Programming",
+				"Programming Paradigms"
+			],
+			"languages": [
+				"haskell"
+			]
+		},
+		{
+			"id": "56a4270061589f48aa000012",
+			"name": "Trash",
+			"description": "In this short kata, we will walk you through what is isomorphism.\nIt is best to know algebraic data type, peano arithmetic before doing this.",
+			"rank": null,
+			"rankName": null,
+			"tags": [
+				"Puzzles"
+			],
+			"languages": [
+				"haskell"
+			]
+		},
+		{
+			"id": "5922543bf9c15705d0000020",
+			"name": "Isomorphism",
+			"description": "We will walk through what is isomorphism, and define some common isomorphism.\n\nThis kata possibly unlock [Algebraic Isomorphism](https://www.codewars.com/kata/algebraic-isomorphism/haskell)",
+			"rank": null,
+			"rankName": null,
+			"tags": [
+				"Fundamentals",
+				"Functional Programming",
+				"Declarative Programming",
+				"Programming Paradigms"
+			],
+			"languages": [
+				"haskell"
+			]
+		}
+	]
+}
