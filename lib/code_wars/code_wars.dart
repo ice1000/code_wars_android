@@ -21,59 +21,6 @@ class CodeWarsAPI {
       "{\"success\":false,\"reason\":\"$reason\"}";
 }
 
-/*
-{
-  "success": false,
-  "reason": "not found"
-}
- */
-
-/*
-{
-  "username": "some_user",
-  "name": "Some Person",
-  "honor": 544,
-  "clan": "some clan",
-  "leaderboardPosition": 134,
-  "skills": [
-    "haskell",
-    "kotlin"
-  ],
-  "ranks": {
-    "overall": {
-      "rank": -3,
-      "name": "3 kyu",
-      "color": "blue",
-      "score": 2116
-    },
-    "languages": {
-      "javascript": {
-        "rank": -3,
-        "name": "3 kyu",
-        "color": "blue",
-        "score": 1819
-      },
-      "ruby": {
-        "rank": -4,
-        "name": "4 kyu",
-        "color": "blue",
-        "score": 1005
-      },
-      "coffeescript": {
-        "rank": -4,
-        "name": "4 kyu",
-        "color": "blue",
-        "score": 870
-      }
-    }
-  },
-  "codeChallenges": {
-    "totalAuthored": 3,
-    "totalCompleted": 230
-  }
-}
-*/
-
 ///
 /// represents a user of code wars
 /// containing data read from api

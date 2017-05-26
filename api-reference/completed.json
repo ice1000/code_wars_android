@@ -1,0 +1,950 @@
+{
+	"data": [
+		{
+			"id": "54750ed320c64c64e20002e2",
+			"name": "Singletons",
+			"slug": "singletons",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-25T15:24:45Z"
+		},
+		{
+			"id": "580a094553bd9ec5d800007d",
+			"name": "Alan Partridge II - Apple Turnover",
+			"slug": "alan-partridge-ii-apple-turnover",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-25T10:21:33Z"
+		},
+		{
+			"id": "5808c8eff0ed4210de000008",
+			"name": "Alan Partridge I - Partridge Watch",
+			"slug": "alan-partridge-i-partridge-watch",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-25T10:18:35Z"
+		},
+		{
+			"id": "580a41b6d6df740d6100030c",
+			"name": "Alan Partridge III - London",
+			"slug": "alan-partridge-iii-london",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-25T10:10:44Z"
+		},
+		{
+			"id": "56a1c074f87bc2201200002e",
+			"name": "How many are smaller than me?",
+			"slug": "how-many-are-smaller-than-me",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-25T10:05:12Z"
+		},
+		{
+			"id": "5326ef17b7320ee2e00001df",
+			"name": "Escape the Mines !",
+			"slug": "escape-the-mines",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-25T04:39:32Z"
+		},
+		{
+			"id": "55d1d6d5955ec6365400006d",
+			"name": "Round to the next 5.",
+			"slug": "round-to-the-next-5",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-25T00:33:29Z"
+		},
+		{
+			"id": "58702c0ca44cfc50dc000245",
+			"name": "Pig Atinlay",
+			"slug": "pig-atinlay",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-25T00:28:30Z"
+		},
+		{
+			"id": "525f50e3b73515a6db000b83",
+			"name": "Create Phone Number",
+			"slug": "create-phone-number",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-25T00:25:38Z"
+		},
+		{
+			"id": "57a049e253ba33ac5e000212",
+			"name": "Factorial",
+			"slug": "factorial-1",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-24T15:51:43Z"
+		},
+		{
+			"id": "521c2db8ddc89b9b7a0000c1",
+			"name": "Snail",
+			"slug": "snail",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-24T15:41:16Z"
+		},
+		{
+			"id": "55da6c52a94744b379000036",
+			"name": "Sum up the random string",
+			"slug": "sum-up-the-random-string",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-24T15:24:56Z"
+		},
+		{
+			"id": "525f277c7103571f47000147",
+			"name": "Finding an appointment",
+			"slug": "finding-an-appointment",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-24T14:31:19Z"
+		},
+		{
+			"id": "55c28f7304e3eaebef0000da",
+			"name": "Unfinished Loop -  Bug Fixing #1",
+			"slug": "unfinished-loop-bug-fixing-number-1",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-24T13:41:56Z"
+		},
+		{
+			"id": "5917f22dd2563a36a200009c",
+			"name": "Algebraic Isomorphism",
+			"slug": "algebraic-isomorphism",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-22T16:39:14Z"
+		},
+		{
+			"id": "5922543bf9c15705d0000020",
+			"name": "Isomorphism",
+			"slug": "isomorphism",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-22T14:17:38Z"
+		},
+		{
+			"id": "554e4a2f232cdd87d9000038",
+			"name": "Complementary DNA",
+			"slug": "complementary-dna",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-21T09:34:07Z"
+		},
+		{
+			"id": "57a19defbb994481c40001bd",
+			"name": "Number factors",
+			"slug": "number-factors-1",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-21T09:30:17Z"
+		},
+		{
+			"id": "57a34e2b53ba33994d000668",
+			"name": "Correct movie title",
+			"slug": "correct-movie-title",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-21T09:28:31Z"
+		},
+		{
+			"id": "58424c2e5692f50715000080",
+			"name": "Perimeter of a Rectangle",
+			"slug": "perimeter-of-a-rectangle",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-21T09:21:52Z"
+		},
+		{
+			"id": "57e8e9df2aee49c0280009ab",
+			"name": "Holiday I - Temperature in Bali",
+			"slug": "holiday-i-temperature-in-bali",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-21T09:16:10Z"
+		},
+		{
+			"id": "546274b0eaa31f79c9000d5d",
+			"name": "Anagram or not",
+			"slug": "anagram-or-not",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-21T07:10:35Z"
+		},
+		{
+			"id": "545a4c5a61aa4c6916000755",
+			"name": "Find the middle element",
+			"slug": "find-the-middle-element",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-21T07:02:01Z"
+		},
+		{
+			"id": "54474afb46324f45190000a5",
+			"name": "Flattening Lists",
+			"slug": "flattening-lists",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-21T06:56:10Z"
+		},
+		{
+			"id": "55f81f9aa51f9b72a200002f",
+			"name": "Find the unique number",
+			"slug": "find-the-unique-number",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-21T06:54:39Z"
+		},
+		{
+			"id": "56d0a591c6c8b466ca00118b",
+			"name": "Beginner Series #5 Triangular Numbers",
+			"slug": "beginner-series-number-5-triangular-numbers",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-21T06:51:20Z"
+		},
+		{
+			"id": "57a1a89fcf1fa56b8600154a",
+			"name": "Get n first prime numbers",
+			"slug": "get-n-first-prime-numbers",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-21T06:18:49Z"
+		},
+		{
+			"id": "537529f42993de0e0b00181f",
+			"name": "Calculate number of inversions in array",
+			"slug": "calculate-number-of-inversions-in-array",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-21T06:12:59Z"
+		},
+		{
+			"id": "56662e268c0797cece0000bb",
+			"name": "SumFibs",
+			"slug": "sumfibs",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-21T04:44:44Z"
+		},
+		{
+			"id": "5546180ca783b6d2d5000062",
+			"name": "Squares sequence",
+			"slug": "squares-sequence",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-21T04:40:07Z"
+		},
+		{
+			"id": "5637b03c6be7e01d99000046",
+			"name": "Password maker",
+			"slug": "password-maker",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-21T04:36:25Z"
+		},
+		{
+			"id": "57da675dfa96908b16000040",
+			"name": "Maybe - concat 2 maybe's",
+			"slug": "maybe-concat-2-maybes",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-21T04:28:20Z"
+		},
+		{
+			"id": "56b1eb19247c01493a000065",
+			"name": "Unique Sum",
+			"slug": "unique-sum",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-21T04:20:03Z"
+		},
+		{
+			"id": "57a1e23853ba339caf001000",
+			"name": "Uppercase all vowels",
+			"slug": "uppercase-all-vowels",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-21T04:18:56Z"
+		},
+		{
+			"id": "57da7f901b5ff148ad00030d",
+			"name": "Sum of list of Integer Just's and Nothing's",
+			"slug": "sum-of-list-of-integer-justs-and-nothings",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-21T04:08:19Z"
+		},
+		{
+			"id": "57da7ca63150b02e6400026b",
+			"name": "Sum of list of Integer Just's",
+			"slug": "sum-of-list-of-integer-justs",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-21T04:03:53Z"
+		},
+		{
+			"id": "57a1a3f153ba3315140013d5",
+			"name": "Is prime number?",
+			"slug": "is-prime-number",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-21T03:57:41Z"
+		},
+		{
+			"id": "57a8873cbb99449e300000ba",
+			"name": "Find max recursively",
+			"slug": "find-max-recursively",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-21T03:54:37Z"
+		},
+		{
+			"id": "57cc981a58da9e302a000214",
+			"name": "Small enough? - Beginner",
+			"slug": "small-enough-beginner",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-21T03:53:14Z"
+		},
+		{
+			"id": "583872e3c233416868000162",
+			"name": "How low do you go?",
+			"slug": "how-low-do-you-go",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-21T03:52:08Z"
+		},
+		{
+			"id": "57a0515f53ba33ac5e000245",
+			"name": "Sum of list values",
+			"slug": "sum-of-list-values",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-21T03:50:44Z"
+		},
+		{
+			"id": "5893f03c779ce5faab0000f6",
+			"name": "Simple Fun #66: Obtain Max Number",
+			"slug": "simple-fun-number-66-obtain-max-number",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-21T03:40:36Z"
+		},
+		{
+			"id": "5715eaedb436cf5606000381",
+			"name": "Sum of positive",
+			"slug": "sum-of-positive",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-20T19:41:25Z"
+		},
+		{
+			"id": "54147087d5c2ebe4f1000805",
+			"name": "The 'if' function",
+			"slug": "the-if-function",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-20T19:40:31Z"
+		},
+		{
+			"id": "5556282156230d0e5e000089",
+			"name": "DNA to RNA Conversion",
+			"slug": "dna-to-rna-conversion",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-20T19:38:27Z"
+		},
+		{
+			"id": "57a386117cb1f31890000039",
+			"name": "Parse float",
+			"slug": "parse-float",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-20T19:36:52Z"
+		},
+		{
+			"id": "57eae65a4321032ce000002d",
+			"name": "Fake Binary",
+			"slug": "fake-binary",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-20T19:30:28Z"
+		},
+		{
+			"id": "56bc28ad5bdaeb48760009b0",
+			"name": "Remove First and Last Character",
+			"slug": "remove-first-and-last-character",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-20T19:28:16Z"
+		},
+		{
+			"id": "5583090cbe83f4fd8c000051",
+			"name": "Convert number to reversed array of digits",
+			"slug": "convert-number-to-reversed-array-of-digits",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-20T19:27:45Z"
+		},
+		{
+			"id": "5899dc03bc95b1bf1b0000ad",
+			"name": "Invert values",
+			"slug": "invert-values",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-20T19:25:58Z"
+		},
+		{
+			"id": "515e271a311df0350d00000f",
+			"name": "Square(n) Sum",
+			"slug": "square-n-sum",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-20T19:24:30Z"
+		},
+		{
+			"id": "53da3dbb4a5168369a0000fe",
+			"name": "Even or Odd",
+			"slug": "even-or-odd",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-20T19:22:32Z"
+		},
+		{
+			"id": "561e9c843a2ef5a40c0000a4",
+			"name": "Gap in Primes",
+			"slug": "gap-in-primes",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-20T18:59:29Z"
+		},
+		{
+			"id": "544675c6f971f7399a000e79",
+			"name": "Convert a String to a Number!",
+			"slug": "convert-a-string-to-a-number",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-20T18:37:14Z"
+		},
+		{
+			"id": "55f0b69fe3ef582c4100008a",
+			"name": "Sieve of Eratosthenes",
+			"slug": "sieve-of-eratosthenes",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-20T17:56:56Z"
+		},
+		{
+			"id": "57eae20f5500ad98e50002c5",
+			"name": "Remove String Spaces",
+			"slug": "remove-string-spaces",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-20T17:39:44Z"
+		},
+		{
+			"id": "55fd2d567d94ac3bc9000064",
+			"name": "Sum of odd numbers",
+			"slug": "sum-of-odd-numbers",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-20T17:38:03Z"
+		},
+		{
+			"id": "5416356b1b28a5e297000bc7",
+			"name": "Find the K'th Element of a List",
+			"slug": "find-the-kth-element-of-a-list",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-20T17:31:17Z"
+		},
+		{
+			"id": "5426d7a2c2c7784365000783",
+			"name": "All Balanced Parentheses",
+			"slug": "all-balanced-parentheses",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-20T17:18:22Z"
+		},
+		{
+			"id": "54da5a58ea159efa38000836",
+			"name": "Find the odd int",
+			"slug": "find-the-odd-int",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-20T16:33:03Z"
+		},
+		{
+			"id": "556deca17c58da83c00002db",
+			"name": "Tribonacci Sequence",
+			"slug": "tribonacci-sequence",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-20T10:33:11Z"
+		},
+		{
+			"id": "515de9ae9dcfc28eb6000001",
+			"name": "Split Strings",
+			"slug": "split-strings",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-20T10:18:35Z"
+		},
+		{
+			"id": "51b62bf6a9c58071c600001b",
+			"name": "Roman Numerals Encoder",
+			"slug": "roman-numerals-encoder",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-20T10:06:52Z"
+		},
+		{
+			"id": "543d218022e0f307fb000173",
+			"name": "foldMap all the things!",
+			"slug": "foldmap-all-the-things",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-20T09:45:34Z"
+		},
+		{
+			"id": "5226eb40316b56c8d500030f",
+			"name": "Pascal's Triangle",
+			"slug": "pascals-triangle",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-20T09:24:33Z"
+		},
+		{
+			"id": "54d496788776e49e6b00052f",
+			"name": "Sum by Factors",
+			"slug": "sum-by-factors",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-19T19:50:39Z"
+		},
+		{
+			"id": "550756a881b8bdba99000348",
+			"name": "Recurrence relations",
+			"slug": "recurrence-relations",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-18T08:00:13Z"
+		},
+		{
+			"id": "52a89c2ea8ddc5547a000863",
+			"name": "Can you get the loop ?",
+			"slug": "can-you-get-the-loop",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-16T17:43:06Z"
+		},
+		{
+			"id": "52f831fa9d332c6591000511",
+			"name": "Molecule to atoms",
+			"slug": "molecule-to-atoms",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-16T17:08:18Z"
+		},
+		{
+			"id": "547202bdf7587835d9000c46",
+			"name": "Five Fundamental Monads",
+			"slug": "five-fundamental-monads",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-15T18:50:03Z"
+		},
+		{
+			"id": "51ba717bb08c1cd60f00002f",
+			"name": "Range Extraction",
+			"slug": "range-extraction",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-15T16:15:47Z"
+		},
+		{
+			"id": "56a2d27f8af7384815000037",
+			"name": "Concatenate two list",
+			"slug": "concatenate-two-list",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-14T09:33:21Z"
+		},
+		{
+			"id": "52756e5ad454534f220001ef",
+			"name": "Longest Common Subsequence",
+			"slug": "longest-common-subsequence",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-07T09:40:12Z"
+		},
+		{
+			"id": "5887a6fe0cfe64850800161c",
+			"name": "Largest Square Inside A Circle",
+			"slug": "largest-square-inside-a-circle",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-07T09:12:14Z"
+		},
+		{
+			"id": "5541f58a944b85ce6d00006a",
+			"name": "Product of consecutive Fib numbers",
+			"slug": "product-of-consecutive-fib-numbers",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-07T09:08:03Z"
+		},
+		{
+			"id": "57a1d5ef7cb1f3db590002af",
+			"name": "Fibonacci",
+			"slug": "fibonacci",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-07T08:51:52Z"
+		},
+		{
+			"id": "5886e082a836a691340000c3",
+			"name": "Simple Fun #27: Rectangle Rotation",
+			"slug": "simple-fun-number-27-rectangle-rotation",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-07T07:52:42Z"
+		},
+		{
+			"id": "5511b2f550906349a70004e1",
+			"name": "Last digit of a large number",
+			"slug": "last-digit-of-a-large-number",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-06T16:03:29Z"
+		},
+		{
+			"id": "5277c8a221e209d3f6000b56",
+			"name": "Valid Braces",
+			"slug": "valid-braces",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-06T15:44:58Z"
+		},
+		{
+			"id": "52c4dd683bfd3b434c000292",
+			"name": "Catching Car Mileage Numbers",
+			"slug": "catching-car-mileage-numbers",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-06T15:25:27Z"
+		},
+		{
+			"id": "52685f7382004e774f0001f7",
+			"name": "Human Readable Time",
+			"slug": "human-readable-time",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-06T07:34:08Z"
+		},
+		{
+			"id": "5626b561280a42ecc50000d1",
+			"name": "Take a Number And Sum  Its Digits Raised To The Consecutive Powers And ....¡Eureka!!",
+			"slug": "take-a-number-and-sum-its-digits-raised-to-the-consecutive-powers-and-dot-dot-dot-eureka",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-06T07:00:58Z"
+		},
+		{
+			"id": "54bf1c2cd5b56cc47f0007a1",
+			"name": "Counting Duplicates",
+			"slug": "counting-duplicates",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-06T00:57:58Z"
+		},
+		{
+			"id": "546e2562b03326a88e000020",
+			"name": "Square Every Digit",
+			"slug": "square-every-digit",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-06T00:43:55Z"
+		},
+		{
+			"id": "57339a5226196a7f90001bcf",
+			"name": "N-Point Crossover",
+			"slug": "n-point-crossover",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-05T15:07:20Z"
+		},
+		{
+			"id": "554b4ac871d6813a03000035",
+			"name": "Highest and Lowest",
+			"slug": "highest-and-lowest",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-05T12:40:10Z"
+		},
+		{
+			"id": "54ff3102c1bad923760001f3",
+			"name": "Vowel Count",
+			"slug": "vowel-count",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-04T18:25:01Z"
+		},
+		{
+			"id": "55908aad6620c066bc00002a",
+			"name": "Exes and Ohs",
+			"slug": "exes-and-ohs",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-04T18:21:00Z"
+		},
+		{
+			"id": "55225023e1be1ec8bc000390",
+			"name": "Jenny's secret message",
+			"slug": "jennys-secret-message",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-04T18:08:57Z"
+		},
+		{
+			"id": "51f9d93b4095e0a7200001b8",
+			"name": "How many lightsabers do you own?",
+			"slug": "how-many-lightsabers-do-you-own",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-04T18:06:52Z"
+		},
+		{
+			"id": "541629460b198da04e000bb9",
+			"name": "Last",
+			"slug": "last",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-04T18:02:50Z"
+		},
+		{
+			"id": "57a0556c7cb1f31ab3000ad7",
+			"name": "MakeUpperCase",
+			"slug": "makeuppercase",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-04T17:55:57Z"
+		},
+		{
+			"id": "576bb71bbbcf0951d5000044",
+			"name": "Count of positives / sum of negatives",
+			"slug": "count-of-positives-slash-sum-of-negatives",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-04T17:54:43Z"
+		},
+		{
+			"id": "57a883cfbb9944a97c000088",
+			"name": "Reverse list recursively",
+			"slug": "reverse-list-recursively",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-04T17:54:29Z"
+		},
+		{
+			"id": "53369039d7ab3ac506000467",
+			"name": "Convert boolean values to strings 'Yes' or 'No'.",
+			"slug": "convert-boolean-values-to-strings-yes-or-no",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-04T17:50:03Z"
+		},
+		{
+			"id": "57a2013acf1fa5bfc4000921",
+			"name": "Calculate average ",
+			"slug": "calculate-average",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-04T17:48:32Z"
+		},
+		{
+			"id": "576b93db1129fcf2200001e6",
+			"name": "Sum without highest and lowest number",
+			"slug": "sum-without-highest-and-lowest-number",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-04T17:37:05Z"
+		},
+		{
+			"id": "56efc695740d30f963000557",
+			"name": "altERnaTIng cAsE <=> ALTerNAtiNG CaSe",
+			"slug": "alternating-case-<-equals->-alternating-case",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-04T17:23:28Z"
+		},
+		{
+			"id": "56dec885c54a926dcd001095",
+			"name": "Opposite number",
+			"slug": "opposite-number",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-04T17:20:11Z"
+		},
+		{
+			"id": "58b57ae2724e3c63df000006",
+			"name": "Parse HTML/CSS Colors",
+			"slug": "parse-html-slash-css-colors",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-04T17:04:40Z"
+		},
+		{
+			"id": "57a1fd2ce298a731b20006a4",
+			"name": "Is it a palindrome?",
+			"slug": "is-it-a-palindrome",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-04T15:42:20Z"
+		},
+		{
+			"id": "57cebe1dc6fdc20c57000ac9",
+			"name": "Shortest Word",
+			"slug": "shortest-word",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-04T15:15:00Z"
+		},
+		{
+			"id": "57a0e5c372292dd76d000d7e",
+			"name": "String repeat",
+			"slug": "string-repeat",
+			"completedLanguages": [
+				"haskell"
+			],
+			"completedAt": "2017-05-03T20:14:49Z"
+		},
+		{
+			"id": "56e9e4f516bcaa8d4f001763",
+			"name": "Sum of numbers from 0 to N",
+			"slug": "sum-of-numbers-from-0-to-n",
+			"completedLanguages": [
+				"dart"
+			],
+			"completedAt": "2017-05-03T20:07:17Z"
+		},
+		{
+			"id": "50654ddff44f800200000004",
+			"name": "Multiply",
+			"slug": "multiply",
+			"completedLanguages": [
+				"java",
+				"dart"
+			],
+			"completedAt": "2017-05-03T19:51:33Z"
+		}
+	]
+}
