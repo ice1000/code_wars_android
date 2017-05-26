@@ -82,8 +82,7 @@ class Completed {
 
   static List<Completed> fromJson(Map json) {
     List<Map> ls = json['completedCodeChallenges'];
-    return ls.map((map) =>
-    new Completed(
-        map['id'], map['name'], map['slug'], map['completedLanguages']));
+    return ls.map((m) =>
+    new Completed(m['id'], m['name'], m['slug'], m['completedLanguages']));
   }
 }
