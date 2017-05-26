@@ -72,30 +72,6 @@ class Rank {
   Rank(this.rank, this.name, this.color, this.score, this.lang);
 }
 
-/*{
-  "completedCodeChallenges": [
-    {
-      "id": "514b92a657cdc65150000006",
-      "name": "Multiples of 3 and 5",
-      "slug": "multiples-of-3-and-5",
-      "completedLanguages": [
-        "javascript",
-        "coffeescript",
-        "ruby",
-        "javascript",
-        "ruby",
-        "javascript",
-        "ruby",
-        "coffeescript",
-        "javascript",
-        "ruby",
-        "coffeescript"
-      ]
-    }
-  ]
-}
- */
-
 class Completed {
   String id;
   String name;
