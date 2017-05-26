@@ -1,0 +1,46 @@
+{
+	"id": "54750ed320c64c64e20002e2",
+	"name": "Singletons",
+	"slug": "singletons",
+	"category": "reference",
+	"publishedAt": "2014-11-26T21:51:32Z",
+	"approvedAt": "2015-07-03T15:21:32Z",
+	"languages": [
+		"haskell"
+	],
+	"url": "https://www.codewars.com/kata/singletons",
+	"rank": {
+		"id": -2,
+		"name": "2 kyu",
+		"color": "purple"
+	},
+	"createdAt": "2014-11-25T23:20:51Z",
+	"createdBy": {
+		"username": "mpickering",
+		"url": "https://www.codewars.com/users/mpickering"
+	},
+	"approvedBy": {
+		"username": "jhoffner",
+		"url": "https://www.codewars.com/users/jhoffner"
+	},
+	"description": "In this kata we will explore using singletons to mimic simple dependent typing\nin Haskell. The goal is to reimplement common list functions using vectors\nindexed by the natural numbers.\n\nUnlike languages such as Agda and Idris, Haskell differentiates between the\nterm and the type level. This distinction makes proper dependent types impossible but GHC language extensions can be used to partially mimic the effect.\n\nThe idea of singletons is to allow the programmer to infer something about the\ntype level from the term level. To do this, we construct a datatype (`SNat`)\nwhose type increments in lock-step with the data. For example:\n\n```\n*Singletons> :t SZero\nSZero :: SNat 'Zero\n*Singletons> :t SSucc SZero\nSSucc SZero :: SNat ('Succ 'Zero)\n```\n\nThis correspondence allows the programmer to specify more specific types than\nhe usually would. The example we will use is indexed vectors - that is, vectors\nwhich are annotated with their length at the type level. Their definition looks very similar to that of lists but with the extra index parameter `n`.\n\n```\ndata Vec a n where\n  VNil :: Vec a Zero\n  VCons :: a -> Vec a n -> Vec a (Succ n)\n```\n\nAgain inspecting the types - we see that applying the `VCons` constructor changes the type of the whole expression.\n\n```\n*Singletons> :t VNil\nVNil :: Vec a 'Zero\n*Singletons> :t VCons () VNil\nVCons () VNil :: Vec () ('Succ 'Zero)\n```\n\nThe final piece of the puzzle are type families. Simply put, type families are functions which act on types. As a result they are quite a bit more restricted than normal functions but we can use them to perform basic calculations at the type level.\n\nFor example the type family `:<` corresponds to the term level operator `<`. It is defined as follows.\n\n```\ntype family (a :: Nat) :< (b :: Nat) :: Bool\ntype instance m :< Zero = False\ntype instance Zero :< Succ n = True\ntype instance (Succ m) :< (Succ n) = m :< n\n```\n\nIt will be necessary to define two more type families to complete the kata.\n\nPutting this all together, this is how we might define a safe `index` function.\n\n```\nindex :: ((a :< b) ~ True) => SNat a -> Vec s b -> s\nindex SZero (VCons v _) = v\nindex (SSucc n) (VCons _ xs) = index n xs\n```\n\nYour task is to define some common functions which act on lists on an indexed vector. These functions are `map`, `zipWith`, `replicate`, `take`, `drop`, `head`, `tail`, `index` and `++`.\n\nThis description has been quite terse. Here are some more links which take a bit more time to explain the concept.\n\n- [Brent Yorgey's explanation](https://byorgey.wordpress.com/2010/07/06/typed-type-level-programming-in-haskell-part-ii-type-families/)\n- [Dependently Typed Programming with Singletons](http://www.cis.upenn.edu/~eir/papers/2012/singletons/paper.pdf)\n- [GHC wiki page](https://www.haskell.org/haskellwiki/GHC/Type_families)\n\nHINT: You may find defining a type family corresponding to subtraction useful.\nHINT: You may find definining a type family corresponding to `min` useful.\n\n",
+	"totalAttempts": 1242,
+	"totalCompleted": 117,
+	"totalStars": 37,
+	"voteScore": 39,
+	"tags": [
+		"Fundamentals",
+		"Dynamic Arrays",
+		"Arrays",
+		"Functional Programming",
+		"Data Types",
+		"Declarative Programming",
+		"Programming Paradigms",
+		"Vectors"
+	],
+	"contributorsWanted": true,
+	"unresolved": {
+		"issues": 0,
+		"suggestions": 1
+	}
+}
