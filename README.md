@@ -6,7 +6,12 @@ A Mobile client for [Code Wars](https://www.codewars.com).
 
 This app is entirely under development.
 
-You can view information about yourself and someone else by giving the username.
+You can view:
+
+0. Information about yourself and someone else by giving the username.
+0. Information about a specific kata
+0. Information about your completed kata
+0. Information about your authored kata
 
 ## Download
 
@@ -19,6 +24,8 @@ The apk and flx are uploaded by Travis CI automatically.
 - [X] Display user basic information
 - [X] Display user details
 - [ ] Display user completed katas
+- [ ] Display user authored katas
+- [ ] Display a kata's information
 - [ ] Display collections of other users
 - [X] View source
 - [X] Settings
@@ -29,3 +36,5 @@ The apk and flx are uploaded by Travis CI automatically.
 I practise my Haskell skills on Code Wars:
 
 [![](https://www.codewars.com/users/ice1000/badges/large)](https://www.codewars.com/users/ice1000)
+
+So I made this to show my appreciation.
