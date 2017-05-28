@@ -96,39 +96,60 @@ class SettingsState extends State<SettingsView> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-        appBar: new AppBar(
-            title: new Text(_title, style: new TextStyle(color: _titleColor))),
-        backgroundColor: CodeWarsColors.main.shade50,
-        body: new ListView(primary: false, children: [
-          new ListTile(title: new Text("Change user name",
-              style: new TextStyle(color: _textColor)),
-              subtitle: new Text(_user?.username ?? "Unknown",
-                  style: new TextStyle(color: _textColor)),
-              dense: true, trailing: new IconButton(
-                  icon: new Icon(Icons.edit), onPressed: _changeUserName)),
-          new ExpansionTile(title: new Text("App info",
-              style: new TextStyle(color: _textColor)), children: [
-            new ListTile(dense: true, title: new Text("Source on GitHub",
-                style: new TextStyle(color: _textColor)),
-                onTap: () =>
-                    _viewWeb('https://github.com/ice1000/code_wars_android')),
-            new ListTile(dense: true, title: new Text("License",
-                style: new TextStyle(color: _textColor)),
+    List<Widget> list = [
+      new ListTile(
+          title: new Text("Change user name",
+              style: new TextStyle(
+                  color: _textColor)),
+          subtitle: new Text(
+              _user?.username ?? "Unknown",
+              style: new TextStyle(
+                  color: _textColor)),
+          dense: true,
+          trailing: new IconButton(
+              icon: new Icon(Icons.edit),
+              onPressed: _changeUserName)),
+      new ExpansionTile(
+          title: new Text("App info",
+              style: new TextStyle(
+                  color: _textColor)),
+          children: [
+            new ListTile(
+                dense: true,
+                title: new Text("Source on GitHub",
+                    style: new TextStyle(color: _textColor)),
+                onTap: () => _viewWeb('https://github.com/ice1000/code_wars_android')),
+            new ListTile(
+                dense: true,
+                title: new Text("License",
+                    style: new TextStyle(color: _textColor)),
                 onTap: () {
-                  showDialog(context: context, child: new SimpleDialog(
-                      title: new Text("License",
-                          style: new TextStyle(color: _textColor)),
-                      contentPadding: new EdgeInsets.all(12.0),
-                      children: [
-                        new Text(GPLv3, style: new TextStyle(color: _textColor))
-                      ]));
+                  showDialog(
+                      context: context,
+                      child: new SimpleDialog(
+                          title: new Text("License", style: new TextStyle(color: _textColor)),
+                          contentPadding: new EdgeInsets.all(12.0),
+                          children: [
+                            new Text(GPLv3, style: new TextStyle(color: _textColor))
+                          ]));
                 }),
-            new ListTile(dense: true, title: new Text("Open CodeWars",
-                style: new TextStyle(color: _textColor)),
+            new ListTile(
+                dense: true,
+                title: new Text("Open CodeWars",
+                    style: new TextStyle(color: _textColor)),
                 onTap: () => _viewWeb('https://www.codewars.com/')),
           ])
-        ]));
+    ];
+    return new Scaffold(
+        appBar: new AppBar(
+            title: new Text(
+                _title,
+                style: new TextStyle(
+                    color: _titleColor))),
+        backgroundColor: CodeWarsColors.main.shade50,
+        body: new ListView(
+            primary: false,
+            children: list));
   }
 
   _viewWeb(String url) async {
