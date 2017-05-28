@@ -106,10 +106,36 @@ class _MainActivityState extends State<MainActivity>
       icon: Icons.add,
       information: "Add friend",);
     _kata = new _Page(
-      displayWhenEmpty: 'Kata',
-      tabLabel: 'Kata',
-      icon: Icons.add_box,
-      information: "Add Kata",);
+        displayWhenEmpty: 'Kata',
+        tabLabel: 'Kata',
+        icon: Icons.refresh,
+        information: "Refresh",
+        onClick: () {
+          if (null != _user) {
+            showDialog(context: context, child: new RefreshProgressDialog(
+                CodeWarsColors.main.shade100, width: 100, height: 100),
+                barrierDismissible: false);
+            get(CodeWarsAPI.getCompletedKata(_user.username))
+              ..then((val) {
+                setState(() => _performChangeCompleted(val.body));
+                SharedPreferences.getInstance().then((sp) {
+                  sp.setString(DatabaseKeys.COMPLETED, val.body);
+                });
+                Navigator.pop(context);
+              })
+              ..timeout(new Duration(seconds: 10))
+              ..catchError(() {
+                SharedPreferences.getInstance().then((sp) {
+                  sp.setString(DatabaseKeys.USER, CodeWarsAPI
+                      .getErrorWithReason("time out"));
+                });
+                setState(() {
+                  _user = null;
+                  Navigator.pop(context);
+                });
+              });
+          }
+        });
     _me = new _Page(
       displayWhenEmpty: 'User not set yet.',
       tabLabel: 'Me',
@@ -121,17 +147,10 @@ class _MainActivityState extends State<MainActivity>
               barrierDismissible: false);
           get(CodeWarsAPI.getUser(_user.username))
             ..then((val) {
-              setState(() => _performChangeUser(val.body));
+              setState(() => _performChangeCompleted(val.body));
               SharedPreferences.getInstance().then((sp) {
                 sp.setString(DatabaseKeys.USER, val.body);
               });
-              get(CodeWarsAPI.getCompletedKata(_user.username))
-                ..then((val) {
-                  setState(() => _performChangeCompleted(val.body));
-                  SharedPreferences.getInstance().then((sp) {
-                    sp.setString(DatabaseKeys.COMPLETED, val.body);
-                  });
-                });
               Navigator.pop(context);
             })
             ..timeout(new Duration(seconds: 10))
