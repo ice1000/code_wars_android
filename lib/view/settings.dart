@@ -100,10 +100,12 @@ class SettingsState extends State<SettingsView> {
       new ListTile(
           title: new Text("Change user name",
               style: new TextStyle(
+                  fontSize: 20.0,
                   color: _textColor)),
           subtitle: new Text(
               _user?.username ?? "Unknown",
               style: new TextStyle(
+                  fontSize: 16.0,
                   color: _textColor)),
           dense: true,
           trailing: new IconButton(
@@ -127,10 +129,14 @@ class SettingsState extends State<SettingsView> {
                   showDialog(
                       context: context,
                       child: new SimpleDialog(
-                          title: new Text("License", style: new TextStyle(color: _textColor)),
+                          title: new Text(
+                              "License",
+                              style: new TextStyle(color: _textColor)),
                           contentPadding: new EdgeInsets.all(12.0),
                           children: [
-                            new Text(GPLv3, style: new TextStyle(color: _textColor))
+                            new Text(
+                                GPLv3,
+                                style: new TextStyle(color: _textColor))
                           ]));
                 }),
             new ListTile(
@@ -149,7 +155,8 @@ class SettingsState extends State<SettingsView> {
         backgroundColor: CodeWarsColors.main.shade50,
         body: new ListView(
             primary: false,
-            children: list));
+            children: list,
+            shrinkWrap: true));
   }
 
   _viewWeb(String url) async {
