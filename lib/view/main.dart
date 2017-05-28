@@ -102,14 +102,12 @@ class _MainActivityState extends State<MainActivity>
       displayWhenEmpty: 'Friends', // 还有这种friend?
       tabLabel: 'Friends',
       icon: Icons.add,
-      information: "You can view your friends' information or "
-          "add new friends in this page.",);
+      information: "Add friend",);
     _kata = new _Page(
       displayWhenEmpty: 'Kata',
       tabLabel: 'Kata',
       icon: Icons.add_box,
-      information: "You can view or add katas here, and preview them.\n"
-          "submitting is not supported ATM",);
+      information: "Add Kata",);
     _me = new _Page(
       displayWhenEmpty: 'User not set yet.',
       tabLabel: 'Me',
@@ -137,8 +135,7 @@ class _MainActivityState extends State<MainActivity>
             });
         }
       },
-      information: "Information about yourself on Code Wars.\n"
-          "You can change your username.",);
+      information: "Refresh",);
     _allPages = <_Page>[_friends, _kata, _me];
     _tabController = new TabController(vsync: this, length: _allPages.length);
     _tabController.addListener(_handleTabSelection);
@@ -278,7 +275,7 @@ class _MainActivityState extends State<MainActivity>
       floatingActionButton: !_selectedPage.fabHere ? null
           : new FloatingActionButton(
           key: _selectedPage.fabKey,
-          tooltip: 'Show explanation',
+          tooltip: _selectedPage.information,
           backgroundColor: _selectedPage.fabColor,
           child: _selectedPage.createIcon,
           onPressed: _selectedPage.onClick ?? _showExplanatoryText),
@@ -292,15 +289,13 @@ class _MainActivityState extends State<MainActivity>
   _debugDataSourceButton() =>
       new IconButton(icon: new Icon(Icons.bug_report), onPressed: () {
         setState(() {
-          _performChangeUser("""
-{"username": "ice1000","name": "千里冰封","honor": 935,"clan": "Gensokyo",
-"leaderboardPosition": 4552,"skills": ["haskell","cross dress","sell moe"],
-"ranks": {"overall": {"rank": -4,"name": "4 kyu","color": "blue","score":
-1296},"languages": {
-"java": {"rank": -8,"name": "8 kyu","color": "white","score": 2 },
-"dart": {"rank": -8,"name": "8 kyu","color": "white","score": 3},
-"haskell": {"rank": -4,"name": "4 kyu","color": "blue","score": 1291}}},
-  "codeChallenges": {"totalAuthored": 0,"totalCompleted": 89}}""");
+          _performChangeUser("""{"username":"ice1000","name":"千里冰封","honor":
+1330,"clan":"Gensokyo","leaderboardPosition":2589,"skills":["haskell",
+"cross dress","sell moe","kotlin"],"ranks":{"overall":{"rank":-3,"name":"3 kyu"
+,"color":"blue","score":2083},"languages":{"java":{"rank":-8,"name":"8 kyu",
+"color":"white","score":2},"dart":{"rank":-8,"name":"8 kyu","color":"white",
+"score":5},"haskell":{"rank":-3,"name":"3 kyu","color":"blue","score":2078}}},
+"codeChallengess":{"totalAuthored":0,"totalCompleted":108}}""");
         });
       });
 }
