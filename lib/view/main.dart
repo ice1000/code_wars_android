@@ -166,22 +166,6 @@ class _MainActivityState extends State<MainActivity>
     });
   }
 
-  void _showExplanatoryText() {
-    _scaffoldKey.currentState.showBottomSheet<Null>((BuildContext context) {
-      return new Container(
-          decoration: new BoxDecoration(
-              border: new Border(top: new BorderSide(color: Theme
-                  .of(context)
-                  .dividerColor))),
-          child: new Padding(
-              padding: const EdgeInsets.all(32.0),
-              child: new Text(_selectedPage.information, style: Theme
-                  .of(context)
-                  .textTheme
-                  .subhead)));
-    });
-  }
-
   Widget buildTabView(_Page page) =>
       new Container(
           key: new ValueKey<String>(page.tabLabel), color: _background,
@@ -291,14 +275,12 @@ class _MainActivityState extends State<MainActivity>
           title: new Text(_title),
           actions: [
             new IconButton(icon: new Icon(Icons.settings), onPressed: () {
-              Navigator.of(context).push(new SettingsActivity()).then((_) {
-                setState(_changeAh);
-              });
+              Navigator.of(context).push(new SettingsActivity()).then((_) =>
+                  setState(_changeAh));
             }),
             _debugDataSourceButton(),
           ],
-          bottom: new TabBar(
-            controller: _tabController,
+          bottom: new TabBar(controller: _tabController,
             tabs: _allPages.map((_Page page) => new Tab(text: page.tabLabel))
                 .toList(),)),
       floatingActionButton: !_selectedPage.fabHere ? null
@@ -307,12 +289,9 @@ class _MainActivityState extends State<MainActivity>
           tooltip: _selectedPage.information,
           backgroundColor: _selectedPage.fabColor,
           child: _selectedPage.createIcon,
-          onPressed: _selectedPage.onClick ?? _showExplanatoryText),
-      body: new TabBarView(
-          controller: _tabController,
-          children: _allPages
-              .map(buildTabView)
-              .toList()),);
+          onPressed: _selectedPage.onClick),
+      body: new TabBarView(controller: _tabController,
+          children: _allPages.map(buildTabView).toList()),);
   }
 
   _debugDataSourceButton() =>
