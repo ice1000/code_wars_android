@@ -23,9 +23,9 @@ The apk and flx are uploaded by Travis CI automatically.
 
 - [X] Display user basic information
 - [X] Display user details
-- [ ] Display user completed katas
+- [X] Display user completed katas
 - [ ] Display user authored katas
-- [ ] Display a kata's information
+- [X] Display a kata's information
 - [ ] Display collections of other users
 - [X] View source
 - [X] Settings
