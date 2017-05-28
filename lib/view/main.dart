@@ -126,15 +126,15 @@ class _MainActivityState extends State<MainActivity>
                 Navigator.pop(context);
               })
               ..timeout(new Duration(seconds: 10))
-              ..catchError(() {
+              ..catchError((e) {
                 SharedPreferences.getInstance().then((sp) {
                   sp.setString(DatabaseKeys.COMPLETED, CodeWarsAPI
                       .getErrorWithReason("time out"));
                 });
                 setState(() {
                   _user = null;
-                  Navigator.pop(context);
                 });
+                Navigator.pop(context);
               });
           }
         });
@@ -194,23 +194,34 @@ class _MainActivityState extends State<MainActivity>
           child: page.childWight);
 
   _performChangeUser(String _json) {
-    Map json = new JsonDecoder(null).convert(_json);
-    var reason = json['reason'];
-    if (null != reason) {
-      _me.displayWhenEmpty = reason;
+    try {
+      Map json = new JsonDecoder(null).convert(_json);
+      var reason = json['reason'];
+      if (null != reason) {
+        _me.displayWhenEmpty = reason;
+        _user = null;
+      } else
+        _user = new CodeWarsUser.fromJson(json);
+    } catch (e) {
+      _me.displayWhenEmpty = "Error";
       _user = null;
-    } else
-      _user = new CodeWarsUser.fromJson(json);
+    }
   }
 
   _performChangeCompleted(String _json) {
-    Map json = new JsonDecoder(null).convert(_json);
-    var reason = json['reason'];
-    if (null != reason) {
-      _kata.displayWhenEmpty = reason;
+    try {
+      Map json = new JsonDecoder(null).convert(_json);
+
+      var reason = json['reason'];
+      if (null != reason) {
+        _kata.displayWhenEmpty = reason;
+        _completed = null;
+      } else
+        _completed = KataCompleted.fromJson(json);
+    } catch (e) {
+      _kata.displayWhenEmpty = "Error";
       _completed = null;
-    } else
-      _completed = KataCompleted.fromJson(json);
+    }
   }
 
   @override
