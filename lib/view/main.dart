@@ -84,13 +84,15 @@ class _MainActivityState extends State<MainActivity>
 
   TabController _tabController;
   CodeWarsUser _user;
+  List<KataCompleted> _completed;
   _Page _selectedPage;
 
   _changeAh() {
     SharedPreferences.getInstance().then((sp) {
-      setState(() =>
-          _performChangeUser(sp.getString(DatabaseKeys.USER) ??
-              CodeWarsAPI.getErrorWithReason("not set")));
+      setState(() {
+        _performChangeUser(sp.getString(DatabaseKeys.USER) ??
+            CodeWarsAPI.getErrorWithReason("not set"));
+      });
     });
   }
 
@@ -251,11 +253,20 @@ class _MainActivityState extends State<MainActivity>
       });
       list.add(const ListTile());
       list.add(const ListTile());
-      _me.child = new ListView(
-          padding: new EdgeInsets.symmetric(vertical: 0.0),
+      _me.child = new ListView(padding: new EdgeInsets.symmetric(vertical: 0.0),
           primary: false, itemExtent: 30.0, children: list);
     }
-//    _kata.child = new Scrollbar(child: new ListView());
+    if (null != _completed) {
+      var list = <Widget>[];
+      _completed.forEach((kata) {
+        list.add(new ExpansionTile(title: new Text(kata.name, style:
+        new TextStyle(fontSize: 24.0, color: _textColor)), children: [
+        ]));
+      });
+      _kata.child = new Scrollbar(child: new ListView(primary: false,
+        padding: new EdgeInsets.symmetric(vertical: 0.0), children: list,
+        itemExtent: 30.0,));
+    }
     return new Scaffold(
       key: _scaffoldKey,
       appBar: new AppBar(

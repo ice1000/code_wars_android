@@ -72,17 +72,17 @@ class Rank {
   Rank(this.rank, this.name, this.color, this.score, this.lang);
 }
 
-class Completed {
+class KataCompleted {
   String id;
   String name;
   String slug;
   List<String> completedLanguages;
 
-  Completed(this.id, this.name, this.slug, this.completedLanguages);
+  KataCompleted(this.id, this.name, this.slug, this.completedLanguages);
 
-  static List<Completed> fromJson(Map json) {
+  static List<KataCompleted> fromJson(Map json) {
     List<Map> ls = json['completedCodeChallenges'];
     return ls.map((m) =>
-    new Completed(m['id'], m['name'], m['slug'], m['completedLanguages']));
+    new KataCompleted(m['id'], m['name'], m['slug'], m['completedLanguages']));
   }
 }
