@@ -39,9 +39,6 @@ class SettingsState extends State<SettingsView> {
     } catch (e) {
       _json = CodeWarsAPI.getErrorWithReason("invalid");
     }
-    SharedPreferences.getInstance().then((sp) {
-      sp.setString(DatabaseKeys.USER, _json);
-    });
   }
 
   _changeUserName() {
@@ -62,6 +59,9 @@ class SettingsState extends State<SettingsView> {
           get(CodeWarsAPI.getUser(_usernameEditingController.text))
             ..then((val) {
               setState(() => _performChangeUser(val.body));
+              SharedPreferences.getInstance().then((sp) {
+                sp.setString(DatabaseKeys.USER, val.body);
+              });
               Navigator.pop(context);
             })
             ..timeout(new Duration(seconds: 10))

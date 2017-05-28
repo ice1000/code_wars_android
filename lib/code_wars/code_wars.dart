@@ -82,8 +82,15 @@ class KataCompleted {
 
   KataCompleted(this.id, this.name, this.slug, this.completedLanguages, this.completedAt) {
     const maxLen = 25;
-    this.fullName = this.name;
-    if (this.name.length >= maxLen) this.name = this.name.substring(0, maxLen) + "...";
+    if (null == id) {
+      name = "[Deleted Kata]";
+      slug = "This kata had been deleted on Code Wars.";
+      return;
+    }
+    if (null == slug) slug = "";
+    if (null == name) name = "";
+    fullName = name;
+    if (name.length >= maxLen) name = name.substring(0, maxLen) + "...";
   }
 
   static List<KataCompleted> fromJson(Map json) {
