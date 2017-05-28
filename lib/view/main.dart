@@ -313,8 +313,26 @@ class _MainActivityState extends State<MainActivity>
                     color: _textColor,
                     fontSize: 24.0))),
       ];
+//      list.addAll(_user.langsRank.map((rank) {
+//        return new ExpansionTile(
+//          title: new Text(
+//              "${rank.lang}\n",
+//              style: new TextStyle(color: _importantColor,
+//                  fontSize: 20.0)),
+//          children: [
+//            new Text(
+//                "Score: ${rank.score}",
+//                style: new TextStyle(
+//                    color: _importantColor,
+//                    fontSize: 14.0)),
+//            new Text(
+//                "level: <${rank.name}>",
+//                style: new TextStyle(
+//                    color: _importantColor,
+//                    fontSize: 14.0)),
+//          ],);
+//      }));
       _user.langsRank.forEach((rank) {
-        debugPrint(rank.lang);
         list.add(new ListTile(
             dense: true,
             title: new Text(
@@ -341,18 +359,52 @@ class _MainActivityState extends State<MainActivity>
         list.add(new ExpansionTile(
             title: new Text(
                 kata.name,
-                style:
-                new TextStyle(
-                    fontSize: 24.0,
-                    color: _textColor)), children: [
-        ]));
+                style: new TextStyle(
+                    fontSize: 20.0,
+                    color: _textColor)),
+            children: [
+              new ListTile(
+                  dense: true,
+                  isThreeLine: true,
+                  subtitle: new Text(
+                      kata.slug,
+                      style: new TextStyle(
+                          fontSize: 13.0,
+                          color: _importantColor)),
+                  title: new Text(
+                      kata.fullName,
+                      style: new TextStyle(
+                          fontSize: 16.0,
+                          color: _importantColor))),
+//              new ListTile(
+//                  dense: true,
+//                  title: new Text(
+//                      "Kata id: ${kata.id}",
+//                      style: new TextStyle(
+//                          fontSize: 16.0,
+//                          color: _importantColor))),
+              new ListTile(
+                  isThreeLine: true,
+                  dense: true,
+                  subtitle: new Text(
+                      kata.completedLanguages.last,
+                      style: new TextStyle(
+                          fontSize: 14.0,
+                          color: _importantColor)),
+                  title: new Text(
+                      kata.completedAt,
+                      style: new TextStyle(
+                          fontSize: 16.0,
+                          color: _importantColor))),
+            ]));
       });
       _kata.child = new Scrollbar(
           child: new ListView(
             primary: false,
-            padding: new EdgeInsets.symmetric(vertical: 0.0),
+            padding: new EdgeInsets.symmetric(vertical: 8.0),
             children: list,
-            itemExtent: 30.0,));
+            shrinkWrap: true,
+          ));
     }
     return new Scaffold(
       key: _scaffoldKey,

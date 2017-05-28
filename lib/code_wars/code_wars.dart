@@ -75,14 +75,20 @@ class Rank {
 class KataCompleted {
   String id;
   String name;
+  String fullName;
   String slug;
+  String completedAt;
   List<String> completedLanguages;
 
-  KataCompleted(this.id, this.name, this.slug, this.completedLanguages);
+  KataCompleted(this.id, this.name, this.slug, this.completedLanguages, this.completedAt) {
+    const maxLen = 25;
+    this.fullName = this.name;
+    if (this.name.length >= maxLen) this.name = this.name.substring(0, maxLen) + "...";
+  }
 
   static List<KataCompleted> fromJson(Map json) {
-    List<Map> ls = json['completedCodeChallenges'];
+    List<Map> ls = json['data'];
     return ls.map((m) =>
-    new KataCompleted(m['id'], m['name'], m['slug'], m['completedLanguages']));
+    new KataCompleted(m['id'], m['name'], m['slug'], m['completedLanguages'], m['completedAt'])).toList();
   }
 }
