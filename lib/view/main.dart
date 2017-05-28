@@ -191,6 +191,7 @@ class _MainActivityState extends State<MainActivity>
       _completed = null;
     } else {
       _completed = KataCompleted.fromJson(json);
+      print(_completed.toString());
     }
   }
 
@@ -198,91 +199,177 @@ class _MainActivityState extends State<MainActivity>
   Widget build(BuildContext context) {
     if (null != _user) {
       var list = <Widget>[
-        new ListTile(title: new Text(_user.name, style: new TextStyle(
-            color: _textColor, fontSize: 32.0)),
-            trailing: new Text("\n${_user.username}", style: new TextStyle(
-                color: _textColor, fontSize: 16.0))),
         new ListTile(
-            title: new Text("\n${_user.clan}", style: new TextStyle(
-                color: _textColor, fontSize: 16.0))),
+            title: new Text(
+                _user.name,
+                style: new TextStyle(
+                    color: _textColor,
+                    fontSize: 32.0)),
+            trailing: new Text(
+                "\n${_user.username}",
+                style: new TextStyle(
+                    color: _textColor,
+                    fontSize: 16.0))),
+        new ListTile(
+            title: new Text(
+                "\n${_user.clan}",
+                style: new TextStyle(
+                    color: _textColor,
+                    fontSize: 16.0))),
         const ListTile(),
-        new ListTile(trailing: new Text("${_user.honor}",
-            style: new TextStyle(color: _importantColor, fontSize: 22.0)),
-            title: new Text("Honor", style: new TextStyle(
-                color: _importantColor, fontSize: 20.0))),
-        new ListTile(trailing: new Text("${_user.leaderboardPosition}",
-            style: new TextStyle(color: _importantColor, fontSize: 22.0)),
-            title: new Text("LeaderBoard Rank", style: new TextStyle(
-                color: _importantColor, fontSize: 20.0))),
+        new ListTile(
+            trailing: new Text(
+                "${_user.honor}",
+                style: new TextStyle(
+                    color: _importantColor,
+                    fontSize: 22.0)),
+            title: new Text(
+                "Honor",
+                style: new TextStyle(
+                    color: _importantColor,
+                    fontSize: 20.0))),
+        new ListTile(
+            trailing: new Text(
+                "${_user.leaderboardPosition}",
+                style: new TextStyle(
+                    color: _importantColor,
+                    fontSize: 22.0)),
+            title: new Text(
+                "LeaderBoard Rank",
+                style: new TextStyle(
+                    color: _importantColor,
+                    fontSize: 20.0))),
         const ListTile(),
-        new ListTile(title: new Text("Overall", style: new TextStyle(
-            color: _textColor, fontSize: 24.0))),
-        new ListTile(title: new Text("Score: ${_user.overall.score}",
-            style: new TextStyle(color: _importantColor, fontSize: 20.0)),
-            trailing: new Text("<${_user.overall.name}>", style:
-            new TextStyle(color: _importantColor, fontSize: 20.0)),
+        new ListTile(
+            title: new Text("Overall",
+                style: new TextStyle(
+                    color: _textColor,
+                    fontSize: 24.0))),
+        new ListTile(
+            title: new Text(
+                "Score: ${_user.overall.score}",
+                style: new TextStyle(
+                    color: _importantColor,
+                    fontSize: 20.0)),
+            trailing: new Text(
+                "<${_user.overall.name}>",
+                style: new TextStyle(
+                    color: _importantColor,
+                    fontSize: 20.0)),
             dense: true),
         const ListTile(),
-        new ListTile(title: new Text("Skills:", style: new TextStyle(
-            color: _textColor, fontSize: 24.0))),
-        new ListTile(title: new ListView(scrollDirection: Axis.horizontal,
-            children: _user.skills.map((f) =>
-            new Card(elevation: 1.5, color:
-            _textColor, child: new Text(" $f ", style: new TextStyle(color:
-            _background, fontSize: 16.0)))).toList())),
+        new ListTile(
+            title: new Text(
+                "Skills:",
+                style: new TextStyle(
+                    color: _textColor,
+                    fontSize: 24.0))),
+        new ListTile(
+            title: new ListView(
+                scrollDirection: Axis.horizontal,
+                children: _user.skills.map((f) =>
+                new Card(
+                    elevation: 1.5,
+                    color: _textColor,
+                    child: new Text(
+                        " $f ",
+                        style: new TextStyle(
+                            color: _background,
+                            fontSize: 16.0)))).toList())),
         const ListTile(),
-        new ListTile(title: new Text("Challenges", style: new TextStyle(
-            color: _textColor, fontSize: 24.0))),
-        new ListTile(trailing: new Text("${_user.totalAuthored}",
-            style: new TextStyle(color: _importantColor, fontSize: 20.0)),
-            title: new Text("Authored", style: new TextStyle(
-                color: _importantColor, fontSize: 18.0))),
-        new ListTile(trailing: new Text("${_user.totalCompleted}",
-            style: new TextStyle(color: _importantColor, fontSize: 20.0)),
-            title: new Text("Completed", style: new TextStyle(
-                color: _importantColor, fontSize: 18.0))),
+        new ListTile(
+            title: new Text(
+                "Challenges",
+                style: new TextStyle(
+                    color: _textColor,
+                    fontSize: 24.0))),
+        new ListTile(
+            trailing: new Text(
+                "${_user.totalAuthored}",
+                style: new TextStyle(
+                    color: _importantColor,
+                    fontSize: 20.0)),
+            title: new Text(
+                "Authored",
+                style: new TextStyle(
+                    color: _importantColor,
+                    fontSize: 18.0))),
+        new ListTile(
+            trailing: new Text(
+                "${_user.totalCompleted}",
+                style: new TextStyle(
+                    color: _importantColor,
+                    fontSize: 20.0)),
+            title: new Text(
+                "Completed",
+                style: new TextStyle(
+                    color: _importantColor,
+                    fontSize: 18.0))),
         const ListTile(),
-        new ListTile(title: new Text("Languages", style: new TextStyle(
-            color: _textColor, fontSize: 24.0))),
+        new ListTile(
+            title: new Text(
+                "Languages",
+                style: new TextStyle(
+                    color: _textColor,
+                    fontSize: 24.0))),
       ];
       _user.langsRank.forEach((rank) {
         debugPrint(rank.lang);
-        list.add(new ListTile(dense: true,
-            title: new Text("${rank.lang}\n", style: new TextStyle(color:
-            _importantColor, fontSize: 18.0)), trailing:
-            new Text("${rank.score} <${rank.name}>", style: new TextStyle(
-                color: _importantColor, fontSize: 14.0))));
+        list.add(new ListTile(
+            dense: true,
+            title: new Text(
+                "${rank.lang}\n",
+                style: new TextStyle(color: _importantColor,
+                    fontSize: 18.0)),
+            trailing: new Text(
+                "${rank.score} <${rank.name}>",
+                style: new TextStyle(
+                    color: _importantColor,
+                    fontSize: 14.0))));
       });
       list.add(const ListTile());
       list.add(const ListTile());
-      _me.child = new ListView(padding: new EdgeInsets.symmetric(vertical: 0.0),
-          primary: false, itemExtent: 30.0, children: list);
+      _me.child = new ListView(
+          padding: new EdgeInsets.symmetric(vertical: 0.0),
+          primary: false,
+          itemExtent: 30.0,
+          children: list);
     }
     if (null != _completed) {
       var list = <Widget>[];
       _completed.forEach((kata) {
-        list.add(new ExpansionTile(title: new Text(kata.name, style:
-        new TextStyle(fontSize: 24.0, color: _textColor)), children: [
+        list.add(new ExpansionTile(
+            title: new Text(
+                kata.name,
+                style:
+                new TextStyle(
+                    fontSize: 24.0,
+                    color: _textColor)), children: [
         ]));
       });
-      _kata.child = new Scrollbar(child: new ListView(primary: false,
-        padding: new EdgeInsets.symmetric(vertical: 0.0), children: list,
-        itemExtent: 30.0,));
+      _kata.child = new Scrollbar(
+          child: new ListView(
+            primary: false,
+            padding: new EdgeInsets.symmetric(vertical: 0.0),
+            children: list,
+            itemExtent: 30.0,));
     }
     return new Scaffold(
       key: _scaffoldKey,
       appBar: new AppBar(
           title: new Text(_title),
           actions: [
-            new IconButton(icon: new Icon(Icons.settings), onPressed: () {
-              Navigator.of(context).push(new SettingsActivity()).then((_) =>
-                  setState(_changeAh));
-            }),
+            new IconButton(
+                icon: new Icon(Icons.settings),
+                onPressed: () {
+                  Navigator.of(context).push(new SettingsActivity()).then((_) =>
+                      setState(_changeAh));
+                }),
             _debugDataSourceButton(),
           ],
-          bottom: new TabBar(controller: _tabController,
-            tabs: _allPages.map((_Page page) => new Tab(text: page.tabLabel))
-                .toList(),)),
+          bottom: new TabBar(
+            controller: _tabController,
+            tabs: _allPages.map((_Page page) => new Tab(text: page.tabLabel)).toList(),)),
       floatingActionButton: !_selectedPage.fabHere ? null
           : new FloatingActionButton(
           key: _selectedPage.fabKey,
@@ -290,20 +377,21 @@ class _MainActivityState extends State<MainActivity>
           backgroundColor: _selectedPage.fabColor,
           child: _selectedPage.createIcon,
           onPressed: _selectedPage.onClick),
-      body: new TabBarView(controller: _tabController,
+      body: new TabBarView(
+          controller: _tabController,
           children: _allPages.map(buildTabView).toList()),);
   }
 
   _debugDataSourceButton() =>
-      new IconButton(icon: new Icon(Icons.bug_report), onPressed: () {
-        setState(() {
-          _performChangeUser("""{"username":"ice1000","name":"千里冰封","honor":
-1330,"clan":"Gensokyo","leaderboardPosition":2589,"skills":["haskell",
-"cross dress","sell moe","kotlin"],"ranks":{"overall":{"rank":-3,"name":"3 kyu"
-,"color":"blue","score":2083},"languages":{"java":{"rank":-8,"name":"8 kyu",
-"color":"white","score":2},"dart":{"rank":-8,"name":"8 kyu","color":"white",
-"score":5},"haskell":{"rank":-3,"name":"3 kyu","color":"blue","score":2078}}},
+      new IconButton(
+          icon: new Icon(Icons.bug_report),
+          onPressed: () {
+            setState(() {
+              _performChangeUser("""{"username":"ice1000","name":"千里冰封","honor":1330,"clan":"Gensokyo",
+"leaderboardPosition":2589,"skills":["haskell","cross dress","sell moe","kotlin"],"ranks":{"overall":{"rank":-3,"name":
+"3 kyu","color":"blue","score":2083},"languages":{"java":{"rank":-8,"name":"8 kyu","color":"white","score":2},"dart":{
+"rank":-8,"name":"8 kyu","color":"white","score":5},"haskell":{"rank":-3,"name":"3 kyu","color":"blue","score":2078}}},
 "codeChallengess":{"totalAuthored":0,"totalCompleted":108}}""");
-        });
-      });
+            });
+          });
 }
