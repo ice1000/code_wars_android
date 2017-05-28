@@ -122,6 +122,16 @@ class _MainActivityState extends State<MainActivity>
           get(CodeWarsAPI.getUser(_user.username))
             ..then((val) {
               setState(() => _performChangeUser(val.body));
+              SharedPreferences.getInstance().then((sp) {
+                sp.setString(DatabaseKeys.USER, val.body);
+              });
+              get(CodeWarsAPI.getCompletedKata(_user.username))
+                ..then((val) {
+                  setState(() => _performChangeCompleted(val.body));
+                  SharedPreferences.getInstance().then((sp) {
+                    sp.setString(DatabaseKeys.COMPLETED, val.body);
+                  });
+                });
               Navigator.pop(context);
             })
             ..timeout(new Duration(seconds: 10))
@@ -174,8 +184,7 @@ class _MainActivityState extends State<MainActivity>
 
   Widget buildTabView(_Page page) =>
       new Container(
-          key: new ValueKey<String>(page.tabLabel),
-          color: _background,
+          key: new ValueKey<String>(page.tabLabel), color: _background,
           padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 32.0),
           child: page.childWight);
 
@@ -185,11 +194,20 @@ class _MainActivityState extends State<MainActivity>
     if (null != reason) {
       _me.displayWhenEmpty = reason;
       _user = null;
-    } else
-      _user = new CodeWarsUser.fromJSON(json);
-    SharedPreferences.getInstance().then((sp) {
-      sp.setString(DatabaseKeys.USER, _json);
-    });
+    } else {
+      _user = new CodeWarsUser.fromJson(json);
+    }
+  }
+
+  _performChangeCompleted(String _json) {
+    Map json = new JsonDecoder(null).convert(_json);
+    var reason = json['reason'];
+    if (null != reason) {
+      _kata.displayWhenEmpty = reason;
+      _completed = null;
+    } else {
+      _completed = KataCompleted.fromJson(json);
+    }
   }
 
   @override

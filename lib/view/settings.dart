@@ -35,7 +35,7 @@ class SettingsState extends State<SettingsView> {
     try {
       Map json = new JsonDecoder(null).convert(_json);
       var reason = json['reason'];
-      _user = null != reason ? null : new CodeWarsUser.fromJSON(json);
+      _user = null != reason ? null : new CodeWarsUser.fromJson(json);
     } catch (e) {
       _json = CodeWarsAPI.getErrorWithReason("invalid");
     }
@@ -88,7 +88,7 @@ class SettingsState extends State<SettingsView> {
     super.initState();
     _usernameEditingController = new TextEditingController();
     SharedPreferences.getInstance().then((sp) {
-      _user = new CodeWarsUser.fromJSON(new JsonDecoder(null).convert(
+      _user = new CodeWarsUser.fromJson(new JsonDecoder(null).convert(
           sp.getString(DatabaseKeys.USER) ??
               CodeWarsAPI.getErrorWithReason("not found")));
     });

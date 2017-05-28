@@ -39,7 +39,7 @@ class CodeWarsUser {
 
   CodeWarsUser();
 
-  CodeWarsUser.fromJSON(Map json) {
+  CodeWarsUser.fromJson(Map json) {
     username = json['username'];
     name = json['name'] ?? 'Unknown';
     clan = json['clan'] ?? '';

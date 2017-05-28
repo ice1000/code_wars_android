@@ -6,6 +6,8 @@ import 'package:path_provider/path_provider.dart';
 class DatabaseKeys {
   static const USER = "user_data";
   static const KATAS = "katas_data";
+
+  static const COMPLETED = "completed_kata";
 }
 
 class Storage {
