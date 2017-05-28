@@ -100,12 +100,12 @@ class SettingsState extends State<SettingsView> {
       new ListTile(
           title: new Text("Change user name",
               style: new TextStyle(
-                  fontSize: 20.0,
+                  fontSize: 16.0,
                   color: _textColor)),
           subtitle: new Text(
               _user?.username ?? "Unknown",
               style: new TextStyle(
-                  fontSize: 16.0,
+                  fontSize: 14.0,
                   color: _textColor)),
           dense: true,
           trailing: new IconButton(
@@ -114,17 +114,22 @@ class SettingsState extends State<SettingsView> {
       new ExpansionTile(
           title: new Text("App info",
               style: new TextStyle(
+                  fontSize: 16.0,
                   color: _textColor)),
           children: [
             new ListTile(
                 dense: true,
                 title: new Text("Source on GitHub",
-                    style: new TextStyle(color: _textColor)),
+                    style: new TextStyle(
+                        fontSize: 14.0,
+                        color: _textColor)),
                 onTap: () => _viewWeb('https://github.com/ice1000/code_wars_android')),
             new ListTile(
                 dense: true,
                 title: new Text("License",
-                    style: new TextStyle(color: _textColor)),
+                    style: new TextStyle(
+                        fontSize: 14.0,
+                        color: _textColor)),
                 onTap: () {
                   showDialog(
                       context: context,
@@ -142,7 +147,9 @@ class SettingsState extends State<SettingsView> {
             new ListTile(
                 dense: true,
                 title: new Text("Open CodeWars",
-                    style: new TextStyle(color: _textColor)),
+                    style: new TextStyle(
+                        fontSize: 14.0,
+                        color: _textColor)),
                 onTap: () => _viewWeb('https://www.codewars.com/')),
           ])
     ];
