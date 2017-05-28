@@ -92,6 +92,8 @@ class _MainActivityState extends State<MainActivity>
       setState(() {
         _performChangeUser(sp.getString(DatabaseKeys.USER) ??
             CodeWarsAPI.getErrorWithReason("not set"));
+        _performChangeCompleted(sp.getString(DatabaseKeys.COMPLETED) ??
+            CodeWarsAPI.getErrorWithReason("not set"));
       });
     });
   }
@@ -126,7 +128,7 @@ class _MainActivityState extends State<MainActivity>
               ..timeout(new Duration(seconds: 10))
               ..catchError(() {
                 SharedPreferences.getInstance().then((sp) {
-                  sp.setString(DatabaseKeys.USER, CodeWarsAPI
+                  sp.setString(DatabaseKeys.COMPLETED, CodeWarsAPI
                       .getErrorWithReason("time out"));
                 });
                 setState(() {
@@ -147,7 +149,7 @@ class _MainActivityState extends State<MainActivity>
               barrierDismissible: false);
           get(CodeWarsAPI.getUser(_user.username))
             ..then((val) {
-              setState(() => _performChangeCompleted(val.body));
+              setState(() => _performChangeUser(val.body));
               SharedPreferences.getInstance().then((sp) {
                 sp.setString(DatabaseKeys.USER, val.body);
               });
@@ -197,9 +199,8 @@ class _MainActivityState extends State<MainActivity>
     if (null != reason) {
       _me.displayWhenEmpty = reason;
       _user = null;
-    } else {
+    } else
       _user = new CodeWarsUser.fromJson(json);
-    }
   }
 
   _performChangeCompleted(String _json) {
@@ -208,10 +209,8 @@ class _MainActivityState extends State<MainActivity>
     if (null != reason) {
       _kata.displayWhenEmpty = reason;
       _completed = null;
-    } else {
+    } else
       _completed = KataCompleted.fromJson(json);
-      print(_completed.toString());
-    }
   }
 
   @override
