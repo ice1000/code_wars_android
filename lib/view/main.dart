@@ -71,9 +71,9 @@ class MainActivity extends StatefulWidget {
 class _MainActivityState extends State<MainActivity>
     with SingleTickerProviderStateMixin {
   final _scaffoldKey = new GlobalKey<ScaffoldState>();
-  final Color _background = CodeWarsColors.main.shade50;
-  final Color _textColor = CodeWarsColors.notSoImportant.shade600;
-  final Color _importantColor = CodeWarsColors.notSoImportant.shade800;
+  static final Color _background = CodeWarsColors.main.shade50;
+  static final Color _textColor = CodeWarsColors.notSoImportant.shade600;
+  static final Color _importantColor = CodeWarsColors.notSoImportant.shade800;
   final String _title;
   List<_Page> _allPages;
   _Page _friends;
@@ -84,15 +84,12 @@ class _MainActivityState extends State<MainActivity>
 
   TabController _tabController;
   CodeWarsUser _user;
-  List<KataCompleted> _completed;
   _Page _selectedPage;
 
   _changeAh() {
     SharedPreferences.getInstance().then((sp) {
       setState(() {
         _performChangeUser(sp.getString(DatabaseKeys.USER) ??
-            CodeWarsAPI.getErrorWithReason("not set"));
-        _performChangeCompleted(sp.getString(DatabaseKeys.COMPLETED) ??
             CodeWarsAPI.getErrorWithReason("not set"));
       });
     });
@@ -110,40 +107,9 @@ class _MainActivityState extends State<MainActivity>
       icon: Icons.add,
       information: "Add friend",);
     _kata = new _Page(
-        displayWhenEmpty: 'Kata',
-        tabLabel: 'Kata',
-        icon: Icons.refresh,
-        information: "Refresh",
-        onClick: () {
-          if (null != _user) {
-            showDialog(
-                context: context,
-                child: new RefreshProgressDialog(
-                    CodeWarsColors.main.shade100,
-                    width: 100,
-                    height: 100),
-                barrierDismissible: false);
-            get(CodeWarsAPI.getCompletedKata(_user.username))
-              ..then((val) {
-                setState(() => _performChangeCompleted(val.body));
-                SharedPreferences.getInstance().then((sp) {
-                  sp.setString(DatabaseKeys.COMPLETED, val.body);
-                });
-                _pop();
-              })
-              ..timeout(new Duration(seconds: 10))
-              ..catchError((e) {
-                SharedPreferences.getInstance().then((sp) {
-                  sp.setString(DatabaseKeys.COMPLETED, CodeWarsAPI
-                      .getErrorWithReason("time out"));
-                });
-                setState(() {
-                  _user = null;
-                });
-                _pop();
-              });
-          }
-        });
+      displayWhenEmpty: 'Kata',
+      tabLabel: 'Kata',
+      information: "Refresh",);
     _me = new _Page(
       displayWhenEmpty: 'User not set yet.',
       tabLabel: 'Me',
@@ -214,159 +180,128 @@ class _MainActivityState extends State<MainActivity>
     }
   }
 
-  _performChangeCompleted(String _json) {
-    try {
-      Map json = new JsonDecoder(null).convert(_json);
-
-      var reason = json['reason'];
-      if (null != reason) {
-        _kata.displayWhenEmpty = reason;
-        _completed = null;
-      } else
-        _completed = KataCompleted.fromJson(json);
-    } catch (e) {
-      _kata.displayWhenEmpty = "Error";
-      _completed = null;
-    }
+  List<Widget> _getUserInfoView() {
+    return <Widget>[
+      new ListTile(
+          title: new Text(
+              _user.name,
+              style: new TextStyle(
+                  color: _textColor,
+                  fontSize: 32.0)),
+          trailing: new Text(
+              "\n${_user.username}",
+              style: new TextStyle(
+                  color: _textColor,
+                  fontSize: 16.0))),
+      new ListTile(
+          title: new Text(
+              "\n${_user.clan}",
+              style: new TextStyle(
+                  color: _textColor,
+                  fontSize: 16.0))),
+      const ListTile(),
+      new ListTile(
+          trailing: new Text(
+              "${_user.honor}",
+              style: new TextStyle(
+                  color: _importantColor,
+                  fontSize: 22.0)),
+          title: new Text(
+              "Honor",
+              style: new TextStyle(
+                  color: _importantColor,
+                  fontSize: 20.0))),
+      new ListTile(
+          trailing: new Text(
+              "${_user.leaderboardPosition}",
+              style: new TextStyle(
+                  color: _importantColor,
+                  fontSize: 22.0)),
+          title: new Text(
+              "LeaderBoard Rank",
+              style: new TextStyle(
+                  color: _importantColor,
+                  fontSize: 20.0))),
+      const ListTile(),
+      new ListTile(
+          title: new Text("Overall",
+              style: new TextStyle(
+                  color: _textColor,
+                  fontSize: 24.0))),
+      new ListTile(
+          title: new Text(
+              "Score: ${_user.overall.score}",
+              style: new TextStyle(
+                  color: _importantColor,
+                  fontSize: 20.0)),
+          trailing: new Text(
+              "<${_user.overall.name}>",
+              style: new TextStyle(
+                  color: _importantColor,
+                  fontSize: 20.0)),
+          dense: true),
+      const ListTile(),
+      new ListTile(
+          title: new Text(
+              "Skills:",
+              style: new TextStyle(
+                  color: _textColor,
+                  fontSize: 24.0))),
+      new ListTile(
+          title: new ListView(
+              scrollDirection: Axis.horizontal,
+              children: _user.skills.map((f) =>
+              new Card(
+                  elevation: 1.5,
+                  color: _textColor,
+                  child: new Text(
+                      " $f ",
+                      style: new TextStyle(
+                          color: _background,
+                          fontSize: 16.0)))).toList())),
+      const ListTile(),
+      new ListTile(
+          title: new Text(
+              "Challenges",
+              style: new TextStyle(
+                  color: _textColor,
+                  fontSize: 24.0))),
+      new ListTile(
+          trailing: new Text(
+              "${_user.totalAuthored}",
+              style: new TextStyle(
+                  color: _importantColor,
+                  fontSize: 20.0)),
+          title: new Text(
+              "Authored",
+              style: new TextStyle(
+                  color: _importantColor,
+                  fontSize: 18.0))),
+      new ListTile(
+          trailing: new Text(
+              "${_user.totalCompleted}",
+              style: new TextStyle(
+                  color: _importantColor,
+                  fontSize: 20.0)),
+          title: new Text(
+              "Completed",
+              style: new TextStyle(
+                  color: _importantColor,
+                  fontSize: 18.0))),
+      const ListTile(),
+      new ListTile(
+          title: new Text(
+              "Languages",
+              style: new TextStyle(
+                  color: _textColor,
+                  fontSize: 24.0))),
+    ];
   }
 
   @override
   Widget build(BuildContext context) {
     if (null != _user) {
-      var list = <Widget>[
-        new ListTile(
-            title: new Text(
-                _user.name,
-                style: new TextStyle(
-                    color: _textColor,
-                    fontSize: 32.0)),
-            trailing: new Text(
-                "\n${_user.username}",
-                style: new TextStyle(
-                    color: _textColor,
-                    fontSize: 16.0))),
-        new ListTile(
-            title: new Text(
-                "\n${_user.clan}",
-                style: new TextStyle(
-                    color: _textColor,
-                    fontSize: 16.0))),
-        const ListTile(),
-        new ListTile(
-            trailing: new Text(
-                "${_user.honor}",
-                style: new TextStyle(
-                    color: _importantColor,
-                    fontSize: 22.0)),
-            title: new Text(
-                "Honor",
-                style: new TextStyle(
-                    color: _importantColor,
-                    fontSize: 20.0))),
-        new ListTile(
-            trailing: new Text(
-                "${_user.leaderboardPosition}",
-                style: new TextStyle(
-                    color: _importantColor,
-                    fontSize: 22.0)),
-            title: new Text(
-                "LeaderBoard Rank",
-                style: new TextStyle(
-                    color: _importantColor,
-                    fontSize: 20.0))),
-        const ListTile(),
-        new ListTile(
-            title: new Text("Overall",
-                style: new TextStyle(
-                    color: _textColor,
-                    fontSize: 24.0))),
-        new ListTile(
-            title: new Text(
-                "Score: ${_user.overall.score}",
-                style: new TextStyle(
-                    color: _importantColor,
-                    fontSize: 20.0)),
-            trailing: new Text(
-                "<${_user.overall.name}>",
-                style: new TextStyle(
-                    color: _importantColor,
-                    fontSize: 20.0)),
-            dense: true),
-        const ListTile(),
-        new ListTile(
-            title: new Text(
-                "Skills:",
-                style: new TextStyle(
-                    color: _textColor,
-                    fontSize: 24.0))),
-        new ListTile(
-            title: new ListView(
-                scrollDirection: Axis.horizontal,
-                children: _user.skills.map((f) =>
-                new Card(
-                    elevation: 1.5,
-                    color: _textColor,
-                    child: new Text(
-                        " $f ",
-                        style: new TextStyle(
-                            color: _background,
-                            fontSize: 16.0)))).toList())),
-        const ListTile(),
-        new ListTile(
-            title: new Text(
-                "Challenges",
-                style: new TextStyle(
-                    color: _textColor,
-                    fontSize: 24.0))),
-        new ListTile(
-            trailing: new Text(
-                "${_user.totalAuthored}",
-                style: new TextStyle(
-                    color: _importantColor,
-                    fontSize: 20.0)),
-            title: new Text(
-                "Authored",
-                style: new TextStyle(
-                    color: _importantColor,
-                    fontSize: 18.0))),
-        new ListTile(
-            trailing: new Text(
-                "${_user.totalCompleted}",
-                style: new TextStyle(
-                    color: _importantColor,
-                    fontSize: 20.0)),
-            title: new Text(
-                "Completed",
-                style: new TextStyle(
-                    color: _importantColor,
-                    fontSize: 18.0))),
-        const ListTile(),
-        new ListTile(
-            title: new Text(
-                "Languages",
-                style: new TextStyle(
-                    color: _textColor,
-                    fontSize: 24.0))),
-      ];
-//      list.addAll(_user.langsRank.map((rank) {
-//        return new ExpansionTile(
-//          title: new Text(
-//              "${rank.lang}\n",
-//              style: new TextStyle(color: _importantColor,
-//                  fontSize: 20.0)),
-//          children: [
-//            new Text(
-//                "Score: ${rank.score}",
-//                style: new TextStyle(
-//                    color: _importantColor,
-//                    fontSize: 14.0)),
-//            new Text(
-//                "level: <${rank.name}>",
-//                style: new TextStyle(
-//                    color: _importantColor,
-//                    fontSize: 14.0)),
-//          ],);
-//      }));
+      List<Widget> list = _getUserInfoView();
       _user.langsRank.forEach((rank) {
         list.add(new ListTile(
             dense: true,
@@ -387,57 +322,13 @@ class _MainActivityState extends State<MainActivity>
           primary: false,
           itemExtent: 30.0,
           children: list);
-    }
-    if (null != _completed) {
-      var list = <Widget>[];
-      _completed.forEach((kata) {
-        list.add(new ExpansionTile(
-            title: new Text(
-                kata.name,
-                style: new TextStyle(
-                    fontSize: 20.0,
-                    color: _textColor)),
-            children: [
-              new ListTile(
-                  dense: true,
-                  isThreeLine: true,
-                  subtitle: new Text(
-                      kata.slug,
-                      style: new TextStyle(
-                          fontSize: 13.0,
-                          color: _importantColor)),
-                  title: new Text(
-                      kata.fullName,
-                      style: new TextStyle(
-                          fontSize: 16.0,
-                          color: _importantColor))),
-//              new ListTile(
-//                  dense: true,
-//                  title: new Text(
-//                      "Kata id: ${kata.id}",
-//                      style: new TextStyle(
-//                          fontSize: 16.0,
-//                          color: _importantColor))),
-              new ListTile(
-                  isThreeLine: true,
-                  dense: true,
-                  subtitle: new Text(
-                      kata.completedLanguages.last,
-                      style: new TextStyle(
-                          fontSize: 14.0,
-                          color: _importantColor)),
-                  title: new Text(
-                      kata.completedAt,
-                      style: new TextStyle(
-                          fontSize: 16.0,
-                          color: _importantColor))),
-            ]));
-      });
       _kata.child = new Scrollbar(
           child: new ListView(
             primary: false,
             padding: new EdgeInsets.symmetric(vertical: 8.0),
-            children: list,
+            children: new List.generate(_user.totalCompleted ~/ 200, (old) =>
+            new ListTile(
+                title: new Text("Completed ${old * 200 + 1} ~ ${(old + 1) * 200}"))),
             shrinkWrap: true,
           ));
     }
@@ -449,8 +340,7 @@ class _MainActivityState extends State<MainActivity>
             new IconButton(
                 icon: new Icon(Icons.settings),
                 onPressed: () {
-                  Navigator.of(context).push(new SettingsActivity(_user)).then((_) =>
-                      setState(_changeAh));
+                  Navigator.of(context).push(new SettingsActivity(_user)).then((_) => setState(_changeAh));
                 }),
             _debugDataSourceButton(),
           ],

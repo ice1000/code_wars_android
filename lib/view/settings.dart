@@ -28,8 +28,8 @@ class SettingsView extends StatefulWidget {
 class SettingsState extends State<SettingsView> {
   CodeWarsUser _user;
   String _title = "Settings";
-  Color _textColor = CodeWarsColors.notSoImportant.shade800;
-  Color _titleColor = CodeWarsColors.notSoImportant.shade100;
+  static final Color _textColor = CodeWarsColors.notSoImportant.shade800;
+  static final Color _titleColor = CodeWarsColors.notSoImportant.shade100;
   TextEditingController _usernameEditingController;
 
   SettingsState(this._title, this._user);

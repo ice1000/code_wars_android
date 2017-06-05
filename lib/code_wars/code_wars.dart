@@ -96,6 +96,9 @@ class KataCompleted {
     if (name.length >= maxLen) name = name.substring(0, maxLen) + "...";
   }
 
+  @override
+  String toString() => """{"id": "$id","name": "$name","slug": "$slug","completedLanguages": ${completedLanguages.map((s) => "\"s\"")})},"completedAt": "$completedAt"}""";
+
   static List<KataCompleted> fromJson(Map json) {
     List<Map> ls = json['data'];
     return ls.map((m) =>
