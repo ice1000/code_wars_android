@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+
 ///
 /// Created by ice1000 on 2016/5/12
 ///
@@ -39,6 +43,17 @@ class RefreshProgressDialog extends StatelessWidget {
     );
   }
 }
+
+//Future<T> showDialogNamed<T>({
+//  @required BuildContext context,
+//  bool barrierDismissible: true,
+//  @required Widget child,}) =>
+//    Navigator.push(context, new _DialogRoute<T>(
+//      child: child,
+//      theme: Theme.of(context, shadowThemeOnly: true),
+//      barrierDismissible: barrierDismissible,
+//    ));
+
 
 const String GPLv3 = """
 GNU GENERAL PUBLIC LICENSE

@@ -98,6 +98,8 @@ class _MainActivityState extends State<MainActivity>
     });
   }
 
+  _pop() => Navigator.canPop(context) ? Navigator.pop(context) : null;
+
   @override
   void initState() {
     super.initState();
@@ -114,8 +116,12 @@ class _MainActivityState extends State<MainActivity>
         information: "Refresh",
         onClick: () {
           if (null != _user) {
-            showDialog(context: context, child: new RefreshProgressDialog(
-                CodeWarsColors.main.shade100, width: 100, height: 100),
+            showDialog(
+                context: context,
+                child: new RefreshProgressDialog(
+                    CodeWarsColors.main.shade100,
+                    width: 100,
+                    height: 100),
                 barrierDismissible: false);
             get(CodeWarsAPI.getCompletedKata(_user.username))
               ..then((val) {
@@ -123,7 +129,7 @@ class _MainActivityState extends State<MainActivity>
                 SharedPreferences.getInstance().then((sp) {
                   sp.setString(DatabaseKeys.COMPLETED, val.body);
                 });
-                Navigator.pop(context);
+                _pop();
               })
               ..timeout(new Duration(seconds: 10))
               ..catchError((e) {
@@ -134,7 +140,7 @@ class _MainActivityState extends State<MainActivity>
                 setState(() {
                   _user = null;
                 });
-                Navigator.pop(context);
+                _pop();
               });
           }
         });
@@ -153,9 +159,11 @@ class _MainActivityState extends State<MainActivity>
               SharedPreferences.getInstance().then((sp) {
                 sp.setString(DatabaseKeys.USER, val.body);
               });
-              Navigator.pop(context);
+              _pop();
             })
-            ..timeout(new Duration(seconds: 10))
+            ..timeout(new Duration(seconds: 10), onTimeout: () {
+
+            })
             ..catchError(() {
               SharedPreferences.getInstance().then((sp) {
                 sp.setString(DatabaseKeys.USER, CodeWarsAPI
@@ -163,7 +171,7 @@ class _MainActivityState extends State<MainActivity>
               });
               setState(() {
                 _user = null;
-                Navigator.pop(context);
+                _pop();
               });
             });
         }
@@ -468,11 +476,8 @@ class _MainActivityState extends State<MainActivity>
           icon: new Icon(Icons.bug_report),
           onPressed: () {
             setState(() {
-              _performChangeUser("""{"username":"ice1000","name":"千里冰封","honor":1330,"clan":"Gensokyo",
-"leaderboardPosition":2589,"skills":["haskell","cross dress","sell moe","kotlin"],"ranks":{"overall":{"rank":-3,"name":
-"3 kyu","color":"blue","score":2083},"languages":{"java":{"rank":-8,"name":"8 kyu","color":"white","score":2},"dart":{
-"rank":-8,"name":"8 kyu","color":"white","score":5},"haskell":{"rank":-3,"name":"3 kyu","color":"blue","score":2078}}},
-"codeChallengess":{"totalAuthored":0,"totalCompleted":108}}""");
+              _performChangeUser(
+                  """{"username":"ice1000","name":"千里冰封","honor":1658,"clan":"Gensokyo","leaderboardPosition":1794,"skills":["haskell","cross dress","sell moe","kotlin"],"ranks":{"overall":{"rank":-3,"name":"3 kyu","color":"blue","score":3077},"languages":{"java":{"rank":-8,"name":"8 kyu","color":"white","score":2},"dart":{"rank":-8,"name":"8 kyu","color":"white","score":5},"haskell":{"rank":-3,"name":"3 kyu","color":"blue","score":3072}}},"codeChallenges":{"totalAuthored":1,"totalCompleted":114}}""");
             });
           });
 }

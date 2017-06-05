@@ -41,6 +41,8 @@ class SettingsState extends State<SettingsView> {
     }
   }
 
+  _pop() => Navigator.canPop(context) ? Navigator.pop(context) : null;
+
   _changeUserName() {
     var dialog = new SimpleDialog(
       contentPadding: new EdgeInsets.all(20.0),
@@ -62,17 +64,16 @@ class SettingsState extends State<SettingsView> {
               SharedPreferences.getInstance().then((sp) {
                 sp.setString(DatabaseKeys.USER, val.body);
               });
-              Navigator.pop(context);
+              _pop();
             })
-            ..timeout(new Duration(seconds: 10))
-            ..catchError(() {
+            ..timeout(new Duration(seconds: 10), onTimeout: () {
               SharedPreferences.getInstance().then((sp) {
                 sp.setString(DatabaseKeys.USER, CodeWarsAPI
                     .getErrorWithReason("time out"));
               });
               setState(() {
                 _user = null;
-                Navigator.pop(context);
+                _pop();
               });
             });
         }, child: new Text("OK",
