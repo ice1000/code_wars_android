@@ -11,6 +11,9 @@ class CodeWarsAPI {
   static getCompletedKata(String user) =>
       "http://www.codewars.com/api/v1/users/$user/code-challenges/completed";
 
+  static getCompletedKataPaginated(String user, int page) =>
+      "http://www.codewars.com/api/v1/users/$user/code-challenges/completed?page=$page";
+
   static getKata(String kata) =>
       "http://www.codewars.com/api/v1/code-challenges/$kata";
 

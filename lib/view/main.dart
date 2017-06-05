@@ -161,9 +161,7 @@ class _MainActivityState extends State<MainActivity>
               });
               _pop();
             })
-            ..timeout(new Duration(seconds: 10), onTimeout: () {
-
-            })
+            ..timeout(new Duration(seconds: 10))
             ..catchError(() {
               SharedPreferences.getInstance().then((sp) {
                 sp.setString(DatabaseKeys.USER, CodeWarsAPI
@@ -451,7 +449,7 @@ class _MainActivityState extends State<MainActivity>
             new IconButton(
                 icon: new Icon(Icons.settings),
                 onPressed: () {
-                  Navigator.of(context).push(new SettingsActivity()).then((_) =>
+                  Navigator.of(context).push(new SettingsActivity(_user)).then((_) =>
                       setState(_changeAh));
                 }),
             _debugDataSourceButton(),

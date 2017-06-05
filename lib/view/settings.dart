@@ -10,15 +10,18 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
 class SettingsActivity extends MaterialPageRoute<Null> {
-  SettingsActivity()
-      : super(builder: (BuildContext context) => new SettingsView());
+  SettingsActivity(CodeWarsUser user) :
+        super(builder: (BuildContext context) => new SettingsView(user));
 }
 
 class SettingsView extends StatefulWidget {
   static const String _title = "Settings";
+  final CodeWarsUser _user;
+
+  SettingsView(this._user);
 
   @override
-  State<StatefulWidget> createState() => new SettingsState(_title);
+  State<StatefulWidget> createState() => new SettingsState(_title, _user);
 }
 
 // ignore: must_be_immutable
@@ -29,7 +32,7 @@ class SettingsState extends State<SettingsView> {
   Color _titleColor = CodeWarsColors.notSoImportant.shade100;
   TextEditingController _usernameEditingController;
 
-  SettingsState(this._title);
+  SettingsState(this._title, this._user);
 
   _performChangeUser(String _json) {
     try {
@@ -88,11 +91,6 @@ class SettingsState extends State<SettingsView> {
   void initState() {
     super.initState();
     _usernameEditingController = new TextEditingController();
-    SharedPreferences.getInstance().then((sp) {
-      _user = new CodeWarsUser.fromJson(new JsonDecoder(null).convert(
-          sp.getString(DatabaseKeys.USER) ??
-              CodeWarsAPI.getErrorWithReason("not found")));
-    });
   }
 
   @override
