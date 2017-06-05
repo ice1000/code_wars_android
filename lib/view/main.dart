@@ -4,6 +4,7 @@ import 'package:code_wars_android/code_wars/code_wars.dart';
 import 'package:code_wars_android/code_wars/colors.dart';
 import 'package:code_wars_android/util/storage.dart';
 import 'package:code_wars_android/util/util.dart';
+import 'package:code_wars_android/view/completed.dart';
 import 'package:code_wars_android/view/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -326,9 +327,23 @@ class _MainActivityState extends State<MainActivity>
           child: new ListView(
             primary: false,
             padding: new EdgeInsets.symmetric(vertical: 8.0),
-            children: new List.generate(_user.totalCompleted ~/ 200, (old) =>
+            children: new List.generate(_user.totalCompleted ~/ 200 + 1, (page) =>
             new ListTile(
-                title: new Text("Completed ${old * 200 + 1} ~ ${(old + 1) * 200}"))),
+                onTap: () {
+                  if (null != _user) {
+                    showDialog(context: context, child: new RefreshProgressDialog(
+                        CodeWarsColors.main.shade100, width: 100, height: 100),
+                        barrierDismissible: false);
+                    get(CodeWarsAPI.getCompletedKataPaginated(_user.username, page))
+                      ..then((val) {
+                        _pop();
+                        Navigator.of(context).push(new CompletedActivity(val.body, page));
+                      })
+                      ..timeout(new Duration(seconds: 10))
+                      ..catchError(() => setState(() => _pop()));
+                  }
+                },
+                title: new Text("Completed ${page * 200 + 1} ~ ${(page + 1) * 200}"))),
             shrinkWrap: true,
           ));
     }
@@ -362,10 +377,8 @@ class _MainActivityState extends State<MainActivity>
   _debugDataSourceButton() =>
       new IconButton(
           icon: new Icon(Icons.bug_report),
-          onPressed: () {
-            setState(() {
-              _performChangeUser(
-                  """{"username":"ice1000","name":"千里冰封","honor":1658,"clan":"Gensokyo","leaderboardPosition":1794,"skills":["haskell","cross dress","sell moe","kotlin"],"ranks":{"overall":{"rank":-3,"name":"3 kyu","color":"blue","score":3077},"languages":{"java":{"rank":-8,"name":"8 kyu","color":"white","score":2},"dart":{"rank":-8,"name":"8 kyu","color":"white","score":5},"haskell":{"rank":-3,"name":"3 kyu","color":"blue","score":3072}}},"codeChallenges":{"totalAuthored":1,"totalCompleted":114}}""");
-            });
-          });
+          onPressed: () =>
+              setState(() =>
+                  _performChangeUser(
+                      """{"username":"ice1000","name":"千里冰封","honor":1658,"clan":"Gensokyo","leaderboardPosition":1794,"skills":["haskell","cross dress","sell moe","kotlin"],"ranks":{"overall":{"rank":-3,"name":"3 kyu","color":"blue","score":3077},"languages":{"java":{"rank":-8,"name":"8 kyu","color":"white","score":2},"dart":{"rank":-8,"name":"8 kyu","color":"white","score":5},"haskell":{"rank":-3,"name":"3 kyu","color":"blue","score":3072}}},"codeChallenges":{"totalAuthored":1,"totalCompleted":114}}""")));
 }
