@@ -44,8 +44,8 @@ class CodeWarsUser {
 
   CodeWarsUser.fromJson(Map json) {
     username = json['username'];
-    name = json['name'] ?? 'Unknown';
-    clan = json['clan'] ?? '';
+    name = json['name']?.replaceAll(new RegExp("[\n\r]"), "") ?? 'Unknown';
+    clan = json['clan']?.replaceAll(new RegExp("[\n\r]"), "") ?? '';
     honor = json['honor'];
     leaderboardPosition = json['leaderboardPosition'];
     skills = json['skills'];
@@ -97,7 +97,8 @@ class KataCompleted {
   }
 
   @override
-  String toString() => """{"id": "$id","name": "$name","slug": "$slug","completedLanguages": ${completedLanguages.map((s) => "\"s\"")})},"completedAt": "$completedAt"}""";
+  String toString() => """{"id": "$id","name": "$name","slug": "$slug","completedLanguages": ${completedLanguages.map((
+      s) => "\"s\"")})},"completedAt": "$completedAt"}""";
 
   static List<KataCompleted> fromJson(Map json) {
     List<Map> ls = json['data'];
