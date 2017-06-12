@@ -13,20 +13,20 @@ import 'package:flutter/widgets.dart';
 
 
 class CompletedActivity extends MaterialPageRoute<Null> {
-  CompletedActivity(String data, int page) : super(builder: (BuildContext context) => new CompletedView(data, page));
+  CompletedActivity(String data, int page) : super(builder: (BuildContext context) => new _CompletedView(data, page));
 }
 
-class CompletedView extends StatefulWidget {
+class _CompletedView extends StatefulWidget {
   final String _data;
   final int _page;
 
-  CompletedView(this._data, this._page);
+  _CompletedView(this._data, this._page);
 
   @override
-  State<StatefulWidget> createState() => new CompletedState("Completed Katas Page $_page", _data, _page);
+  State<StatefulWidget> createState() => new _CompletedState("Completed Katas Page $_page", _data, _page);
 }
 
-class CompletedState extends State<CompletedView> {
+class _CompletedState extends State<_CompletedView> {
   final String _title;
   final String _data;
   final int _page;
@@ -35,7 +35,7 @@ class CompletedState extends State<CompletedView> {
   static final Color _importantColor = CodeWarsColors.notSoImportant.shade800;
   List<KataCompleted> _completed;
 
-  CompletedState(this._title, this._data, this._page);
+  _CompletedState(this._title, this._data, this._page);
 
   @override
   void initState() {

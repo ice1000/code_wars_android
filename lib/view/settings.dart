@@ -11,28 +11,28 @@ import 'package:http/http.dart';
 
 class SettingsActivity extends MaterialPageRoute<Null> {
   SettingsActivity(CodeWarsUser user) :
-        super(builder: (BuildContext context) => new SettingsView(user));
+        super(builder: (BuildContext context) => new _SettingsView(user));
 }
 
-class SettingsView extends StatefulWidget {
+class _SettingsView extends StatefulWidget {
   static const String _title = "Settings";
   final CodeWarsUser _user;
 
-  SettingsView(this._user);
+  _SettingsView(this._user);
 
   @override
-  State<StatefulWidget> createState() => new SettingsState(_title, _user);
+  State<StatefulWidget> createState() => new _SettingsState(_title, _user);
 }
 
 // ignore: must_be_immutable
-class SettingsState extends State<SettingsView> {
+class _SettingsState extends State<_SettingsView> {
   CodeWarsUser _user;
   String _title = "Settings";
   static final Color _textColor = CodeWarsColors.notSoImportant.shade800;
   static final Color _titleColor = CodeWarsColors.notSoImportant.shade100;
   TextEditingController _usernameEditingController;
 
-  SettingsState(this._title, this._user);
+  _SettingsState(this._title, this._user);
 
   _performChangeUser(String _json) {
     try {

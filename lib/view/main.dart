@@ -11,7 +11,7 @@ import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
-class MyApplication extends StatelessWidget {
+class Application extends StatelessWidget {
   var mainTitle = 'Code Wars';
 
   @override
@@ -19,7 +19,7 @@ class MyApplication extends StatelessWidget {
     return new MaterialApp(
       title: mainTitle,
       theme: new ThemeData(primarySwatch: CodeWarsColors.main),
-      home: new MainActivity(mainTitle),
+      home: new _MainView(mainTitle),
     );
   }
 }
@@ -60,16 +60,16 @@ class _Page {
               textAlign: TextAlign.center)));
 }
 
-class MainActivity extends StatefulWidget {
+class _MainView extends StatefulWidget {
   final String _title;
 
-  MainActivity(this._title);
+  _MainView(this._title);
 
   @override
-  _MainActivityState createState() => new _MainActivityState(_title);
+  _MainActivity createState() => new _MainActivity(_title);
 }
 
-class _MainActivityState extends State<MainActivity>
+class _MainActivity extends State<_MainView>
     with SingleTickerProviderStateMixin {
   final _scaffoldKey = new GlobalKey<ScaffoldState>();
   static final Color _background = CodeWarsColors.main.shade50;
@@ -81,7 +81,7 @@ class _MainActivityState extends State<MainActivity>
   _Page _kata;
   _Page _me;
 
-  _MainActivityState(this._title);
+  _MainActivity(this._title);
 
   TabController _tabController;
   CodeWarsUser _user;
