@@ -26,13 +26,13 @@ class Application extends StatelessWidget {
 
 class _Page {
   _Page({
-    this.displayWhenEmpty,
-    this.icon,
-    this.information,
-    this.child,
-    this.tabLabel,
-    this.onClick
-  });
+          this.displayWhenEmpty,
+          this.icon,
+          this.information,
+          this.child,
+          this.tabLabel,
+          this.onClick
+        });
 
   String displayWhenEmpty;
   final String tabLabel;
@@ -85,13 +85,15 @@ class _MainActivity extends State<_MainView>
 
   TabController _tabController;
   CodeWarsUser _user;
+  List<CodeWarsUser> _friendUsers = const[];
   _Page _selectedPage;
 
-  _changeAh() {
+  _changeTheBossOfThisGym() {
     SharedPreferences.getInstance().then((sp) {
       setState(() {
         _performChangeUser(sp.getString(DatabaseKeys.USER) ??
             CodeWarsAPI.getErrorWithReason("not set"));
+        _performChangeFriends(sp.getStringSet(DatabaseKeys.FRIENDS) ?? const[]);
       });
     });
   }
@@ -101,11 +103,15 @@ class _MainActivity extends State<_MainView>
   @override
   void initState() {
     super.initState();
-    _changeAh();
+    _changeTheBossOfThisGym();
     _friends = new _Page(
-      displayWhenEmpty: 'Friends', // 还有这种friend?
+      displayWhenEmpty: 'Friends',
+      // 还有这种friend?
       tabLabel: 'Friends',
       icon: Icons.add,
+      onClick: () {
+        // TODO add users
+      },
       information: "Add friend",);
     _kata = new _Page(
       displayWhenEmpty: 'Kata',
@@ -154,11 +160,7 @@ class _MainActivity extends State<_MainView>
     super.dispose();
   }
 
-  void _handleTabSelection() {
-    setState(() {
-      _selectedPage = _allPages[_tabController.index];
-    });
-  }
+  _handleTabSelection() => setState(() => _selectedPage = _allPages[_tabController.index]);
 
   Widget buildTabView(_Page page) =>
       new Container(
@@ -166,19 +168,32 @@ class _MainActivity extends State<_MainView>
           padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 32.0),
           child: page.childWight);
 
-  _performChangeUser(String _json) {
+  /// errors handled.
+  /// please use [onError] to custom your error handle code
+  CodeWarsUser _json2user(String _json, {onError: Function}) {
     try {
       Map json = new JsonDecoder(null).convert(_json);
       var reason = json['reason'];
       if (null != reason) {
-        _me.displayWhenEmpty = reason;
-        _user = null;
+        onError(reason);
+        return null;
       } else
-        _user = new CodeWarsUser.fromJson(json);
+        return new CodeWarsUser.fromJson(json);
     } catch (e) {
-      _me.displayWhenEmpty = "Error";
-      _user = null;
+      onError(e);
+      return null;
     }
+  }
+
+  _performChangeUser(String _json) {
+    _user = _json2user(_json, onError: (msg) => _me.displayWhenEmpty = msg);
+  }
+
+  _performChangeFriends(List<String> _allJson) {
+    _allJson
+        .map(_json2user)
+        .where((o) => null != o)
+        .forEach(_friendUsers.add);
   }
 
   List<Widget> _getUserInfoView() {
@@ -354,9 +369,9 @@ class _MainActivity extends State<_MainView>
           actions: [
             new IconButton(
                 icon: new Icon(Icons.settings),
-                onPressed: () {
-                  Navigator.of(context).push(new SettingsActivity(_user)).then((_) => setState(_changeAh));
-                }),
+                onPressed: () =>
+                    Navigator.of(context).push(new SettingsActivity(_user)).then((_) =>
+                        setState(_changeTheBossOfThisGym))),
             _debugDataSourceButton(),
           ],
           bottom: new TabBar(

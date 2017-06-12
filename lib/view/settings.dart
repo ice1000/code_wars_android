@@ -86,6 +86,11 @@ class _SettingsState extends State<_SettingsView> {
     showDialog(context: context, child: dialog);
   }
 
+  @override
+  void dispose() {
+    _usernameEditingController.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {

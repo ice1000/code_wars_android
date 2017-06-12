@@ -5,9 +5,12 @@ import 'package:path_provider/path_provider.dart';
 
 class DatabaseKeys {
   static const USER = "user_data";
+  static const FRIENDS = "friends_data";
   static const KATAS = "katas_data";
 
   static const COMPLETED = "completed_kata";
+
+  static String friendData(String name) => "$FRIENDS$name";
 }
 
 class Storage {
