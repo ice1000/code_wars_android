@@ -338,28 +338,35 @@ class _MainActivity extends State<_MainView>
           primary: false,
           itemExtent: 30.0,
           children: list);
-      _kata.child = new Scrollbar(
-          child: new ListView(
-            primary: false,
-            padding: new EdgeInsets.symmetric(vertical: 8.0),
-            children: new List.generate(_user.totalCompleted ~/ 200 + 1, (page) =>
-            new ListTile(onTap: () {
-              if (null != _user) {
-                showDialog(context: context, child: new RefreshProgressDialog(
-                    CodeWarsColors.main.shade100, width: 100, height: 100),
-                    barrierDismissible: false);
-                get(CodeWarsAPI.getCompletedKataPaginated(_user.username, page))
-                  ..then((val) {
-                    _pop();
-                    Navigator.of(context).push(new CompletedActivity(val.body, page));
-                  })
-                  ..timeout(new Duration(seconds: 10))
-                  ..catchError(() => setState(() => _pop()));
-              }
-            }, title: new Text("Completed ${page * 200 + 1} ~ ${(page + 1) * 200}"))),
-            shrinkWrap: true,
-          ));
+      _kata.child = new Scrollbar(child: new ListView(
+        primary: false,
+        padding: new EdgeInsets.symmetric(vertical: 8.0),
+        children: new List.generate(_user.totalCompleted ~/ 200 + 1, (page) =>
+        new ListTile(onTap: () {
+          if (null != _user) {
+            showDialog(context: context, child: new RefreshProgressDialog(
+                CodeWarsColors.main.shade100, width: 100, height: 100),
+                barrierDismissible: false);
+            get(CodeWarsAPI.getCompletedKataPaginated(_user.username, page))
+              ..then((val) {
+                _pop();
+                Navigator.of(context).push(new CompletedActivity(val.body, page));
+              })
+              ..timeout(new Duration(seconds: 10))
+              ..catchError(() => setState(() => _pop()));
+          }
+        }, title: new Text("Completed ${page * 200 + 1} ~ ${(page + 1) * 200}"))),
+        shrinkWrap: true,
+      ));
     }
+    _friends.child = new Scrollbar(child: new ListView(
+      primary: false,
+      padding: new EdgeInsets.symmetric(vertical: 8.0),
+      shrinkWrap: true,
+      children: <Widget>[
+        // TODO display friends data
+      ],
+    ));
     return new Scaffold(
       key: _scaffoldKey,
       appBar: new AppBar(
