@@ -148,7 +148,7 @@ class _MainActivity extends State<_MainView>
         }
       },
       information: "Refresh",);
-    _allPages = <_Page>[_friends, _kata, _me];
+    _allPages = <_Page>[_me, _kata, _friends];
     _tabController = new TabController(vsync: this, length: _allPages.length);
     _tabController.addListener(_handleTabSelection);
     _selectedPage = _me;
@@ -343,22 +343,20 @@ class _MainActivity extends State<_MainView>
             primary: false,
             padding: new EdgeInsets.symmetric(vertical: 8.0),
             children: new List.generate(_user.totalCompleted ~/ 200 + 1, (page) =>
-            new ListTile(
-                onTap: () {
-                  if (null != _user) {
-                    showDialog(context: context, child: new RefreshProgressDialog(
-                        CodeWarsColors.main.shade100, width: 100, height: 100),
-                        barrierDismissible: false);
-                    get(CodeWarsAPI.getCompletedKataPaginated(_user.username, page))
-                      ..then((val) {
-                        _pop();
-                        Navigator.of(context).push(new CompletedActivity(val.body, page));
-                      })
-                      ..timeout(new Duration(seconds: 10))
-                      ..catchError(() => setState(() => _pop()));
-                  }
-                },
-                title: new Text("Completed ${page * 200 + 1} ~ ${(page + 1) * 200}"))),
+            new ListTile(onTap: () {
+              if (null != _user) {
+                showDialog(context: context, child: new RefreshProgressDialog(
+                    CodeWarsColors.main.shade100, width: 100, height: 100),
+                    barrierDismissible: false);
+                get(CodeWarsAPI.getCompletedKataPaginated(_user.username, page))
+                  ..then((val) {
+                    _pop();
+                    Navigator.of(context).push(new CompletedActivity(val.body, page));
+                  })
+                  ..timeout(new Duration(seconds: 10))
+                  ..catchError(() => setState(() => _pop()));
+              }
+            }, title: new Text("Completed ${page * 200 + 1} ~ ${(page + 1) * 200}"))),
             shrinkWrap: true,
           ));
     }
@@ -372,7 +370,6 @@ class _MainActivity extends State<_MainView>
                 onPressed: () =>
                     Navigator.of(context).push(new SettingsActivity(_user)).then((_) =>
                         setState(_changeTheBossOfThisGym))),
-            _debugDataSourceButton(),
           ],
           bottom: new TabBar(
             controller: _tabController,
@@ -388,12 +385,4 @@ class _MainActivity extends State<_MainView>
           controller: _tabController,
           children: _allPages.map(buildTabView).toList()),);
   }
-
-  _debugDataSourceButton() =>
-      new IconButton(
-          icon: new Icon(Icons.bug_report),
-          onPressed: () =>
-              setState(() =>
-                  _performChangeUser(
-                      """{"username":"ice1000","name":"千里冰封","honor":1658,"clan":"Gensokyo","leaderboardPosition":1794,"skills":["haskell","cross dress","sell moe","kotlin"],"ranks":{"overall":{"rank":-3,"name":"3 kyu","color":"blue","score":3077},"languages":{"java":{"rank":-8,"name":"8 kyu","color":"white","score":2},"dart":{"rank":-8,"name":"8 kyu","color":"white","score":5},"haskell":{"rank":-3,"name":"3 kyu","color":"blue","score":3072}}},"codeChallenges":{"totalAuthored":1,"totalCompleted":114}}""")));
 }
