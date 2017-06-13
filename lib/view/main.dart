@@ -110,7 +110,23 @@ class _MainActivity extends State<_MainView>
       tabLabel: 'Friends',
       icon: Icons.add,
       onClick: () {
-        // TODO add users
+        // FIXME I might need a utility to get an input
+        get(CodeWarsAPI.getUser("Voile" /* FIXME data here */))
+          ..then((val) {
+            if (!_addFriend(val.body)) {
+              showDialog(context: context, child: new SimpleDialog(
+                title: new Text("Error"),
+                children: <Widget>[
+                  new Text("Sorry, user not found")
+                ],));
+            }
+            setState(() {
+              // TODO display new friend and add him to the database
+              _pop();
+            });
+          })
+          ..timeout(new Duration(seconds: 10))
+          ..catchError(() => setState(_pop));
       },
       information: "Add friend",);
     _kata = new _Page(
@@ -194,6 +210,16 @@ class _MainActivity extends State<_MainView>
         .map(_json2user)
         .where((o) => null != o)
         .forEach(_friendUsers.add);
+  }
+
+  bool _addFriend(String _json) {
+    CodeWarsUser friend = _json2user(_json);
+    if (null != friend) {
+      _friendUsers.add(friend);
+      // TODO Add to database
+      return true;
+    }
+    return false;
   }
 
   List<Widget> _getUserInfoView() {
