@@ -77,6 +77,7 @@ class _MainActivity extends State<_MainView>
   static final Color _importantColor = CodeWarsColors.notSoImportant.shade800;
   final String _title;
   List<_Page> _allPages;
+  TextEditingController _friendNameController;
   _Page _friends;
   _Page _kata;
   _Page _me;
@@ -85,7 +86,7 @@ class _MainActivity extends State<_MainView>
 
   TabController _tabController;
   CodeWarsUser _user;
-  List<CodeWarsUser> _friendUsers = const[];
+  List<CodeWarsUser> _friendUsers = [];
   _Page _selectedPage;
 
   _changeTheBossOfThisGym() {
@@ -104,30 +105,11 @@ class _MainActivity extends State<_MainView>
   void initState() {
     super.initState();
     _changeTheBossOfThisGym();
+    _friendNameController = new TextEditingController();
     _friends = new _Page(
       displayWhenEmpty: 'Friends',
       // 还有这种friend?
       tabLabel: 'Friends',
-      icon: Icons.add,
-      onClick: () {
-        // FIXME I might need a utility to get an input
-        get(CodeWarsAPI.getUser("Voile" /* FIXME data here */))
-          ..then((val) {
-            if (!_addFriend(val.body)) {
-              showDialog(context: context, child: new SimpleDialog(
-                title: new Text("Error"),
-                children: <Widget>[
-                  new Text("Sorry, user not found")
-                ],));
-            }
-            setState(() {
-              // TODO display new friend and add him to the database
-              _pop();
-            });
-          })
-          ..timeout(new Duration(seconds: 10))
-          ..catchError(() => setState(_pop));
-      },
       information: "Add friend",);
     _kata = new _Page(
       displayWhenEmpty: 'Kata',
@@ -164,7 +146,7 @@ class _MainActivity extends State<_MainView>
         }
       },
       information: "Refresh",);
-    _allPages = <_Page>[_me, _kata, _friends];
+    _allPages = <_Page>[_friends, _kata, _me];
     _tabController = new TabController(vsync: this, length: _allPages.length);
     _tabController.addListener(_handleTabSelection);
     _selectedPage = _me;
@@ -173,6 +155,7 @@ class _MainActivity extends State<_MainView>
   @override
   void dispose() {
     _tabController.dispose();
+    _friendNameController.dispose();
     super.dispose();
   }
 
@@ -385,14 +368,54 @@ class _MainActivity extends State<_MainView>
         shrinkWrap: true,
       ));
     }
-    _friends.child = new Scrollbar(child: new ListView(
-      primary: false,
-      padding: new EdgeInsets.symmetric(vertical: 8.0),
-      shrinkWrap: true,
+    List<Widget> _friendsView = _friendUsers.map((user) =>
+    new ExpansionTile(
+      title: new Text(
+        user.name,
+        style: new TextStyle(
+            color: _importantColor,
+            fontSize: 20.0),),
       children: <Widget>[
-        // TODO display friends data
-      ],
-    ));
+      ],)).toList();
+    debugPrint("${_friendsView.length}");
+    _friendsView.add(new ListTile(
+      isThreeLine: true,
+      dense: true,
+      subtitle: const ListTile(),
+      title: new TextFormField(
+        maxLines: 1,
+        controller: _friendNameController,
+        decoration: const InputDecoration(
+            hintText: "Friend's username",
+            isDense: true,
+            labelText: "Add new..."),),
+      trailing: new IconButton(
+        tooltip: "Add friend",
+        icon: new Icon(Icons.done),
+        onPressed: () {
+          get(CodeWarsAPI.getUser(_friendNameController.text))
+            ..then((val) =>
+                setState(() {
+                  if (!_addFriend(val.body)) {
+                    showDialog(context: context, child: new SimpleDialog(
+                      title: new Text("Error"),
+                      children: <Widget>[
+                        new Text("Sorry, user not found")
+                      ],));
+                  }
+                  // TODO add him to the database
+                  _pop();
+                }))
+            ..timeout(new Duration(seconds: 10))
+            ..catchError(() => setState(_pop));
+        },),));
+    _friendsView.add(const ListTile());
+    _friends.child = new ListView(
+      primary: false,
+      padding: new EdgeInsets.symmetric(vertical: 16.0),
+      shrinkWrap: true,
+      children: _friendsView,
+    );
     return new Scaffold(
       key: _scaffoldKey,
       appBar: new AppBar(
