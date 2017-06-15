@@ -82,13 +82,13 @@ class _MainActivity extends State<_MainView>
   _Page _friends;
   _Page _kata;
   _Page _me;
-
-  _MainActivity(this._title);
-
   TabController _tabController;
   CodeWarsUser _user;
+  CodeWarsUser _refreshingFriend;
   List<CodeWarsUser> _friendUsers = [];
   _Page _selectedPage;
+
+  _MainActivity(this._title);
 
   _changeTheBossOfThisGym() {
     SharedPreferences.getInstance().then((sp) {
@@ -150,7 +150,7 @@ class _MainActivity extends State<_MainView>
     _allPages = <_Page>[_friends, _kata, _me];
     _tabController = new TabController(vsync: this, length: _allPages.length);
     _tabController.addListener(_handleTabSelection);
-    _selectedPage = _me;
+    _selectedPage = _allPages.first;
   }
 
   @override
@@ -371,18 +371,26 @@ class _MainActivity extends State<_MainView>
     }
     List<Widget> _friendsView = _friendUsers.map((user) =>
     new ExpansionTile(
-      leading: new IconButton(icon: const Icon(Icons.refresh), onPressed: () {
-        get(CodeWarsAPI.getUser(user.username))
-          ..then((val) =>
-              setState(() {
-                int index = _friendUsers.indexOf(user);
-                _friendUsers.removeAt(index);
-                _friendUsers.insert(index, _json2user(val.body));
-                // TODO add him to the database
-              }))
-          ..timeout(new Duration(seconds: 10))
-          ..catchError(() => setState(_pop));
-      },),
+      leading: new IconButton(
+        icon: new Icon(_refreshingFriend == user ? Icons.adjust : Icons.refresh),
+        onPressed: () {
+          setState(() => _refreshingFriend = user);
+          get(CodeWarsAPI.getUser(user.username))
+            ..then((val) =>
+                setState(() {
+                  int index = _friendUsers.indexOf(user);
+                  _friendUsers.removeAt(index);
+                  _friendUsers.insert(index, _json2user(val.body));
+                  // TODO add him to the database
+                  _refreshingFriend = null;
+                }))
+            ..timeout(new Duration(seconds: 10))
+            ..catchError(() =>
+                setState(() {
+                  _pop();
+                  _refreshingFriend = null;
+                }));
+        },),
       title: new ListTile(
         title: new Text(
           user.name,
@@ -407,9 +415,7 @@ class _MainActivity extends State<_MainView>
             child: new Text(
               "Delete",
               style: new TextStyle(color: Colors.red),),
-            onPressed: () {
-              _friendUsers.remove(user);
-            }),)
+            onPressed: () => setState(() => _friendUsers.remove(user))),)
       ],)).toList();
     _friendsView.add(new ListTile(
       isThreeLine: true,
@@ -426,9 +432,7 @@ class _MainActivity extends State<_MainView>
         tooltip: "Add friend",
         icon: new Icon(_isRefreshingNewFriend ? Icons.adjust : Icons.done),
         onPressed: () {
-          setState(() {
-            _isRefreshingNewFriend = true;
-          });
+          setState(() => _isRefreshingNewFriend = true);
           get(CodeWarsAPI.getUser(_friendNameController.text))
             ..then((val) =>
                 setState(() {
