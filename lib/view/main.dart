@@ -371,7 +371,18 @@ class _MainActivity extends State<_MainView>
     }
     List<Widget> _friendsView = _friendUsers.map((user) =>
     new ExpansionTile(
-      leading: new Icon(Icons.person),
+      leading: new IconButton(icon: const Icon(Icons.refresh), onPressed: () {
+        get(CodeWarsAPI.getUser(user.username))
+          ..then((val) =>
+              setState(() {
+                int index = _friendUsers.indexOf(user);
+                _friendUsers.removeAt(index);
+                _friendUsers.insert(index, _json2user(val.body));
+                // TODO add him to the database
+              }))
+          ..timeout(new Duration(seconds: 10))
+          ..catchError(() => setState(_pop));
+      },),
       title: new ListTile(
         title: new Text(
           user.name,
@@ -392,8 +403,14 @@ class _MainActivity extends State<_MainView>
         new ListTile(
           title: new Text("Completed Kata"),
           trailing: new Text("${user.totalCompleted}"),),
+        new ListTile(title: new FlatButton(
+            child: new Text(
+              "Delete",
+              style: new TextStyle(color: Colors.red),),
+            onPressed: () {
+              _friendUsers.remove(user);
+            }),)
       ],)).toList();
-    debugPrint("${_friendsView.length}");
     _friendsView.add(new ListTile(
       isThreeLine: true,
       dense: true,
@@ -407,11 +424,15 @@ class _MainActivity extends State<_MainView>
             labelText: "Add new..."),),
       trailing: new IconButton(
         tooltip: "Add friend",
-        icon: new Icon(Icons.done),
+        icon: new Icon(_isRefreshingNewFriend ? Icons.adjust : Icons.done),
         onPressed: () {
+          setState(() {
+            _isRefreshingNewFriend = true;
+          });
           get(CodeWarsAPI.getUser(_friendNameController.text))
             ..then((val) =>
                 setState(() {
+                  _isRefreshingNewFriend = false;
                   if (!_addFriend(val.body)) {
                     showDialog(context: context, child: new SimpleDialog(
                       title: new Text("Error"),
@@ -422,7 +443,11 @@ class _MainActivity extends State<_MainView>
                   // TODO add him to the database
                 }))
             ..timeout(new Duration(seconds: 10))
-            ..catchError(() => setState(_pop));
+            ..catchError(() =>
+                setState(() {
+                  _pop();
+                  _isRefreshingNewFriend = false;
+                }));
         },),));
     _friendsView.add(const ListTile());
     _friends.child = new ListView(

@@ -35,8 +35,7 @@ class RefreshProgressDialog extends StatelessWidget {
             child: new ConstrainedBox(
                 constraints: new BoxConstraints(
                   minWidth: width.toDouble(),
-                  minHeight: height.toDouble(),
-                ),
+                  minHeight: height.toDouble(),),
                 child: child
             )
         )
