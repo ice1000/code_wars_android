@@ -78,6 +78,7 @@ class _MainActivity extends State<_MainView>
   final String _title;
   List<_Page> _allPages;
   TextEditingController _friendNameController;
+  bool _isRefreshingNewFriend = false;
   _Page _friends;
   _Page _kata;
   _Page _me;
@@ -370,12 +371,27 @@ class _MainActivity extends State<_MainView>
     }
     List<Widget> _friendsView = _friendUsers.map((user) =>
     new ExpansionTile(
-      title: new Text(
-        user.name,
-        style: new TextStyle(
-            color: _importantColor,
-            fontSize: 20.0),),
+      leading: new Icon(Icons.person),
+      title: new ListTile(
+        title: new Text(
+          user.name,
+          style: new TextStyle(
+              color: _importantColor,
+              fontSize: 20.0),),
+        trailing: new Text("<${user.overall.name}>"),),
       children: <Widget>[
+        new ListTile(
+          title: new Text("Honor"),
+          trailing: new Text("${user.honor}"),),
+        new ListTile(
+          title: new Text("Leaderboard Rank"),
+          trailing: new Text("${user.leaderboardPosition}"),),
+        new ListTile(
+          title: new Text("Authored Kata"),
+          trailing: new Text("${user.totalAuthored}"),),
+        new ListTile(
+          title: new Text("Completed Kata"),
+          trailing: new Text("${user.totalCompleted}"),),
       ],)).toList();
     debugPrint("${_friendsView.length}");
     _friendsView.add(new ListTile(
@@ -404,7 +420,6 @@ class _MainActivity extends State<_MainView>
                       ],));
                   }
                   // TODO add him to the database
-                  _pop();
                 }))
             ..timeout(new Duration(seconds: 10))
             ..catchError(() => setState(_pop));
