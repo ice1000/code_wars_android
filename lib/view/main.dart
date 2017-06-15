@@ -415,7 +415,10 @@ class _MainActivity extends State<_MainView>
             child: new Text(
               "Delete",
               style: new TextStyle(color: Colors.red),),
-            onPressed: () => setState(() => _friendUsers.remove(user))),)
+            onPressed: () => setState(() {
+              // TODO remove him from the database
+              _friendUsers.remove(user);
+            })),)
       ],)).toList();
     _friendsView.add(new ListTile(
       isThreeLine: true,
