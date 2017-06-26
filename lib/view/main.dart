@@ -27,13 +27,13 @@ class Application extends StatelessWidget {
 
 class _Page {
   _Page({
-          this.displayWhenEmpty,
-          this.icon,
-          this.information,
-          this.child,
-          this.tabLabel,
-          this.onClick
-        });
+    this.displayWhenEmpty,
+    this.icon,
+    this.information,
+    this.child,
+    this.tabLabel,
+    this.onClick
+  });
 
   String displayWhenEmpty;
   final String tabLabel;
@@ -201,6 +201,7 @@ class _MainActivity extends State<_MainView>
       _friendUsers.add(friend);
       SharedPreferences.getInstance().then((sp) {
         sp.setStringList(DatabaseKeys.FRIENDS, _friendUsers.map((obj) => obj.username));
+        sp.setString(DatabaseKeys.friendData(friend.username), _json);
         sp.commit();
       });
       return true;
