@@ -92,11 +92,9 @@ class _MainActivity extends State<_MainView>
 
   _changeTheBossOfThisGym() {
     SharedPreferences.getInstance().then((sp) {
-      setState(() {
-        _performChangeUser(sp.getString(DatabaseKeys.USER) ??
-            CodeWarsAPI.getErrorWithReason("not set"));
-        _performChangeFriends(sp.getStringSet(DatabaseKeys.FRIENDS) ?? const[]);
-      });
+      _performChangeUser(sp.getString(DatabaseKeys.USER) ??
+          CodeWarsAPI.getErrorWithReason("not set"));
+      _performChangeFriends(sp.getStringSet(DatabaseKeys.FRIENDS) ?? const[]);
     });
   }
 
@@ -127,7 +125,7 @@ class _MainActivity extends State<_MainView>
               barrierDismissible: false);
           get(CodeWarsAPI.getUser(_user.username))
             ..then((val) {
-              setState(() => _performChangeUser(val.body));
+              _performChangeUser(val.body);
               SharedPreferences.getInstance().then((sp) {
                 sp.setString(DatabaseKeys.USER, val.body);
               });
@@ -139,10 +137,8 @@ class _MainActivity extends State<_MainView>
                 sp.setString(DatabaseKeys.USER, CodeWarsAPI
                     .getErrorWithReason("time out"));
               });
-              setState(() {
-                _user = null;
-                _pop();
-              });
+              setState(() => _user = null);
+              _pop();
             });
         }
       },
@@ -186,21 +182,23 @@ class _MainActivity extends State<_MainView>
   }
 
   _performChangeUser(String _json) {
-    _user = _json2user(_json, onError: (msg) => _me.displayWhenEmpty = msg);
+    var user = _json2user(_json, onError: (msg) => _me.displayWhenEmpty = msg);
+    setState(() => _user = user);
   }
 
   _performChangeFriends(List<String> _allJson) {
-    _allJson
+    var all = _allJson
         .map(_json2user)
-        .where((o) => null != o)
-        .forEach(_friendUsers.add);
+        .where((o) => null != o);
+    setState(() => all.forEach(_friendUsers.add));
   }
 
   bool _addFriend(String _json) {
     CodeWarsUser friend = _json2user(_json);
     if (null != friend) {
       _friendUsers.add(friend);
-      // TODO Add to database
+      SharedPreferences.getInstance().then((sp) =>
+          sp.setStringSet(DatabaseKeys.FRIENDS, _friendUsers.map((obj) => obj.username).toSet()));
       return true;
     }
     return false;
@@ -363,7 +361,7 @@ class _MainActivity extends State<_MainView>
                 Navigator.of(context).push(new CompletedActivity(val.body, page));
               })
               ..timeout(new Duration(seconds: 10))
-              ..catchError(() => setState(() => _pop()));
+              ..catchError(() => _pop());
           }
         }, title: new Text("Completed ${page * 200 + 1} ~ ${(page + 1) * 200}"))),
         shrinkWrap: true,
@@ -376,20 +374,22 @@ class _MainActivity extends State<_MainView>
         onPressed: () {
           setState(() => _refreshingFriend = user);
           get(CodeWarsAPI.getUser(user.username))
-            ..then((val) =>
-                setState(() {
-                  int index = _friendUsers.indexOf(user);
-                  _friendUsers.removeAt(index);
-                  _friendUsers.insert(index, _json2user(val.body));
-                  // TODO add him to the database
-                  _refreshingFriend = null;
-                }))
+            ..then((val) {
+              int index = _friendUsers.indexOf(user);
+              CodeWarsUser u = _json2user(val.body);
+              setState(() {
+                _friendUsers.removeAt(index);
+                _friendUsers.insert(index, u);
+                _refreshingFriend = null;
+              });
+              SharedPreferences.getInstance().then((sp) =>
+                  sp.setString(DatabaseKeys.friendData(user.username), val.body));
+            })
             ..timeout(new Duration(seconds: 10))
-            ..catchError(() =>
-                setState(() {
-                  _pop();
-                  _refreshingFriend = null;
-                }));
+            ..catchError(() {
+              _pop();
+              setState(() => _refreshingFriend = null);
+            });
         },),
       title: new ListTile(
         title: new Text(
@@ -415,10 +415,11 @@ class _MainActivity extends State<_MainView>
             child: new Text(
               "Delete",
               style: new TextStyle(color: Colors.red),),
-            onPressed: () => setState(() {
-              // TODO remove him from the database
-              _friendUsers.remove(user);
-            })),)
+            onPressed: () {
+              setState(() => _friendUsers.remove(user));
+              SharedPreferences.getInstance().then((sp) =>
+                  sp.setStringSet(DatabaseKeys.FRIENDS, _friendUsers.map((u) => u.username).toSet()));
+            }),)
       ],)).toList();
     _friendsView.add(new ListTile(
       isThreeLine: true,
@@ -437,18 +438,15 @@ class _MainActivity extends State<_MainView>
         onPressed: () {
           setState(() => _isRefreshingNewFriend = true);
           get(CodeWarsAPI.getUser(_friendNameController.text))
-            ..then((val) =>
-                setState(() {
-                  _isRefreshingNewFriend = false;
-                  if (!_addFriend(val.body)) {
-                    showDialog(context: context, child: new SimpleDialog(
-                      title: new Text("Error"),
-                      children: <Widget>[
-                        new Text("Sorry, user not found")
-                      ],));
-                  }
-                  // TODO add him to the database
-                }))
+            ..then((val) {
+              setState(() => _isRefreshingNewFriend = false);
+              if (!_addFriend(val.body))
+                showDialog(context: context, child: new SimpleDialog(
+                  title: new Text("Error"),
+                  children: <Widget>[
+                    new Text("Sorry, user not found")
+                  ],));
+            })
             ..timeout(new Duration(seconds: 10))
             ..catchError(() =>
                 setState(() {
