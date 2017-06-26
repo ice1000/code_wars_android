@@ -94,7 +94,8 @@ class _MainActivity extends State<_MainView>
     SharedPreferences.getInstance().then((sp) {
       _performChangeUser(sp.getString(DatabaseKeys.USER) ??
           CodeWarsAPI.getErrorWithReason("not set"));
-      _performChangeFriends(sp.getStringSet(DatabaseKeys.FRIENDS) ?? const[]);
+      Set<String> us = sp.getStringSet(DatabaseKeys.FRIENDS) ?? [];
+      _performChangeFriends(us.map((s) => sp.getString(DatabaseKeys.friendData(s))).toList());
     });
   }
 
@@ -115,7 +116,7 @@ class _MainActivity extends State<_MainView>
       tabLabel: 'Kata',
       information: "Refresh",);
     _me = new _Page(
-      displayWhenEmpty: 'User not set yet.',
+      displayWhenEmpty: 'Go there ↗ to specify a user.',
       tabLabel: 'Me',
       icon: Icons.refresh,
       onClick: () {
@@ -171,18 +172,19 @@ class _MainActivity extends State<_MainView>
       Map json = new JsonDecoder(null).convert(_json);
       var reason = json['reason'];
       if (null != reason) {
-        onError(reason);
+        setState(() => onError(reason));
         return null;
       } else
         return new CodeWarsUser.fromJson(json);
     } catch (e) {
-      onError(e);
+      setState(() => onError(e));
       return null;
     }
   }
 
   _performChangeUser(String _json) {
-    var user = _json2user(_json, onError: (msg) => _me.displayWhenEmpty = msg);
+    CodeWarsUser user = _json2user(_json, onError: (msg) => _me.displayWhenEmpty = msg);
+    showDialog(context: context, child: new Text(user.username));
     setState(() => _user = user);
   }
 
@@ -204,7 +206,7 @@ class _MainActivity extends State<_MainView>
     return false;
   }
 
-  List<Widget> _getUserInfoView() {
+  List<Widget> _getUserInfoView(CodeWarsUser _user) {
     return <Widget>[
       new ListTile(
           title: new Text(
@@ -325,13 +327,14 @@ class _MainActivity extends State<_MainView>
   @override
   Widget build(BuildContext context) {
     if (null != _user) {
-      List<Widget> list = _getUserInfoView();
+      List<Widget> list = _getUserInfoView(_user);
       _user.langsRank.forEach((rank) {
         list.add(new ListTile(
             dense: true,
             title: new Text(
                 "${rank.lang}\n",
-                style: new TextStyle(color: _importantColor,
+                style: new TextStyle(
+                    color: _importantColor,
                     fontSize: 18.0)),
             trailing: new Text(
                 "${rank.score} <${rank.name}>",
@@ -355,7 +358,7 @@ class _MainActivity extends State<_MainView>
             showDialog(context: context, child: new RefreshProgressDialog(
                 CodeWarsColors.main.shade100, width: 100, height: 100),
                 barrierDismissible: false);
-            get(CodeWarsAPI.getCompletedKataPaginated(_user.username, page))
+            get(CodeWarsAPI.getCompletedKataPaginated(_user.username, page + 1))
               ..then((val) {
                 _pop();
                 Navigator.of(context).push(new CompletedActivity(val.body, page));
@@ -448,11 +451,10 @@ class _MainActivity extends State<_MainView>
                   ],));
             })
             ..timeout(new Duration(seconds: 10))
-            ..catchError(() =>
-                setState(() {
-                  _pop();
-                  _isRefreshingNewFriend = false;
-                }));
+            ..catchError(() {
+              _pop();
+              setState(() => _isRefreshingNewFriend = false);
+            });
         },),));
     _friendsView.add(const ListTile());
     _friends.child = new ListView(
