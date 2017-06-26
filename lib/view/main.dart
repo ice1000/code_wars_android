@@ -5,6 +5,7 @@ import 'package:code_wars_android/code_wars/colors.dart';
 import 'package:code_wars_android/util/storage.dart';
 import 'package:code_wars_android/util/util.dart';
 import 'package:code_wars_android/view/completed.dart';
+import 'package:code_wars_android/view/one_page_dialog.dart';
 import 'package:code_wars_android/view/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -94,7 +95,7 @@ class _MainActivity extends State<_MainView>
     SharedPreferences.getInstance().then((sp) {
       _performChangeUser(sp.getString(DatabaseKeys.USER) ??
           CodeWarsAPI.getErrorWithReason("not set"));
-      Set<String> us = sp.getStringSet(DatabaseKeys.FRIENDS) ?? [];
+      List<String> us = sp.getStringList(DatabaseKeys.FRIENDS) ?? [];
       _performChangeFriends(us.map((s) => sp.getString(DatabaseKeys.friendData(s))).toList());
     });
   }
@@ -184,7 +185,6 @@ class _MainActivity extends State<_MainView>
 
   _performChangeUser(String _json) {
     CodeWarsUser user = _json2user(_json, onError: (msg) => _me.displayWhenEmpty = msg);
-    showDialog(context: context, child: new Text(user.username));
     setState(() => _user = user);
   }
 
@@ -199,8 +199,10 @@ class _MainActivity extends State<_MainView>
     CodeWarsUser friend = _json2user(_json);
     if (null != friend) {
       _friendUsers.add(friend);
-      SharedPreferences.getInstance().then((sp) =>
-          sp.setStringSet(DatabaseKeys.FRIENDS, _friendUsers.map((obj) => obj.username).toSet()));
+      SharedPreferences.getInstance().then((sp) {
+        sp.setStringList(DatabaseKeys.FRIENDS, _friendUsers.map((obj) => obj.username));
+        sp.commit();
+      });
       return true;
     }
     return false;
@@ -324,31 +326,35 @@ class _MainActivity extends State<_MainView>
     ];
   }
 
+  List<Widget> _fullUserInfoView(CodeWarsUser _user) {
+    List<Widget> list = _getUserInfoView(_user);
+    _user.langsRank.forEach((rank) {
+      list.add(new ListTile(
+          dense: true,
+          title: new Text(
+              "${rank.lang}\n",
+              style: new TextStyle(
+                  color: _importantColor,
+                  fontSize: 18.0)),
+          trailing: new Text(
+              "${rank.score} <${rank.name}>",
+              style: new TextStyle(
+                  color: _importantColor,
+                  fontSize: 14.0))));
+    });
+    list.add(const ListTile());
+    list.add(const ListTile());
+    return list;
+  }
+
   @override
   Widget build(BuildContext context) {
     if (null != _user) {
-      List<Widget> list = _getUserInfoView(_user);
-      _user.langsRank.forEach((rank) {
-        list.add(new ListTile(
-            dense: true,
-            title: new Text(
-                "${rank.lang}\n",
-                style: new TextStyle(
-                    color: _importantColor,
-                    fontSize: 18.0)),
-            trailing: new Text(
-                "${rank.score} <${rank.name}>",
-                style: new TextStyle(
-                    color: _importantColor,
-                    fontSize: 14.0))));
-      });
-      list.add(const ListTile());
-      list.add(const ListTile());
       _me.child = new ListView(
           padding: new EdgeInsets.symmetric(vertical: 0.0),
           primary: false,
           itemExtent: 30.0,
-          children: list);
+          children: _fullUserInfoView(_user));
       _kata.child = new Scrollbar(child: new ListView(
         primary: false,
         padding: new EdgeInsets.symmetric(vertical: 8.0),
@@ -385,8 +391,10 @@ class _MainActivity extends State<_MainView>
                 _friendUsers.insert(index, u);
                 _refreshingFriend = null;
               });
-              SharedPreferences.getInstance().then((sp) =>
-                  sp.setString(DatabaseKeys.friendData(user.username), val.body));
+              SharedPreferences.getInstance().then((sp) {
+                sp.setString(DatabaseKeys.friendData(user.username), val.body);
+                sp.commit();
+              });
             })
             ..timeout(new Duration(seconds: 10))
             ..catchError(() {
@@ -403,26 +411,30 @@ class _MainActivity extends State<_MainView>
         trailing: new Text("<${user.overall.name}>"),),
       children: <Widget>[
         new ListTile(
-          title: new Text("Honor"),
-          trailing: new Text("${user.honor}"),),
-        new ListTile(
-          title: new Text("Leaderboard Rank"),
-          trailing: new Text("${user.leaderboardPosition}"),),
-        new ListTile(
-          title: new Text("Authored Kata"),
-          trailing: new Text("${user.totalAuthored}"),),
-        new ListTile(
-          title: new Text("Completed Kata"),
-          trailing: new Text("${user.totalCompleted}"),),
+          title: new Text("Honor: ${user.honor}"),
+          trailing: new Text("Rank: ${user.leaderboardPosition}"),),
         new ListTile(title: new FlatButton(
             child: new Text(
               "Delete",
               style: new TextStyle(color: Colors.red),),
             onPressed: () {
               setState(() => _friendUsers.remove(user));
-              SharedPreferences.getInstance().then((sp) =>
-                  sp.setStringSet(DatabaseKeys.FRIENDS, _friendUsers.map((u) => u.username).toSet()));
-            }),)
+              SharedPreferences.getInstance().then((sp) {
+                sp.setStringList(DatabaseKeys.FRIENDS, _friendUsers.map((u) => u.username));
+                sp.commit();
+              });
+            }),),
+        new ListTile(title: new FlatButton(
+            child: new Text(
+              "Details",
+              style: new TextStyle(color: Colors.blue.shade400),),
+            onPressed: () {
+              Navigator.of(context).push(new OnePageActivity(new ListView(
+                  padding: new EdgeInsets.symmetric(vertical: 16.0),
+                  primary: false,
+                  itemExtent: 30.0,
+                  children: _fullUserInfoView(user))));
+            }),),
       ],)).toList();
     _friendsView.add(new ListTile(
       isThreeLine: true,

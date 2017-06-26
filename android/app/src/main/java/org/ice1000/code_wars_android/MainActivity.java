@@ -37,12 +37,4 @@ public class MainActivity extends FlutterActivity {
 		super.onDestroy();
 		Log.i(toString(), "app exited (logged by ice1000)");
 	}
-
-	/**
-	 * This method is interesting.
-	 */
-	@Override
-	protected void onFlutterReady() {
-		super.onFlutterReady();
-	}
 }
