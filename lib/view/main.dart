@@ -179,7 +179,7 @@ class _MainActivity extends State<_MainView>
       } else
         return new CodeWarsUser.fromJson(json);
     } catch (e) {
-      setState(() => onError(e));
+      if (onError != null) setState(() => onError(e));
       return null;
     }
   }
@@ -330,6 +330,17 @@ class _MainActivity extends State<_MainView>
 
   List<Widget> _fullUserInfoView(CodeWarsUser _user) {
     List<Widget> list = _getUserInfoView(_user);
+    list.add(new ListTile(
+      dense: true,
+      title: new Text("total count",
+          style: new TextStyle(
+              color: _importantColor,
+              fontSize: 20.0)),
+      trailing: new Text("${_user.langsRank.length}",
+          style: new TextStyle(
+              color: _importantColor,
+              fontSize: 20.0)),
+    ));
     _user.langsRank.forEach((rank) {
       list.add(new ListTile(
           dense: true,
@@ -367,15 +378,17 @@ class _MainActivity extends State<_MainView>
             showDialog(context: context, child: new RefreshProgressDialog(
                 CodeWarsColors.main.shade100, width: 100, height: 100),
                 barrierDismissible: false);
-            if (null == _completedCache[page]) get(CodeWarsAPI.getCompletedKataPaginated(_user.username, page))
-              ..then((val) {
-                _pop();
-                _completedCache[page] = val.body;
-                Navigator.of(context).push(new CompletedActivity(val.body, page));
-              })
-              ..timeout(new Duration(seconds: 10))
-              ..catchError(_pop);
-            else Navigator.of(context).push(new CompletedActivity(_completedCache[page], page));
+            if (null == _completedCache[page])
+              get(CodeWarsAPI.getCompletedKataPaginated(_user.username, page))
+                ..then((val) {
+                  _pop();
+                  _completedCache[page] = val.body;
+                  Navigator.of(context).push(new CompletedActivity(val.body, page));
+                })
+                ..timeout(new Duration(seconds: 10))
+                ..catchError(_pop);
+            else
+              Navigator.of(context).push(new CompletedActivity(_completedCache[page], page));
           }
         }, title: new Text("Completed ${page * 200 + 1} ~ ${(page + 1) * 200}"))),
         shrinkWrap: true,
