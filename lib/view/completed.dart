@@ -24,7 +24,7 @@ class _CompletedView extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() =>
-      new _CompletedState("Completed Katas Page $_page", _data, _page);
+      new _CompletedState("Completed Katas Page ${_page + 1}", _data, _page);
 }
 
 class _CompletedState extends State<_CompletedView> {
@@ -62,10 +62,6 @@ class _CompletedState extends State<_CompletedView> {
             children: [
               new ListTile(
                   dense: true,
-                  isThreeLine: true,
-                  subtitle: new Text(kata.slug,
-                      style: new TextStyle(
-                          fontSize: 13.0, color: _importantColor)),
                   title: new Text(kata.fullName,
                       style: new TextStyle(
                           fontSize: 16.0, color: _importantColor))),
@@ -79,10 +75,10 @@ class _CompletedState extends State<_CompletedView> {
               new ListTile(
                   isThreeLine: true,
                   dense: true,
-                  subtitle: new Text(kata.completedLanguages.last,
+                  subtitle: new Text("languages: ${kata.completedLanguages.join(", ")}",
                       style: new TextStyle(
                           fontSize: 14.0, color: _importantColor)),
-                  title: new Text(kata.completedAt,
+                  title: new Text("completed at: ${kata.completedAt}",
                       style: new TextStyle(
                           fontSize: 16.0, color: _importantColor))),
             ]));

@@ -87,6 +87,7 @@ class _MainActivity extends State<_MainView>
   CodeWarsUser _user;
   CodeWarsUser _refreshingFriend;
   List<CodeWarsUser> _friendUsers = [];
+  List<String> _completedCache;
   _Page _selectedPage;
 
   _MainActivity(this._title);
@@ -351,6 +352,7 @@ class _MainActivity extends State<_MainView>
   @override
   Widget build(BuildContext context) {
     if (null != _user) {
+      _completedCache = new List(_user.totalCompleted ~/ 200 + 1);
       _me.child = new ListView(
           padding: new EdgeInsets.symmetric(vertical: 0.0),
           primary: false,
@@ -359,19 +361,21 @@ class _MainActivity extends State<_MainView>
       _kata.child = new Scrollbar(child: new ListView(
         primary: false,
         padding: new EdgeInsets.symmetric(vertical: 8.0),
-        children: new List.generate(_user.totalCompleted ~/ 200 + 1, (page) =>
+        children: new List.generate(_completedCache.length, (page) =>
         new ListTile(onTap: () {
           if (null != _user) {
             showDialog(context: context, child: new RefreshProgressDialog(
                 CodeWarsColors.main.shade100, width: 100, height: 100),
                 barrierDismissible: false);
-            get(CodeWarsAPI.getCompletedKataPaginated(_user.username, page + 1))
+            if (null == _completedCache[page]) get(CodeWarsAPI.getCompletedKataPaginated(_user.username, page))
               ..then((val) {
                 _pop();
+                _completedCache[page] = val.body;
                 Navigator.of(context).push(new CompletedActivity(val.body, page));
               })
               ..timeout(new Duration(seconds: 10))
-              ..catchError(() => _pop());
+              ..catchError(_pop);
+            else Navigator.of(context).push(new CompletedActivity(_completedCache[page], page));
           }
         }, title: new Text("Completed ${page * 200 + 1} ~ ${(page + 1) * 200}"))),
         shrinkWrap: true,

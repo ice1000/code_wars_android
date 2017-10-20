@@ -16,4 +16,4 @@ code_wars_android.iml
 out/
 ios/Runner.xcodeproj/
 ios/Runner.xcworkspace/
-
+/.gradle
