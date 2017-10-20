@@ -197,11 +197,12 @@ class _MainActivity extends State<_MainView>
   }
 
   bool _addFriend(String _json) {
+    print(_json);
     CodeWarsUser friend = _json2user(_json);
     if (null != friend) {
       _friendUsers.add(friend);
       SharedPreferences.getInstance().then((sp) {
-        sp.setStringList(DatabaseKeys.FRIENDS, _friendUsers.map((obj) => obj.username));
+        sp.setStringList(DatabaseKeys.FRIENDS, _friendUsers.map((obj) => obj.username).toList());
         sp.setString(DatabaseKeys.friendData(friend.username), _json);
         sp.commit();
       });
@@ -503,6 +504,12 @@ class _MainActivity extends State<_MainView>
                 onPressed: () =>
                     Navigator.of(context).push(new SettingsActivity(_user)).then((_) =>
                         setState(_changeTheBossOfThisGym))),
+//            new IconButton(icon: new Icon(Icons.bug_report), onPressed: () {
+//              SharedPreferences.getInstance().then((v) {
+//                print(v.getStringList(DatabaseKeys.FRIENDS).join(","));
+//                print(v.getString(DatabaseKeys.friendData("lolisa")));
+//              });
+//            }),
           ],
           bottom: new TabBar(
             controller: _tabController,
