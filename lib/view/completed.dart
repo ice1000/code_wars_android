@@ -11,9 +11,9 @@ import 'package:flutter/widgets.dart';
 /// @author ice1000
 ///
 
-
 class CompletedActivity extends MaterialPageRoute<Null> {
-  CompletedActivity(String data, int page) : super(builder: (BuildContext context) => new _CompletedView(data, page));
+  CompletedActivity(String data, int page) : super(
+      builder: (BuildContext context) => new _CompletedView(data, page));
 }
 
 class _CompletedView extends StatefulWidget {
@@ -23,7 +23,8 @@ class _CompletedView extends StatefulWidget {
   _CompletedView(this._data, this._page);
 
   @override
-  State<StatefulWidget> createState() => new _CompletedState("Completed Katas Page $_page", _data, _page);
+  State<StatefulWidget> createState() =>
+      new _CompletedState("Completed Katas Page $_page", _data, _page);
 }
 
 class _CompletedState extends State<_CompletedView> {
@@ -43,10 +44,7 @@ class _CompletedState extends State<_CompletedView> {
     try {
       Map json = new JsonDecoder(null).convert(_data);
       var reason = json['reason'];
-      if (null != reason) {
-        _completed = null;
-      } else
-        _completed = KataCompleted.fromJson(json);
+      _completed = null != reason ? null : KataCompleted.fromJson(json);
     } catch (e) {
       _completed = null;
     }
@@ -59,25 +57,18 @@ class _CompletedState extends State<_CompletedView> {
       var list = <Widget>[];
       _completed.forEach((kata) {
         list.add(new ExpansionTile(
-            title: new Text(
-                kata.name,
-                style: new TextStyle(
-                    fontSize: 20.0,
-                    color: _textColor)),
+            title: new Text(kata.name,
+                style: new TextStyle(fontSize: 20.0, color: _textColor)),
             children: [
               new ListTile(
                   dense: true,
                   isThreeLine: true,
-                  subtitle: new Text(
-                      kata.slug,
+                  subtitle: new Text(kata.slug,
                       style: new TextStyle(
-                          fontSize: 13.0,
-                          color: _importantColor)),
-                  title: new Text(
-                      kata.fullName,
+                          fontSize: 13.0, color: _importantColor)),
+                  title: new Text(kata.fullName,
                       style: new TextStyle(
-                          fontSize: 16.0,
-                          color: _importantColor))),
+                          fontSize: 16.0, color: _importantColor))),
 //              new ListTile(
 //                  dense: true,
 //                  title: new Text(
@@ -88,16 +79,12 @@ class _CompletedState extends State<_CompletedView> {
               new ListTile(
                   isThreeLine: true,
                   dense: true,
-                  subtitle: new Text(
-                      kata.completedLanguages.last,
+                  subtitle: new Text(kata.completedLanguages.last,
                       style: new TextStyle(
-                          fontSize: 14.0,
-                          color: _importantColor)),
-                  title: new Text(
-                      kata.completedAt,
+                          fontSize: 14.0, color: _importantColor)),
+                  title: new Text(kata.completedAt,
                       style: new TextStyle(
-                          fontSize: 16.0,
-                          color: _importantColor))),
+                          fontSize: 16.0, color: _importantColor))),
             ]));
       });
       view = new Scrollbar(
@@ -109,15 +96,7 @@ class _CompletedState extends State<_CompletedView> {
           ));
     }
     return new Scaffold(
-        appBar: new AppBar(
-            title: new Text(
-                _title,
-                style: new TextStyle(color: _titleColor))),
-        body: view ?? new Center(
-            child: new Text(
-                "Error",
-                style: new TextStyle(
-                    fontSize: 30.0,
-                    color: _titleColor))));
+        appBar: new AppBar(title: new Text(_title, style: new TextStyle(color: _titleColor))),
+        body: view ?? new Center(child: new Text("Error", style: new TextStyle(fontSize: 30.0, color: _titleColor))));
   }
 }

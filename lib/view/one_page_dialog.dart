@@ -7,7 +7,6 @@ import 'package:flutter/widgets.dart';
 /// @author ice1000
 ///
 
-
 class OnePageActivity extends MaterialPageRoute<Null> {
   OnePageActivity(Widget child) : super(builder: (BuildContext context) => new _OnePageView(child));
 }
@@ -23,6 +22,7 @@ class _OnePageView extends StatefulWidget {
 
 class _OnePageState extends State<_OnePageView> {
   final Widget child;
+
   _OnePageState(this.child);
 
   @override

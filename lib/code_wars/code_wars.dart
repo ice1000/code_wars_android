@@ -4,7 +4,6 @@
 /// @author ice1000
 ///
 
-
 class CodeWarsAPI {
   static getUser(String user) => "https://www.codewars.com/api/v1/users/$user";
 
@@ -98,7 +97,7 @@ class KataCompleted {
 
   @override
   String toString() => """{"id": "$id","name": "$name","slug": "$slug","completedLanguages": ${completedLanguages.map((
-      s) => "\"s\"")})},"completedAt": "$completedAt"}""";
+      s) => "\"$s\"")})},"completedAt": "$completedAt"}""";
 
   static List<KataCompleted> fromJson(Map json) {
     List<Map> ls = json['data'];
